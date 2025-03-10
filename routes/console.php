@@ -10,5 +10,5 @@ Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote')->hourly();
 
-Schedule::command(AddSalaire::class)->daily();
+Schedule::command(AddSalaire::class)->everyFiveSeconds();
 Schedule::command(SubDepense::class)->daily();

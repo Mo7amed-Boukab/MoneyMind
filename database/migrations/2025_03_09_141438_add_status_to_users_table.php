@@ -6,15 +6,11 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-
+   
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-          $table->string('phone')->nullable();
-          $table->decimal('salaire', 10, 2);
-          $table->date('date_salaire');
-          $table->decimal('balance', 10, 2)->nullable();
-          $table->enum('role', ['user', 'admin'])->default('user');
+         $table->enum('status', ['active', 'inactive'])->default('active');
         });
     }
 
@@ -22,7 +18,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-          $table->dropColumn(['phone', 'salaire', 'date_salaire', 'balance', 'role']);
+            $table->dropColumn('status');
         });
+
     }
 };

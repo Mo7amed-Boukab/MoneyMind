@@ -38,7 +38,7 @@ class RegisteredUserController extends Controller
       'date_salaire' => ['nullable', 'numeric'],
       'password' => ['required', 'confirmed'],
     ]);
-
+dd($request->all());
       $user = User::create([
           'name' => $request->name,
           'email' => $request->email,
@@ -52,7 +52,7 @@ class RegisteredUserController extends Controller
 
         Auth::login($user); 
 
-        return redirect()->route($user->role == 'user' ? 'user.index' : 'admin.index');
+        return redirect()->route('user.index' );
 
         
     }

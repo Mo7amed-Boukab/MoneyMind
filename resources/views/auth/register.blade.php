@@ -32,7 +32,6 @@
     </style>
 </head>
 <body class="flex flex-col min-h-screen bg-gray-100 md:flex-row">
-    <!-- Left Panel - Welcome and Features -->
     <div class="relative flex flex-col items-center justify-center w-full p-6 text-white md:w-1/2 bg-sidebar-blue md:p-8">
         <div class="absolute top-4 right-4 bg-white/10 text-white py-1.5 px-3 rounded-md text-xs cursor-pointer flex items-center gap-1.5">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
@@ -99,13 +98,24 @@
         </div>
     </div>
 
-    <!-- Right Panel - Registration Form -->
+    <!-- Register Form -->
     <div class="flex flex-col items-center justify-center w-full p-6 bg-white md:w-1/2 md:p-8">
         <div class="w-full max-w-md">
             <h2 class="mb-2 text-3xl font-black text-center text-gray-800 md:text-2xl md:mb-4">Créer votre compte</h2>
             <p class="mb-6 text-sm leading-relaxed text-center text-gray-800 md:mb-8 md:text-base">Commencez votre voyage vers la liberté financière</p>
 
+            @if ($errors->any())
+                <div class="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg">
+                    <ul class="list-disc list-inside">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
              <form action="{{ route('register') }}" method="POST" class="space-y-4 md:space-y-5">
+                @csrf
                 <div class="relative">
                     <div class="absolute -translate-y-1/2 left-3 md:left-4 top-1/2 text-slate-500">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -113,7 +123,7 @@
                             <circle cx="12" cy="7" r="4"></circle>
                         </svg>
                     </div>
-                    <input type="text" name="name" placeholder="Nom complet" class="w-full py-2.5 md:py-3 pl-9 md:pl-10 pr-3 border border-slate-200 rounded-md text-sm focus:outline-none focus:border-primary-blue focus:ring-3 focus:ring-primary-blue/10 transition" required>
+                    <input type="text" name="name" value="{{ old('name') }}" placeholder="Nom complet" class="w-full py-2.5 md:py-3 pl-9 md:pl-10 pr-3 border border-slate-200 rounded-md text-sm focus:outline-none focus:border-primary-blue focus:ring-3 focus:ring-primary-blue/10 transition" required>
                 </div>
                 
                 <div class="relative">
@@ -123,7 +133,7 @@
                             <polyline points="22,6 12,13 2,6"></polyline>
                         </svg>
                     </div>
-                    <input type="email" name="email" placeholder="Adresse email" class="w-full py-2.5 md:py-3 pl-9 md:pl-10 pr-3 border border-slate-200 rounded-md text-sm focus:outline-none focus:border-primary-blue focus:ring-3 focus:ring-primary-blue/10 transition" required>
+                    <input type="email" name="email" value="{{ old('email') }}" placeholder="Adresse email" class="w-full py-2.5 md:py-3 pl-9 md:pl-10 pr-3 border border-slate-200 rounded-md text-sm focus:outline-none focus:border-primary-blue focus:ring-3 focus:ring-primary-blue/10 transition" required>
                 </div>
                 
                 <div class="relative">
@@ -133,7 +143,7 @@
                             <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
                         </svg>
                     </div>
-                    <input type="number" name="salaire" placeholder="Salaire mensuel (DH)" class="w-full py-2.5 md:py-3 pl-9 md:pl-10 pr-3 border border-slate-200 rounded-md text-sm focus:outline-none focus:border-primary-blue focus:ring-3 focus:ring-primary-blue/10 transition" required>
+                    <input type="number" name="salaire" value="{{ old('salaire') }}" placeholder="Salaire mensuel (DH)" class="w-full py-2.5 md:py-3 pl-9 md:pl-10 pr-3 border border-slate-200 rounded-md text-sm focus:outline-none focus:border-primary-blue focus:ring-3 focus:ring-primary-blue/10 transition" required>
                 </div>
                 
                 <div class="relative">
@@ -145,7 +155,7 @@
                             <line x1="3" y1="10" x2="21" y2="10"></line>
                         </svg>
                     </div>
-                    <input type="number" name="date_salaire" placeholder="Jour du versement du salaire" min="1" max="31" class="w-full py-2.5 md:py-3 pl-9 md:pl-10 pr-3 border border-slate-200 rounded-md text-sm focus:outline-none focus:border-primary-blue focus:ring-3 focus:ring-primary-blue/10 transition" required>
+                    <input type="number" name="date_salaire" value="{{ old('date_salaire') }}" placeholder="Jour du versement du salaire" min="1" max="31" class="w-full py-2.5 md:py-3 pl-9 md:pl-10 pr-3 border border-slate-200 rounded-md text-sm focus:outline-none focus:border-primary-blue focus:ring-3 focus:ring-primary-blue/10 transition" required>
                 </div>
                 
                 <div class="relative">
@@ -155,7 +165,7 @@
                             <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
                         </svg>
                     </div>
-                    <input type="password" placeholder="Mot de passe" class="w-full py-2.5 md:py-3 pl-9 md:pl-10 pr-3 border border-slate-200 rounded-md text-sm focus:outline-none focus:border-primary-blue focus:ring-3 focus:ring-primary-blue/10 transition" required>
+                    <input type="password" name="password" placeholder="Mot de passe" class="w-full py-2.5 md:py-3 pl-9 md:pl-10 pr-3 border border-slate-200 rounded-md text-sm focus:outline-none focus:border-primary-blue focus:ring-3 focus:ring-primary-blue/10 transition" required>
                 </div>
                 
                 <div class="relative">
@@ -165,7 +175,7 @@
                             <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
                         </svg>
                     </div>
-                    <input type="password" placeholder="Confirmer le mot de passe" class="w-full py-2.5 md:py-3 pl-9 md:pl-10 pr-3 border border-slate-200 rounded-md text-sm focus:outline-none focus:border-primary-blue focus:ring-3 focus:ring-primary-blue/10 transition" required>
+                    <input type="password" name="password_confirmation" placeholder="Confirmer le mot de passe" class="w-full py-2.5 md:py-3 pl-9 md:pl-10 pr-3 border border-slate-200 rounded-md text-sm focus:outline-none focus:border-primary-blue focus:ring-3 focus:ring-primary-blue/10 transition" required>
                 </div>
                 
                 <button type="submit" class="w-full py-2.5 md:py-3 bg-primary-blue text-white border-none rounded-md text-sm font-semibold cursor-pointer hover:bg-dark-blue transition mt-4 md:mt-6">Créer mon compte</button>

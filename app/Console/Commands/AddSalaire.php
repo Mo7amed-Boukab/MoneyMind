@@ -32,9 +32,11 @@ class AddSalaire extends Command
                         'montant_salaire' => $user->salaire,
                         'user_id' => $user->id
                     ]);
-                    $user->balance += $user->salaire; 
-                    $epargne->epargne_total += $user->salaire;
-                    $epargne->epargne_mensuel = $user->salaire; 
+                    $salaireNet = $user->salaire - $epargne->montant_epargne;
+                    $epargne->epargne_annuel +=  $epargne->montant_epargne;
+                    $user->balance += $salaireNet; 
+                    $epargne->epargne_total += $salaireNet;
+                    $epargne->epargne_mensuel = $salaireNet; 
                     $user->save();
                     $epargne->save();
                 }

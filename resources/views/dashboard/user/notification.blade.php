@@ -24,12 +24,7 @@
               <a href="#" class="inline-block p-4 text-gray-500 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300">
                 <i class="mr-2 text-red-500 fas fa-exclamation-circle"></i>Importantes (1)
               </a>
-            </li>
-            <li>
-              <a href="#" class="inline-block p-4 text-gray-500 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300">
-                <i class="mr-2 text-blue-500 fas fa-info-circle"></i>Informations (2)
-              </a>
-            </li>
+            </li> 
           </ul>
         </div>
         

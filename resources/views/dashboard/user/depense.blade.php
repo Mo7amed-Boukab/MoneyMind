@@ -5,14 +5,14 @@
     <!-- Main Content -->
     <div id="mainContent" class="flex-1 transition-all duration-300 lg:ml-64">
      <div class="max-w-full p-4 mx-auto lg:p-8">
-         <div class="flex flex-col items-start justify-between mb-6 md:flex-row md:items-center">
+         <div class="flex flex-col items-start justify-between mb-8 md:flex-row md:items-center">
              <div>
               <h2 class="text-3xl font-bold text-gray-800">Gestion des Dépenses</h2>
               <p class="text-sm text-gray-600 sm:text-base">Suivez et gérez toutes vos dépenses en un seul endroit</p>
             </div>
         </div>
         
-        <div class="grid grid-cols-1 gap-4 mb-6 lg:grid-cols-3">
+      <div class="grid grid-cols-1 gap-4 mb-12 lg:grid-cols-3">
          <div class="p-4 bg-white rounded shadow-sm sm:p-6">
            <div class="flex items-center justify-between mb-4">
               <h3 class="text-sm font-medium text-gray-500 sm:text-base">Dépenses totales</h3>
@@ -23,7 +23,7 @@
             <p class="text-2xl font-bold text-gray-800 sm:text-3xl">{{$totalDepenses}} DH</p>
             <div class="flex items-center mt-2 text-xs text-red-600 sm:text-sm">
               <i class="mr-1 fas fa-arrow-up"></i>
-              <span>{{($totalDepenses * 100) / $userSalaire}}% du salaire dépensé</span>
+              <span>{{number_format(($totalDepenses * 100) / $userSalaire,2)}}% du salaire dépensé</span>
             </div>
           </div>
           
@@ -37,7 +37,7 @@
             <p class="text-2xl font-bold text-gray-800 sm:text-3xl">{{$totalDepensesRecurrente}} DH</p>
             <div class="flex items-center mt-2 text-xs text-blue-600 sm:text-sm">
               <i class="mr-1 fas fa-info-circle"></i>
-              <span>{{($totalDepensesRecurrente * 100) / $userSalaire}}% du salaire</span>
+              <span>{{number_format(($totalDepensesRecurrente * 100) / $userSalaire,2)}}% du salaire</span>
             </div>
           </div>
           
@@ -51,139 +51,145 @@
             <p class="text-2xl font-bold text-gray-800 sm:text-3xl">{{$totalDepensesNonRecurrente = $totalDepenses - $totalDepensesRecurrente}} DH</p>
             <div class="flex items-center mt-2 text-xs text-purple-600 sm:text-sm">
               <i class="mr-1 fas fa-info-circle"></i>
-              <span>{{($totalDepensesNonRecurrente * 100) / $userSalaire}}% du salaire</span>
+              <span>{{number_format(($totalDepensesNonRecurrente * 100) / $userSalaire,2)}}% du salaire</span>
             </div>
           </div>
         </div>
 
-        <div class="flex flex-col flex-wrap items-start justify-between gap-4 mb-6 sm:flex-row sm:items-center">   
-          <!-- Filter Controls -->
-          <div class="flex flex-wrap items-center w-full gap-2 sm:gap-4 sm:w-auto">
-            <div class="relative w-full sm:w-auto">
-              <select class="block w-full px-3 py-2 pr-8 text-sm leading-tight text-gray-700 bg-white border border-gray-300 rounded appearance-none sm:px-4 sm:text-base focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
-                <option value="">Toutes les catégories</option>
-                <option value="divertissement">Divertissement</option>
-                <option value="nourriture">Nourriture</option>
-                <option value="factures">Factures</option>
-                <option value="transport">Transport</option>
-                <option value="divers">Divers</option>
-              </select>
-              <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                <i class="text-gray-400 fas fa-chevron-down"></i>
-              </div>
-            </div>
-
-            <div class="relative w-full sm:w-auto">
-              <input type="month" class="block w-full px-3 py-2 text-sm leading-tight text-gray-700 bg-white border border-gray-300 rounded appearance-none sm:px-4 sm:text-base focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
-            </div>
-              <button class="px-3 py-2 text-sm text-white rounded sm:px-4 sm:text-base bg-blue-600/80 hover:bg-blue-600/90 focus:outline-none">
-                <i class="mr-2 fas fa-download"></i>Exporter
-              </button>         
-          </div>
-          
-          <button onclick="openModalAddDepense()" class="flex items-center justify-center w-full px-3 py-2 mt-2 text-sm text-white bg-red-600 rounded sm:px-4 sm:text-base transiton hover:bg-red-700 focus:outline-none sm:mt-0 sm:w-auto sm:justify-start">
+        <div class="flex items-center justify-between mb-4">   
+          <div>
+             <h3 class="text-3xl font-bold text-gray-800 sm:text-2xl">Dépenses Récurrente</h3>
+         </div>
+          <button onclick="openModalAddDepense()" class="flex items-center justify-center px-3 py-2 mt-2 text-sm text-white bg-red-600 rounded sm:px-4 sm:text-base transiton hover:bg-red-700 focus:outline-none sm:mt-0 sm:w-auto sm:justify-start">
             <i class="mr-2 fas fa-plus"></i>Ajouter une dépense
           </button>
         </div>
 
         <!-- Dépenses Récurrente -->
-        <div class="p-4 mb-8 bg-white rounded shadow-sm sm:p-6">
-          <div class="flex flex-col items-start justify-between gap-3 mb-4 sm:flex-row sm:items-center">
-            <h3 class="text-lg font-bold text-gray-800 sm:text-xl">Dépenses Récurrente</h3>
-            <div class="relative w-full sm:w-auto">
-              <input type="text" placeholder="Rechercher..." class="block w-full px-3 py-2 pl-10 text-sm text-gray-700 bg-gray-100 border-none rounded sm:px-4 sm:text-base focus:outline-none focus:ring-2 focus:ring-blue-600">
-              <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                <i class="text-gray-400 fas fa-search"></i>
-              </div>
+        <div class="relative w-full mb-8">
+            <div class="w-full p-4 bg-white rounded-lg shadow-sm">
+                <div class="overflow-x-auto">
+                    <div class="inline-block min-w-full align-middle">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Description</th>
+                                    <th scope="col" class="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Catégorie</th>
+                                    <th scope="col" class="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Date</th>
+                                    <th scope="col" class="px-4 py-3 text-xs font-medium tracking-wider text-right text-gray-500 uppercase">Montant</th>
+                                    <th scope="col" class="px-4 py-3 text-xs font-medium tracking-wider text-center text-gray-500 uppercase">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                @foreach($depenses as $depense)
+                                <tr class="border-b hover:bg-gray-50">
+                                 <td class="px-4 py-3 sm:px-4 whitespace-nowrap">
+                                   <div class="flex items-center">
+                                     <div>
+                                       <div class="text-xs font-medium text-gray-900 sm:text-sm">{{ $depense->description }}</div>
+                                     </div>
+                                   </div>
+                                 </td>
+                                 <td class="px-4 py-3 sm:px-4 whitespace-nowrap">
+                                   <span class="inline-flex px-2 text-xs font-semibold leading-5 text-blue-800 bg-blue-100 rounded-full">
+                                    {{ $depense->categorie->name}}
+                                   </span>
+                                 </td>
+                                 <td class="px-4 py-3 text-xs text-gray-500 sm:px-4 sm:text-sm whitespace-nowrap">
+                                  {{ \Carbon\Carbon::parse($depense->date)->format('d F Y') }}
+                                 </td>
+                                 <td class="px-4 py-3 text-xs font-medium text-right text-gray-900 sm:px-4 sm:text-sm whitespace-nowrap">
+                                  {{ $depense->montant_depense }} DH
+                                 </td>
+                                 <td class="px-4 py-3 text-xs text-center sm:px-4 sm:text-sm whitespace-nowrap">
+                                      <button onclick="openEditDepenseModal({{$depense->id}})" class="p-1 text-blue-600 hover:text-blue-800">
+                                          <i class="fas fa-edit"></i>
+                                      </button>
+                                      <button onclick="openConfirmationModal({{$depense->id}})" class="p-1 text-red-600 hover:text-red-800">
+                                          <i class="fas fa-trash"></i>
+                                      </button>
+                                 </td>
+                                </tr>
+                                @endforeach 
+                             </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
-          </div>
-          <div class="-mx-4 overflow-x-auto sm:mx-0">
-            <div class="inline-block min-w-full align-middle">
-              <table class="min-w-full divide-y divide-gray-200">
-                <thead>
-                  <tr class="border-b bg-gray-50">
-                    <th class="px-3 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase sm:px-4">Description</th>
-                    <th class="px-3 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase sm:px-4">Catégorie</th>
-                    <th class="px-3 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase sm:px-4">Date</th>
-                    <th class="px-3 py-3 text-xs font-medium tracking-wider text-right text-gray-500 uppercase sm:px-4">Montant</th>
-                    <th class="px-3 py-3 text-xs font-medium tracking-wider text-center text-gray-500 uppercase sm:px-4">Actions</th>
-                  </tr>
-                </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
-                  @foreach($depenses as $depense)
-                  <tr class="border-b hover:bg-gray-50">
-                   <td class="px-3 py-3 sm:px-4 whitespace-nowrap">
-                     <div class="flex items-center">
-                       <div>
-                         <div class="text-xs font-medium text-gray-900 sm:text-sm">{{ $depense->description }}</div>
-                       </div>
-                     </div>
-                   </td>
-                   <td class="px-3 py-3 sm:px-4 whitespace-nowrap">
-                     <span class="inline-flex px-2 text-xs font-semibold leading-5 text-blue-800 bg-blue-100 rounded-full">
-                      {{ $depense->categorie->name}}
-                     </span>
-                   </td>
-                   <td class="px-3 py-3 text-xs text-gray-500 sm:px-4 sm:text-sm whitespace-nowrap">
-                    {{ \Carbon\Carbon::parse($depense->date)->format('d F Y') }}
-                   </td>
-                   <td class="px-3 py-3 text-xs font-medium text-right text-gray-900 sm:px-4 sm:text-sm whitespace-nowrap">
-                    {{ $depense->montant_depense }} DH
-                   </td>
-                   <td class="px-3 py-3 text-xs text-center sm:px-4 sm:text-sm whitespace-nowrap">
-                        <button onclick="openEditDepenseModal({{$depense->id}})" class="p-1 text-blue-600 hover:text-blue-800">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button onclick="openConfirmationModal({{$depense->id}})" class="p-1 text-red-600 hover:text-red-800">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                  </td>
-                 </tr>
-                  @endforeach 
-               </tbody>
-              </table>
-            </div>
-          </div>
-          <!-- Pagination -->
-          <div class="flex flex-col items-center justify-between px-3 py-3 mt-2 bg-white border-t sm:flex-row sm:px-4 sm:px-6">
-            <div class="flex justify-between flex-1 sm:hidden">
-              <a href="#" class="relative inline-flex items-center px-4 py-2 text-xs font-medium text-gray-700 bg-white border border-gray-300 rounded sm:text-sm hover:bg-gray-50">
-                Précédent
-              </a>
-              <a href="#" class="relative inline-flex items-center px-4 py-2 ml-3 text-xs font-medium text-gray-700 bg-white border border-gray-300 rounded sm:text-sm hover:bg-gray-50">
-                Suivant
-              </a>
-            </div>
-            <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
-              <div>
-                <p class="text-xs text-gray-700 sm:text-sm">
-                  Affichage de <span class="font-medium">1</span> à <span class="font-medium">4</span> sur <span class="font-medium">12</span> résultats
-                </p>
-              </div>
-              <div class="mt-3 sm:mt-0">
-                <nav class="inline-flex -space-x-px rounded shadow-sm" aria-label="Pagination">
-                  <a href="#" class="relative inline-flex items-center px-2 py-2 text-xs font-medium text-gray-500 bg-white border border-gray-300 sm:text-sm rounded-l-md hover:bg-gray-50">
-                    <span class="sr-only">Précédent</span>
-                    <i class="fas fa-chevron-left"></i>
-                  </a>
-                  <a href="#" aria-current="page" class="relative z-10 inline-flex items-center px-3 py-2 text-xs font-medium text-white bg-gray-900 sm:px-4 sm:text-sm">
-                    1
-                  </a>
-                  <a href="#" class="relative inline-flex items-center px-3 py-2 text-xs font-medium text-gray-500 bg-white border border-gray-300 sm:px-4 sm:text-sm hover:bg-gray-50">
-                    2
-                  </a>
-                  <a href="#" class="relative inline-flex items-center px-3 py-2 text-xs font-medium text-gray-500 bg-white border border-gray-300 sm:px-4 sm:text-sm hover:bg-gray-50">
-                    3
-                  </a>
-                  <a href="#" class="relative inline-flex items-center px-2 py-2 text-xs font-medium text-gray-500 bg-white border border-gray-300 sm:text-sm rounded-r-md hover:bg-gray-50">
-                    <span class="sr-only">Suivant</span>
-                    <i class="fas fa-chevron-right"></i>
-                  </a>
-                </nav>
-              </div>
-            </div>
-          </div>
         </div>
+{{-- 
+        <!-- Pagination -->
+        <div class="flex flex-col items-center justify-between px-3 py-3 mt-2 bg-white border-t sm:flex-row sm:px-4 sm:px-6">
+          <div class="flex justify-between flex-1 sm:hidden">
+              @if ($depenses->onFirstPage())
+                  <span class="relative inline-flex items-center px-4 py-2 text-xs font-medium text-gray-500 bg-white border border-gray-300 rounded cursor-default sm:text-sm">
+                      Précédent
+                  </span>
+              @else
+                  <a href="{{ $depenses->previousPageUrl() }}" class="relative inline-flex items-center px-4 py-2 text-xs font-medium text-gray-700 bg-white border border-gray-300 rounded sm:text-sm hover:bg-gray-50">
+                      Précédent
+                  </a>
+              @endif
+              
+              @if ($depenses->hasMorePages())
+                  <a href="{{ $depenses->nextPageUrl() }}" class="relative inline-flex items-center px-4 py-2 ml-3 text-xs font-medium text-gray-700 bg-white border border-gray-300 rounded sm:text-sm hover:bg-gray-50">
+                      Suivant
+                  </a>
+              @else
+                  <span class="relative inline-flex items-center px-4 py-2 ml-3 text-xs font-medium text-gray-500 bg-white border border-gray-300 rounded cursor-default sm:text-sm">
+                      Suivant
+                  </span>
+              @endif
+          </div>
+          
+          <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+              <div>
+                  <p class="text-xs text-gray-700 sm:text-sm">
+                      Affichage de <span class="font-medium">{{ $depenses->firstItem() ?? 0 }}</span> à <span class="font-medium">{{ $depenses->lastItem() ?? 0 }}</span> sur <span class="font-medium">{{ $depenses->total() }}</span> résultats
+                  </p>
+              </div>
+              
+              <div class="mt-3 sm:mt-0">
+                  <nav class="inline-flex -space-x-px rounded shadow-sm" aria-label="Pagination">
+                      @if ($depenses->onFirstPage())
+                          <span class="relative inline-flex items-center px-2 py-2 text-xs font-medium text-gray-500 bg-white border border-gray-300 cursor-default sm:text-sm rounded-l-md">
+                              <span class="sr-only">Précédent</span>
+                              <i class="fas fa-chevron-left"></i>
+                          </span>
+                      @else
+                          <a href="{{ $depenses->previousPageUrl() }}" class="relative inline-flex items-center px-2 py-2 text-xs font-medium text-gray-500 bg-white border border-gray-300 sm:text-sm rounded-l-md hover:bg-gray-50">
+                              <span class="sr-only">Précédent</span>
+                              <i class="fas fa-chevron-left"></i>
+                          </a>
+                      @endif
+                      
+                      @for ($i = 1; $i <= $depenses->lastPage(); $i++)
+                          @if ($i == $depenses->currentPage())
+                              <span aria-current="page" class="relative z-10 inline-flex items-center px-3 py-2 text-xs font-medium text-white bg-gray-900 border border-gray-900 sm:px-4 sm:text-sm">
+                                  {{ $i }}
+                              </span>
+                          @else
+                              <a href="{{ $depenses->url($i) }}" class="relative inline-flex items-center px-3 py-2 text-xs font-medium text-gray-500 bg-white border border-gray-300 sm:px-4 sm:text-sm hover:bg-gray-50">
+                                  {{ $i }}
+                              </a>
+                          @endif
+                      @endfor
+                      
+                      @if ($depenses->hasMorePages())
+                          <a href="{{ $depenses->nextPageUrl() }}" class="relative inline-flex items-center px-2 py-2 text-xs font-medium text-gray-500 bg-white border border-gray-300 sm:text-sm rounded-r-md hover:bg-gray-50">
+                              <span class="sr-only">Suivant</span>
+                              <i class="fas fa-chevron-right"></i>
+                          </a>
+                      @else
+                          <span class="relative inline-flex items-center px-2 py-2 text-xs font-medium text-gray-500 bg-white border border-gray-300 cursor-default sm:text-sm rounded-r-md">
+                              <span class="sr-only">Suivant</span>
+                              <i class="fas fa-chevron-right"></i>
+                          </span>
+                      @endif
+                  </nav>
+              </div>
+          </div>
+        </div> --}}
       </div>
     </div>
   @endsection

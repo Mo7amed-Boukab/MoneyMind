@@ -14,14 +14,14 @@
          @csrf
          <div class="mb-4">
              <label class="block mb-2 text-sm font-medium text-gray-700" for="nouveauSalaire">
-                 Nouveau montant du salaire (DH)
+                 Montant du salaire (DH)
              </label>
              <input class="w-full px-3 py-2 leading-tight text-gray-700 border rounded appearance-none" id="nouveauSalaire" name="salaire" type="number" value="{{ Auth::user()->salaire }}" required>
          </div>
 
          <div class="mb-4">
              <label class="block mb-2 text-sm font-medium text-gray-700" for="nouveauJourSalaire">
-                 Nouveau jour de crédit (1-31)
+                 jour de crédit (1-31)
              </label>
              <input class="w-full px-3 py-2 leading-tight text-gray-700 border rounded appearance-none" id="nouveauJourSalaire" name="date_salaire" type="number" value="{{ Auth::user()->date_salaire}}" min="1" max="31" required>
          </div>

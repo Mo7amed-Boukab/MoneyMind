@@ -32,7 +32,6 @@
     </style>
 </head>
 <body class="flex flex-col min-h-screen bg-gray-100 md:flex-row">
-    <!-- Left Panel - Welcome and Features -->
     <div class="relative flex flex-col items-center justify-center w-full p-6 text-white md:w-1/2 bg-sidebar-blue md:p-8">
         <div class="absolute top-4 right-4 bg-white/10 text-white py-1.5 px-3 rounded-md text-xs cursor-pointer flex items-center gap-1.5">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
@@ -99,7 +98,7 @@
         </div>
     </div>
 
-    <!-- Right Panel - Login Form -->
+    <!-- Login Form -->
     <div class="flex flex-col items-center justify-center w-full p-6 bg-white md:w-1/2 md:p-8">
         <div class="w-full max-w-md">
             <h2 class="mb-2 text-3xl font-black text-center text-gray-800 md:text-2xl md:mb-4">Connexion à votre compte</h2>
@@ -127,7 +126,6 @@
                     <input type="password" name="password" placeholder="Mot de passe" class="w-full py-2.5 md:py-3 pl-9 md:pl-10 pr-3 border border-slate-200 rounded-md text-sm focus:outline-none focus:border-primary-blue focus:ring-3 focus:ring-primary-blue/10 transition" required>
                 </div>
                 
-                <!-- Ajout de la sélection de rôle -->
                 <div class="relative">
                     <div class="absolute -translate-y-1/2 left-3 md:left-4 top-1/2 text-slate-500">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

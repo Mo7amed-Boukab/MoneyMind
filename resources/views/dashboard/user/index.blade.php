@@ -20,7 +20,7 @@
             </div>
             <div class="relative flex items-center justify-center cursor-pointer group">
              <div class="flex items-center">
-               <div class="flex items-center justify-center w-8 h-8 text-white bg-gray-800 rounded-full">
+               <div class="flex items-center justify-center w-8 h-8 text-white rounded-full bg-blue-950">
                  <span>{{ substr(Auth::user()->name, 0, 2) }}</span>
                </div>
                <div class="hidden px-4 py-2 border-b border-gray-100 lg:block">
@@ -29,8 +29,6 @@
                </div>
              </div>
            </div>
-
-            
 
               <!-- Notification-->
               <div id="notificationList" class="relative hidden ml-3">
@@ -68,7 +66,7 @@
                    </div>
 
                    <div class="py-2 text-center border-t">
-                     <a href="#" class="text-sm font-medium text-blue-600 hover:text-blue-800">
+                     <a href="{{route('user.notification')}}" class="text-sm font-medium text-blue-600 hover:text-blue-800">
                        Voir toutes les notifications
                      </a>
                    </div>
@@ -90,9 +88,9 @@
               </div>
             </div>
             <p class="text-3xl font-bold text-gray-800">{{$soldActuel}} DH</p>
-            <div class="flex items-center mt-2 text-sm text-green-800">
+            <div class="flex items-center mt-2 text-sm text-green-700">
               <i class="mr-1 fas fa-arrow-up"></i>
-              <span>{{(($userSalaire - $totalDepenses) * 100) / $userSalaire}}% du salaire restant</span>
+              <span>{{number_format(((($userSalaire - $totalDepenses) * 100) / $userSalaire), 2)}}% du salaire restant</span>
             </div>
           </div>
           
@@ -106,21 +104,21 @@
             <p class="text-3xl font-bold text-gray-800">{{$totalDepenses}} DH</p>
             <div class="flex items-center mt-2 text-sm text-red-600">
               <i class="mr-1 fas fa-arrow-up"></i>
-              <span>{{($totalDepenses * 100) / $userSalaire}}% du salaire dépensé</span>
+              <span>{{number_format(($totalDepenses * 100) / $userSalaire,2)}}% du salaire dépensé</span>
             </div>
           </div>
           
           <div class="p-6 bg-white rounded shadow-sm">
             <div class="flex items-center justify-between mb-4">
               <h3 class="font-medium text-gray-500">Prochain salaire</h3>
-              <div class="flex items-center justify-center w-10 h-10 rounded-full bg-stone-100">
-                <i class="text-stone-600 fas fa-calendar"></i>
+              <div class="flex items-center justify-center w-10 h-10 rounded-full bg-extra-light-blue">
+                <i class="text-blue-600 fas fa-calendar"></i>
               </div>
             </div>
             <p class="text-3xl font-bold text-gray-800">{{ Auth::user()->salaire}} DH</p>
-            <div class="flex items-center mt-2 text-sm text-stone-600">
+            <div class="flex items-center mt-2 text-sm text-blue-600">
               <i class="mr-1 fas fa-clock"></i>
-              <span> Dans {{ (\Carbon\Carbon::parse(Auth::user()->date_salaire)->addMonth()->day) - \Carbon\Carbon::now()->day }} jours ({{Carbon\Carbon::now()->translatedFormat('F')}})</span>
+              <span>{{ (\Carbon\Carbon::createFromFormat('d/m/Y', $dateSalaire)->addMonth()->day) - \Carbon\Carbon::now()->day }} jours restants</span>
             </div>
           </div>
         </div>
@@ -157,6 +155,22 @@
          </div>
         </div>
 
+        <!-- Ajouter cette classe pour tous les tableaux -->
+        <div class="w-full mb-8 bg-white rounded shadow-sm">
+            <div class="overflow-x-auto">
+                <table class="min-w-full">
+                    <thead>
+                        <tr class="border-b bg-gray-50">
+                            <!-- ... en-têtes du tableau ... -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- ... contenu du tableau ... -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
       </div>
     </div>
   </div>
@@ -176,19 +190,19 @@ const ctx = document.getElementById('expensesEvolutionChart').getContext('2d');
 
 // Création du graphique avec Chart.js
 new Chart(ctx, {
-    type: 'bar', // Type ligne pour voir l'évolution
+    type: 'bar', 
     data: {
-        labels: @json($months), // Les mois
+        labels: @json($months), 
         datasets: [{
             label: 'Évolution des dépenses (DH)',
-            data: @json($sum), // Montants des dépenses
-            borderColor: 'rgba(59, 130, 246, 1)', // Bleu
-            backgroundColor: 'rgba(59, 130, 246, 0.2)', // Bleu clair en fond
+            data: @json($sum), 
+            borderColor: 'rgba(59, 130, 246, 1)',
+            backgroundColor: 'rgba(59, 130, 246, 0.2)',
             borderWidth: 2,
-            pointBackgroundColor: 'rgba(239, 68, 68, 1)', // Points en rouge
+            pointBackgroundColor: 'rgba(239, 68, 68, 1)', 
             pointRadius: 5,
             pointHoverRadius: 7,
-            tension: 0.3 // Ajoute un effet de courbe fluide
+            tension: 0.3 
         }]
     },
     options: {

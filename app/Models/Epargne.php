@@ -13,6 +13,7 @@ class Epargne extends Model
         'objectif_mensuel',
         'epargne_total',
         'epargne_mensuel',
+        'objectif_annuel',
         'user_id'
     ];
 

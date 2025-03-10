@@ -5,134 +5,295 @@
     <div id="mainContent" class="flex-1 transition-all duration-300 lg:ml-64">
      <div class="p-6 mx-auto lg:p-8 max-w-7xl">
          <div class="flex items-center justify-between mb-8 md:flex-row">
-             <div class="mt-4 md:mt-0">
-               <h2 class="text-3xl font-bold text-gray-800">Gestion de l'Épargne</h2>
+             <div>
+               <h2 class="text-3xl font-bold text-gray-800">Gestion d'Épargne</h2>
+               <p class="mt-1 text-gray-600">Planifiez vos objectifs financiers et suivez votre progression</p>
              </div>
          </div>
 
-      <div class="grid grid-cols-1 gap-4 mb-6 md:grid-cols-2 md:gap-6 md:mb-8">
+      <div class="grid grid-cols-1 gap-4 mb-6 md:grid-cols-3 md:gap-6 md:mb-16">
+          <!-- Total Épargne -->
           <div class="p-4 bg-white rounded shadow-sm md:p-6">
-            <div class="flex items-center justify-between mb-4">
-              <h3 class="font-medium text-gray-500">Épargne totale</h3>
-              <div class="flex items-center justify-center w-8 h-8 bg-green-100 rounded-full md:w-10 md:h-10">
-                <i class="text-green-600 icon icon-dollar-sign"></i>
+              <div class="flex items-center justify-between mb-4">
+                  <h3 class="font-medium text-gray-500">Épargne totale</h3>
+                  <div class="flex items-center justify-center w-10 h-10 bg-green-100 rounded-full">
+                      <i class="text-green-600 fas fa-wallet"></i>
+                  </div>
               </div>
-            </div>
-            <p class="text-2xl font-bold text-gray-800 md:text-3xl">{{$epargne->epargne_total}} DH</p>
+              <p class="text-3xl font-bold text-gray-800">{{$epargne->epargne_total}} DH</p>
+              <div class="flex items-center mt-2 text-sm">
+                  <span class="text-green-600"><i class="mr-1 fas fa-arrow-up"></i> +{{$epargne->epargne_mensuel}} DH</span>
+                  <span class="ml-2 text-gray-500">ce mois-ci</span>
+              </div>
           </div>
-                    
+          <!-- Épargne Mensuel -->
           <div class="p-4 bg-white rounded shadow-sm md:p-6">
-            <div class="flex items-center justify-between mb-4">
-              <h3 class="font-medium text-gray-500">Épargne mensuel</h3>
-              <div class="flex items-center justify-center w-8 h-8 bg-blue-100 rounded-full md:w-10 md:h-10">
-                <i class="text-blue-600 icon icon-calendar"></i>
+              <div class="flex items-center justify-between mb-4">
+                  <h3 class="font-medium text-gray-500">Épargne mensuel</h3>
+                  <div class="flex items-center justify-center w-10 h-10 bg-blue-100 rounded-full">
+                      <i class="text-blue-600 fas fa-calendar-alt"></i>
+                  </div>
               </div>
-            </div>
-            <p class="text-2xl font-bold text-gray-800 md:text-3xl">{{$epargne->epargne_mensuel}} DH</p>
-          </div>       
-     </div>
-        
-     <!-- Objectif d'Épargne -->
-     <div class="p-4 mb-6 bg-white rounded shadow-sm md:p-6 md:mb-8">
-         <div class="flex items-center justify-between mb-4 md:mb-6">
-             <h3 class="text-lg font-bold text-gray-800 md:text-xl">Objectif d'Épargne</h3>
+              <p class="text-3xl font-bold text-gray-800">{{$epargne->epargne_mensuel}} DH</p>
+              <div class="flex items-center mt-2 text-sm">
+                  <span class="text-blue-600"><i class="mr-1 fas fa-chart-line"></i> {{round(($epargne->epargne_mensuel / $epargne->objectif_mensuel) * 100)}}%</span>
+                  <span class="ml-2 text-gray-500">de l'objectif</span>
+              </div>
+          </div>
+          <!-- Épargne pour Objectif-->
+          <div class="p-4 bg-white rounded shadow-sm md:p-6">
+              <div class="flex items-center justify-between mb-4">
+                  <h3 class="font-medium text-gray-500">Épargne pour Objectifs</h3>
+                  <div class="flex items-center justify-center w-10 h-10 bg-purple-100 rounded-full">
+                      <i class="text-purple-600 fas fa-bullseye"></i>
+                  </div>
+              </div>
+              <p class="text-3xl font-bold text-gray-800">{{ $epargne->epargne_objectif }} DH</p>
+              <div class="flex items-center mt-2 text-sm">
+                  <span class="text-purple-600"><i class="mr-1 fas fa-percentage"></i> {{round(($epargne->epargne_objectif / $userSalaire) * 100)}}%</span>
+                  <span class="ml-2 text-gray-500">du salaire</span>
+              </div>
+          </div>
+      </div>
+
+
+ <!-- Section Header -->
+ <div class="flex justify-between w-full mb-6">
+  <h3 class="text-3xl font-bold text-gray-800 sm:text-2xl">Objectif Epargne</h3>
+   
+ </div>
+
+ <!-- Cards Container -->
+ <div class="grid grid-cols-1 gap-4 mb-12 md:grid-cols-2">
+     <!-- Objectif Mensuel -->
+     <div class="relative p-5 bg-white rounded hover:shadow ">
+         <!-- Edit Button -->
+         <div class="flex justify-between align-center">
+             <h3 class="mb-1 text-xl font-medium text-gray-600 ">Objectif Mensuel</h3>
+             <button onclick="openObjectifModal()" class="absolute text-gray-600 top-4 right-4 hover:text-blue-600">
+                 <i class="fas fa-edit"></i>
+             </button>
          </div>
-         <div class="flex flex-col items-center gap-2 mb-4 sm:flex-row sm:gap-4">
-             <input type="text" id="savingsGoalAmount" value="{{$epargne->objectif_mensuel}}" class="w-full px-3 py-2 text-gray-700 border rounded" disabled>
-           <button onclick="openObjectifModal()" class="flex items-center justify-center w-full px-4 py-2 text-sm text-white transition rounded sm:w-auto bg-blue-600/70 hover:bg-blue-600/80 focus:outline-none">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
-            Modifier
-          </button>  
-         </div> 
-     </div>
-                
-    <!-- Liste de souhaits -->
-    <div class="p-4 mb-6 bg-white rounded shadow-sm md:p-6 md:mb-8">
-     <div class="flex flex-col items-start justify-between gap-3 mb-4 sm:flex-row sm:items-center sm:mb-6">
-       <h3 class="text-lg font-bold text-gray-800 md:text-xl">Liste de souhaits</h3>
-       <button onclick="openSouhaiteModal()" class="flex items-center justify-center w-full px-4 py-2 text-sm text-white bg-gray-800 rounded sm:w-auto hover:bg-gray-900">
-         <i class="mr-2 fas fa-plus"></i> Ajouter un souhait
-       </button>
-     </div>
-     <div class="overflow-x-auto">
-       <table class="w-full border-collapse">
-         <thead>
-           <tr class="border-b bg-gray-50">
-             <th class="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Souhait</th>
-             <th class="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Montant nécessaire</th>
-             <th class="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Montant épargné</th>
-             <th class="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Progression (%)</th>
-             <th class="px-4 py-3 text-xs font-medium tracking-wider text-center text-gray-500 uppercase">Actions</th>
-           </tr>
-         </thead>
-         <tbody>
-          @foreach($listeSouhaites as $souhaite)
-           <tr class="border-b hover:bg-gray-100">
-             <td class="px-4 py-3 text-sm text-gray-700 md:text-base">{{$souhaite->description}}</td>
-             <td class="px-4 py-3 text-sm text-gray-700 md:text-base">{{$souhaite->montant_necessaire}} DH</td>
-             <td class="px-4 py-3 text-sm text-gray-700 sm:table-cell md:text-base">{{$souhaite->montant_epargne}} DH</td>
-             <td class="px-4 py-3 text-sm text-gray-700 sm:table-cell md:text-base">{{number_format(($souhaite->montant_epargne/$souhaite->montant_necessaire) * 100, 2)}}%</td>
-             <td class="px-4 py-3 text-center">
-               <button onclick="openEpargneModal({{$souhaite->id}})" class="px-2 py-1 text-xs text-white rounded sm:px-3 sm:py-2 bg-blue-600/70 hover:bg-blue-700/80">
-                 Ajouter épargne
-               </button>
-             </td>
-           </tr>
-        
-           @endforeach
-         </tbody>
-       </table>
+         
+         
+         <div class="flex items-center justify-between mt-2">
+             <div>
+               
+                 <div class="mt-3">
+                     <p class="mb-1 text-sm text-gray-500">Montant à atteindre</p>
+                     <p class="text-lg font-medium text-gray-700">{{ number_format($epargne->objectif_mensuel, 0, '.', ' ') }} DH</p>
+                 </div>
+             </div>
+             
+             <div class="relative w-20 h-20">
+                 @php
+                     $percentMensuel = $epargne->objectif_mensuel > 0 ? min(100, ($epargne->epargne_mensuel / $epargne->objectif_mensuel) * 100) : 0;
+                 @endphp
+                 
+                 <svg class="w-full h-full" viewBox="0 0 100 100">
+
+                     <circle 
+                         cx="50" cy="50" r="45" 
+                         fill="none" 
+                         stroke="#e0e7ff" 
+                         stroke-width="6"
+                         stroke-dasharray="5,5"
+                     />
+                     
+                     <circle 
+                         cx="50" cy="50" r="45" 
+                         fill="none" 
+                         stroke="#367588" 
+                         stroke-width="6"
+                         stroke-linecap="round"
+                         stroke-dasharray="283"
+                         stroke-dashoffset="{{ 283 - (283 * ($percentMensuel / 100)) }}"
+                         transform="rotate(-90 50 50)"
+                     />
+
+                     <text x="50" y="55" text-anchor="middle" font-size="18" font-weight="bold" fill="#367588">
+                         {{ round($percentMensuel) }}%
+                     </text>
+                 </svg>
+             </div>
+         </div>
      </div>
 
+     <!-- Objectif Annuel -->
+     <div class="relative p-5 bg-white rounded hover:shadow">
+         <!-- Edit Button -->
+         <div class="flex justify-between align-center">
+             <h3 class="mb-1 text-xl font-medium text-gray-600">Objectif Annuel</h3>
+             <button onclick="openObjectifAnnuelModal()" class="absolute text-gray-600 top-4 right-4 hover:text-blue-600">
+                 <i class="fas fa-edit"></i>
+             </button>
+         </div>
+         
+         <div class="flex items-center justify-between mt-2">
+                 <div class="mt-3">
+                     <p class="mb-1 text-sm text-gray-500">Montant à atteindre</p>
+                     <p class="text-lg font-medium text-gray-700">{{ number_format($epargne->objectif_annuel, 0, '.', ' ') }} DH</p>
+                 </div> 
+             <div class="relative w-20 h-20">
+                 @php
+                     $percentAnnuel = $epargne->objectif_annuel > 0 ? min(100, ($epargne->epargne_annuel / $epargne->objectif_annuel) * 100) : 0;
+                 @endphp
+                 
+                 <svg class="w-full h-full" viewBox="0 0 100 100">
+                     <circle 
+                         cx="50" cy="50" r="45" 
+                         fill="none" 
+                         stroke="#e0e7ff" 
+                         stroke-width="6"
+                         stroke-dasharray="5,5"
+                     />
+
+                     <circle 
+                         cx="50" cy="50" r="45" 
+                         fill="none" 
+                         stroke="#0C2340" 
+                         stroke-width="6"
+                         stroke-linecap="round"
+                         stroke-dasharray="283"
+                         stroke-dashoffset="{{ 283 - (283 * ($percentAnnuel / 100)) }}"
+                         transform="rotate(-90 50 50)"
+                     />
+                     
+                     <text x="50" y="55" text-anchor="middle" font-size="18" font-weight="bold" fill="#0C2340">
+                         {{ round($percentAnnuel) }}%
+                     </text>
+                 </svg>
+             </div>
+         </div>
+     </div>
+ </div>
+
+   <!-- Liste de souhaits -->
+   <div class="flex flex-col gap-4 mb-6 sm:flex-row sm:items-center sm:justify-between">   
+       <div>
+           <h3 class="text-xl font-bold text-gray-800 sm:text-2xl">Liste de souhaits</h3>
+       </div>
+       <button onclick="openSouhaiteModal()" class="flex items-center justify-center px-4 py-2 text-sm text-white bg-gray-800 rounded sm:w-auto hover:bg-gray-900">
+        <i class="mr-2 fas fa-plus"></i> Ajouter un souhait
+      </button>
+  </div>
+   <div class="relative w-full mb-8">
+       <div class="w-full p-4 bg-white rounded-lg shadow-sm">
+           <div class="overflow-x-auto">
+               <div class="inline-block min-w-full align-middle">
+                   <table class="min-w-full divide-y divide-gray-200">
+                       <thead>
+                           <tr>
+                               <th scope="col" class="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Souhait</th>
+                               <th scope="col" class="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Montant nécessaire</th>
+                               <th scope="col" class="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Montant épargné</th>
+                               <th scope="col" class="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Progression (%)</th>
+                               <th scope="col" class="px-4 py-3 text-xs font-medium tracking-wider text-center text-gray-500 uppercase">Actions</th>
+                           </tr>
+                       </thead>
+                       <tbody class="bg-white divide-y divide-gray-200">
+                           @foreach($listeSouhaites as $souhaite)
+                           <tr class="border-b hover:bg-gray-100">
+                               <td class="px-4 py-3 text-sm text-gray-700 md:text-base">{{$souhaite->description}}</td>
+                               <td class="px-4 py-3 text-sm text-gray-700 md:text-base">{{$souhaite->montant_necessaire}} DH</td>
+                               <td class="px-4 py-3 text-sm text-gray-700 sm:table-cell md:text-base">{{$souhaite->montant_epargne}} DH</td>
+                               <td class="px-4 py-3 text-sm text-gray-700 sm:table-cell md:text-base">{{number_format(($souhaite->montant_epargne/$souhaite->montant_necessaire) * 100, 2)}}%</td>
+                               <td class="px-4 py-3 text-center">
+                                   <button onclick="openEpargneModal({{$souhaite->id}})" class="px-3 py-1 text-xs text-white rounded sm:px-2 sm:py-1 bg-blue-600/70 hover:bg-blue-700/80">
+                                       Ajouter épargne
+                                   </button>
+                               </td>
+                           </tr>
+                           @endforeach
+                       </tbody>
+                   </table>
+               </div>
+           </div>
+       </div>
+   </div>
        <!-- Pagination -->
        <div class="flex flex-col items-center justify-between px-3 py-3 mt-2 bg-white border-t sm:flex-row sm:px-4 sm:px-6">
-        <div class="flex justify-between flex-1 sm:hidden">
-          <a href="#" class="relative inline-flex items-center px-4 py-2 text-xs font-medium text-gray-700 bg-white border border-gray-300 rounded sm:text-sm hover:bg-gray-50">
-            Précédent
-          </a>
-          <a href="#" class="relative inline-flex items-center px-4 py-2 ml-3 text-xs font-medium text-gray-700 bg-white border border-gray-300 rounded sm:text-sm hover:bg-gray-50">
-            Suivant
-          </a>
-        </div>
-        <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
-          <div>
-            <p class="text-xs text-gray-700 sm:text-sm">
-              Affichage de <span class="font-medium">1</span> à <span class="font-medium">4</span> sur <span class="font-medium">12</span> résultats
-            </p>
+             <div class="flex justify-between flex-1 sm:hidden">
+                 @if ($listeSouhaites->onFirstPage())
+                     <span class="relative inline-flex items-center px-4 py-2 text-xs font-medium text-gray-500 bg-white border border-gray-300 rounded cursor-default sm:text-sm">
+                         Précédent
+                     </span>
+                 @else
+                     <a href="{{ $listeSouhaites->previousPageUrl() }}" class="relative inline-flex items-center px-4 py-2 text-xs font-medium text-gray-700 bg-white border border-gray-300 rounded sm:text-sm hover:bg-gray-50">
+                         Précédent
+                     </a>
+                 @endif
+                 
+                 @if ($listeSouhaites->hasMorePages())
+                     <a href="{{ $listeSouhaites->nextPageUrl() }}" class="relative inline-flex items-center px-4 py-2 ml-3 text-xs font-medium text-gray-700 bg-white border border-gray-300 rounded sm:text-sm hover:bg-gray-50">
+                         Suivant
+                     </a>
+                 @else
+                     <span class="relative inline-flex items-center px-4 py-2 ml-3 text-xs font-medium text-gray-500 bg-white border border-gray-300 rounded cursor-default sm:text-sm">
+                         Suivant
+                     </span>
+                 @endif
+             </div>
+             
+             <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+                 <div>
+                     <p class="text-xs text-gray-700 sm:text-sm">
+                         Affichage de <span class="font-medium">{{ $listeSouhaites->firstItem() ?? 0 }}</span> à <span class="font-medium">{{ $listeSouhaites->lastItem() ?? 0 }}</span> sur <span class="font-medium">{{ $listeSouhaites->total() }}</span> résultats
+                     </p>
+                 </div>
+                 
+                 <div class="mt-3 sm:mt-0">
+                     <nav class="inline-flex -space-x-px rounded shadow-sm" aria-label="Pagination">
+                         @if ($listeSouhaites->onFirstPage())
+                             <span class="relative inline-flex items-center px-2 py-2 text-xs font-medium text-gray-500 bg-white border border-gray-300 cursor-default sm:text-sm rounded-l-md">
+                                 <span class="sr-only">Précédent</span>
+                                 <i class="fas fa-chevron-left"></i>
+                             </span>
+                         @else
+                             <a href="{{ $listeSouhaites->previousPageUrl() }}" class="relative inline-flex items-center px-2 py-2 text-xs font-medium text-gray-500 bg-white border border-gray-300 sm:text-sm rounded-l-md hover:bg-gray-50">
+                                 <span class="sr-only">Précédent</span>
+                                 <i class="fas fa-chevron-left"></i>
+                             </a>
+                         @endif
+                         
+                         @for ($i = 1; $i <= $listeSouhaites->lastPage(); $i++)
+                             @if ($i == $listeSouhaites->currentPage())
+                                 <span aria-current="page" class="relative z-10 inline-flex items-center px-3 py-2 text-xs font-medium text-white bg-gray-900 border border-gray-900 sm:px-4 sm:text-sm">
+                                     {{ $i }}
+                                 </span>
+                             @else
+                                 <a href="{{ $listeSouhaites->url($i) }}" class="relative inline-flex items-center px-3 py-2 text-xs font-medium text-gray-500 bg-white border border-gray-300 sm:px-4 sm:text-sm hover:bg-gray-50">
+                                     {{ $i }}
+                                 </a>
+                             @endif
+                         @endfor
+                         
+                         @if ($listeSouhaites->hasMorePages())
+                             <a href="{{ $listeSouhaites->nextPageUrl() }}" class="relative inline-flex items-center px-2 py-2 text-xs font-medium text-gray-500 bg-white border border-gray-300 sm:text-sm rounded-r-md hover:bg-gray-50">
+                                 <span class="sr-only">Suivant</span>
+                                 <i class="fas fa-chevron-right"></i>
+                             </a>
+                         @else
+                             <span class="relative inline-flex items-center px-2 py-2 text-xs font-medium text-gray-500 bg-white border border-gray-300 cursor-default sm:text-sm rounded-r-md">
+                                 <span class="sr-only">Suivant</span>
+                                 <i class="fas fa-chevron-right"></i>
+                             </span>
+                         @endif
+                     </nav>
+                 </div>
+             </div>
           </div>
-          <div class="mt-3 sm:mt-0">
-            <nav class="inline-flex -space-x-px rounded shadow-sm" aria-label="Pagination">
-              <a href="#" class="relative inline-flex items-center px-2 py-2 text-xs font-medium text-gray-500 bg-white border border-gray-300 sm:text-sm rounded-l-md hover:bg-gray-50">
-                <span class="sr-only">Précédent</span>
-                <i class="fas fa-chevron-left"></i>
-              </a>
-              <a href="#" aria-current="page" class="relative z-10 inline-flex items-center px-3 py-2 text-xs font-medium text-white bg-gray-900 sm:px-4 sm:text-sm">
-                1
-              </a>
-              <a href="#" class="relative inline-flex items-center px-3 py-2 text-xs font-medium text-gray-500 bg-white border border-gray-300 sm:px-4 sm:text-sm hover:bg-gray-50">
-                2
-              </a>
-              <a href="#" class="relative inline-flex items-center px-3 py-2 text-xs font-medium text-gray-500 bg-white border border-gray-300 sm:px-4 sm:text-sm hover:bg-gray-50">
-                3
-              </a>
-              <a href="#" class="relative inline-flex items-center px-2 py-2 text-xs font-medium text-gray-500 bg-white border border-gray-300 sm:text-sm rounded-r-md hover:bg-gray-50">
-                <span class="sr-only">Suivant</span>
-                <i class="fas fa-chevron-right"></i>
-              </a>
-            </nav>
-          </div>
-        </div>
       </div>
-     </div>
-   </div>
-</div>
- 
+    </div>
+ </div>
+
 @endsection
 
 @section('modal')
-  @include('dashboard.user.modals.objetifModal')
+  @include('dashboard.user.modals.objectifMensuelModal')
   @include('dashboard.user.modals.addEpargneModal')
   @include('dashboard.user.modals.addSouhaiteModal')
+  @include('dashboard.user.modals.objectifAnnuelModal')
 @endsection
 
 @section('toast')
@@ -240,6 +401,25 @@
        const addEpargneModal = document.getElementById(`addEpargneModal${id}`);
        addEpargneModal.classList.remove('flex');
        addEpargneModal.classList.add('hidden');
+    }
+    // -------------------------------------------
+    function openObjectifAnnuelModal()
+    {
+        const editObjectifAnnuelModal = document.getElementById("editObjectifAnnuelModal");
+        editObjectifAnnuelModal.classList.remove('hidden');
+        editObjectifAnnuelModal.classList.add('flex');
+    }
+    function closeObjectifAnnuelModal()
+    {
+        const editObjectifAnnuelModal = document.getElementById("editObjectifAnnuelModal");
+        editObjectifAnnuelModal.classList.remove('flex');
+        editObjectifAnnuelModal.classList.add('hidden');
+    }
+    function cancelObjectifAnnuelModal()
+    {
+        const editObjectifAnnuelModal = document.getElementById("editObjectifAnnuelModal");
+        editObjectifAnnuelModal.classList.remove('flex');
+        editObjectifAnnuelModal.classList.add('hidden');
     }
     // -------------------------------------------
     function closeToast(id) {

@@ -6,11 +6,30 @@
     <title>MoneyMind - Gestion Budgétaire Intelligente</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+     tailwind.config = {
+         theme: {
+             extend: {
+                 colors: {
+                     'primary-blue': '#2563eb',
+                     'dark-blue': '#1e3a8a',
+                     'sidebar-blue': '#0f172a',
+                     'light-blue': '#dbeafe',
+                     'extra-light-blue': '#eff6ff',
+                     'success-green': '#34d399',
+                     'danger-red': '#f87171',
+                     'warning-orange': '#fdba74',
+                 }
+             }
+         }
+     }
+ </script>
 </head>
 <body class="text-gray-100 bg-gray-900 ">
     <header class="border-b border-gray-800">
         <div class="container px-4 mx-auto">
-            <nav class="flex items-center justify-between py-4 pl-16 pr-16">
+            <!-- Desktop Navbar -->
+            <nav class="items-center justify-between hidden py-4 md:flex md:px-16">
                 <div class="flex items-center text-2xl font-bold">
                     <span class="mr-3 text-blue-500">
                         <i class="fas fa-wallet"></i>
@@ -18,11 +37,41 @@
                     MoneyMind
                 </div>
                 
-                <div class="flex">
-                    <a href="{{route('login')}}" class="px-6 py-2 mr-2 text-white border border-white rounded hover:bg-white hover:bg-opacity-10">Connexion</a>
+                <div class="flex space-x-4">
+                    <a href="{{route('login')}}" class="px-6 py-2 text-white border border-white rounded hover:bg-white hover:bg-opacity-10">Connexion</a>
                     <a href="{{route('register')}}" class="px-6 py-2 text-white bg-blue-500 rounded hover:bg-blue-700">S'inscrire</a>
                 </div>
             </nav>
+
+            <!-- Mobile Navbar -->
+            <nav class="flex items-center justify-between py-4 md:hidden">
+                <div class="flex items-center text-2xl font-bold">
+                    <span class="mr-3 text-blue-500">
+                        <i class="fas fa-wallet"></i>
+                    </span>
+                    MoneyMind
+                </div>
+                <button id="mobileMenuButton" class="text-white">
+                    <i class="text-2xl fas fa-bars"></i>
+                </button>
+            </nav>
+        </div>
+
+        <!-- Mobile Menu Sidebar -->
+        <div id="mobileSidebar" class="fixed inset-y-0 right-0 z-50 w-64 transform translate-x-full transition-transform duration-300 bg-sidebar-blue">
+            <div class="flex justify-end p-4">
+                <button id="closeMobileMenu" class="text-white">
+                    <i class="text-2xl fas fa-times"></i>
+                </button>
+            </div>
+            <div class="flex flex-col items-center space-y-4 p-4">
+                <a href="{{route('login')}}" class="w-full px-6 py-2 text-center text-white border border-white rounded hover:bg-white hover:bg-opacity-10">
+                    Connexion
+                </a>
+                <a href="{{route('register')}}" class="w-full px-6 py-2 text-center text-white bg-blue-500 rounded hover:bg-blue-700">
+                    S'inscrire
+                </a>
+            </div>
         </div>
     </header>
 
@@ -42,10 +91,10 @@
     <section id="features" class="py-16 bg-gray-900 bg-opacity-50">
         <div class="container px-4 mx-auto">
             <div class="mb-12 text-center">
-                <h2 class="mb-3 text-3xl font-bold">Fonctionnalités intelligentes</h2>
-                <p class="max-w-xl mx-auto text-gray-400">Des outils puissants pour prendre le contrôle de vos finances</p>
+                <h2 class="mb-3 text-2xl font-bold md:text-3xl">Fonctionnalités intelligentes</h2>
+                <p class="max-w-xl mx-auto text-sm text-gray-400 md:text-base">Des outils puissants pour prendre le contrôle de vos finances</p>
             </div>
-            <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 md:gap-6">
                 <div class="h-full p-6 transition-transform duration-300 bg-gray-800 rounded bg-opacity-30 hover:transform hover:-translate-y-1 hover:border hover:border-blue-500 hover:border-opacity-30">
                     <div class="flex items-center justify-center w-12 h-12 mb-4 text-blue-500 bg-blue-900 rounded-full bg-opacity-20">
                         <i class="text-xl fas fa-chart-line"></i>
@@ -94,9 +143,9 @@
 
    
 
-    <section class="py-12 bg-gray-800">
+    <section class="py-8 bg-gray-800 md:py-12">
         <div class="container px-4 mx-auto">
-            <div class="grid grid-cols-1 gap-6 text-center md:grid-cols-2 lg:grid-cols-4">
+            <div class="grid grid-cols-2 gap-4 text-center md:grid-cols-4">
                 <div class="p-4">
                     <div class="mb-2 text-4xl font-bold text-blue-500">15K+</div>
                     <div class="text-lg text-gray-400">Utilisateurs actifs</div>
@@ -180,6 +229,27 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        const mobileMenuButton = document.getElementById('mobileMenuButton');
+        const closeMobileMenu = document.getElementById('closeMobileMenu');
+        const mobileSidebar = document.getElementById('mobileSidebar');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileSidebar.classList.remove('translate-x-full');
+        });
+
+        closeMobileMenu.addEventListener('click', () => {
+            mobileSidebar.classList.add('translate-x-full');
+        });
+
+        // Fermer le menu si on clique en dehors
+        document.addEventListener('click', (e) => {
+            if (!mobileSidebar.contains(e.target) && !mobileMenuButton.contains(e.target)) {
+                mobileSidebar.classList.add('translate-x-full');
+            }
+        });
+    </script>
 </body>
 </html> 
 

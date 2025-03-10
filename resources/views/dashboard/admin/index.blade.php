@@ -1,98 +1,78 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MoneyMind - Dashboard Admin</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100">
-  <div class="flex min-h-screen">
-    <!-- Sidebar - Hidden on mobile, visible on larger screens -->
-    <div id="sidebar" class="fixed inset-y-0 left-0 z-20 hidden w-64 overflow-y-auto transition-transform duration-200 ease-in-out transform bg-gradient-to-r from-gray-950 to-gray-900 bg-opacity-10 lg:translate-x-0 lg:block">
-      <div class="p-6">
-        <div class="flex items-center mb-4">
-          <i class="mr-2 text-3xl text-blue-500 fas fa-wallet"></i>
-          <h1 class="text-2xl font-bold text-white">MoneyMind</h1>
-        </div>
-        <p class="text-xs text-gray-300">Administration</p>
-      </div>
-      
-      <!-- Section: Tableau de bord -->
-      <div class="px-4 py-2 text-xs font-semibold text-gray-400 uppercase">ADMINISTRATION</div>
-      <nav>
-        <a href="#" class="flex items-center px-6 py-3 m-2 text-white transition rounded bg-blue-500/80">
-          <i class="mr-3 fas fa-chart-pie"></i>
-          <span>Tableau de bord</span>
-        </a>
-        <a href="#" class="flex items-center px-6 py-3 m-2 text-white transition rounded hover:bg-gray-900">
-          <i class="mr-3 fas fa-users"></i>
-          <span>Utilisateurs</span>
-        </a>
-        <a href="#" class="flex items-center px-6 py-3 m-2 text-white transition rounded hover:bg-gray-900">
-          <i class="mr-3 fas fa-tags"></i>
-          <span>Catégories</span>
-        </a>
-        <a href="#" class="flex items-center px-6 py-3 m-2 text-white transition rounded hover:bg-gray-900">
-          <i class="mr-3 fas fa-bell"></i>
-          <span>Notifications</span>
-        </a>
-      </nav>
-      
-      <!-- Section: Paramètres -->
-      <div class="px-4 py-2 mt-4 text-xs font-semibold text-gray-400 uppercase">SYSTÈME</div>
-      <nav>
-        <a href="#" class="flex items-center px-6 py-3 m-2 text-white transition rounded hover:bg-gray-900">
-          <i class="mr-3 fas fa-cog"></i>
-          <span>Paramètres</span>
-        </a>
-        <form action="#" method="POST" class="flex items-center">
-          <button type="submit" class="flex items-center w-full px-6 py-3 m-2 text-white transition rounded hover:bg-gray-900">
-            <i class="mr-3 fas fa-sign-out-alt"></i>
-            <span>Déconnexion</span>
-          </button>
-        </form>
-      </nav>
-    </div>
+@extends('layouts.master')
 
-    <!-- Mobile sidebar toggle button -->
-    <div class="fixed z-30 bottom-4 right-4 lg:hidden">
-      <button id="sidebarToggle" class="flex items-center justify-center w-12 h-12 text-white bg-blue-600 rounded-full shadow-lg">
-        <i class="fas fa-bars"></i>
-      </button>
-    </div>
-
+@section('main')
     <!-- Main Content -->
     <div class="flex-1 w-full lg:ml-64">
       <div class="p-4 mx-auto lg:p-8 max-w-7xl">
-        <div class="flex flex-col mb-6 md:flex-row md:items-center md:justify-between">
-          <div>
-            <h2 class="text-2xl font-bold text-gray-800 lg:text-3xl">Tableau de bord Admin</h2>
-            <p class="text-gray-600">Bonjour, Admin! Voici la situation au 06 Mars 2025</p>
+        <div class="flex items-center justify-between mb-8 md:flex-row">
+          <div class="mt-4 md:mt-0">
+            <h2 class="text-xl font-bold text-gray-800 md:text-2xl lg:text-3xl">Tableau de bord</h2>
+            <p class="text-sm text-gray-600 md:text-base">Bonjour, {{ Auth::user()->name }}! Voici votre situation au {{ now()->format('d F Y') }}</p>
           </div>
-          <!-- User Profile & Notifications -->
-          <div class="flex items-center mt-4 space-x-4 md:mt-0">
-            <div class="relative cursor-pointer">
-              <i class="text-xl text-gray-600 fas fa-bell"></i>
-              <div class="absolute flex items-center justify-center w-4 h-4 bg-red-500 rounded-full -top-1 -right-1">
-                <span class="text-xs text-white">3</span>
+            <!-- User Profile & Notifications -->
+            <div class="flex items-center space-x-4">
+             <div onclick="openNotifications()" class="relative cursor-pointer">
+               <i class="text-xl text-gray-600 fas fa-bell"></i>
+               <div class="absolute flex items-center justify-center w-4 h-4 bg-red-500 rounded-full -top-1 -right-1">
+                 <span class="text-xs text-white">2</span>
+               </div>
+             </div>
+             <div class="relative flex items-center justify-center cursor-pointer group">
+              <div class="flex items-center">
+                <div class="flex items-center justify-center w-8 h-8 text-white rounded-full bg-blue-950">
+                  <span>{{ substr(Auth::user()->name, 0, 2) }}</span>
+                </div>
+                <div class="hidden px-4 py-2 border-b border-gray-100 lg:block">
+                  <p class="font-medium text-gray-800">{{ Auth::user()->name }}</p>
+                  <p class="text-xs text-gray-500">Compte Administrateur</p>
+                </div>
               </div>
             </div>
-            <div class="relative flex items-center cursor-pointer group">
-              <div class="flex items-center">
-                <div class="flex items-center justify-center w-8 h-8 text-white bg-gray-800 rounded-full">
-                  <span>AD</span>
+               <!-- Notification-->
+               <div id="notificationList" class="relative hidden ml-3">
+               
+                <div class="absolute right-0 z-50 mt-8 bg-white rounded-md shadow-lg w-80">
+                  <div class="py-2">
+                    <h3 class="px-4 py-2 text-sm font-medium text-gray-700 border-b">Notifications</h3>
+                    
+                    <div class="overflow-y-auto max-h-64">
+                      <a href="#" class="block px-4 py-3 hover:bg-gray-50">
+                        <div class="flex items-center">
+                          <div class="flex-shrink-0">
+                            <i class="text-blue-500 fas fa-check-circle"></i>
+                          </div>
+                          <div class="ml-3">
+                            <p class="text-sm font-medium text-gray-900">Objectif d'épargne atteint</p>
+                            <p class="text-sm text-gray-500">Vous avez atteint votre objectif mensuel</p>
+                            <p class="mt-1 text-xs text-gray-400">Il y a 2 heures</p>
+                          </div>
+                        </div>
+                      </a>
+ 
+                      <a href="#" class="block px-4 py-3 hover:bg-gray-50">
+                        <div class="flex items-center">
+                          <div class="flex-shrink-0">
+                            <i class="text-red-500 fas fa-exclamation-circle"></i>
+                          </div>
+                          <div class="ml-3">
+                            <p class="text-sm font-medium text-gray-900">Dépense récurrente à venir</p>
+                            <p class="text-sm text-gray-500">Abonnement Netflix - échéance dans 3 jours</p>
+                            <p class="mt-1 text-xs text-gray-400">Il y a 1 jour</p>
+                          </div>
+                        </div>
+                      </a>
+                    </div>
+ 
+                    <div class="py-2 text-center border-t">
+                      <a href="{{route('user.notification')}}" class="text-sm font-medium text-blue-600 hover:text-blue-800">
+                        Voir toutes les notifications
+                      </a>
+                    </div>
+                  </div>
                 </div>
-                <div class="px-4 py-2 border-b border-gray-100">
-                 <p class="font-medium text-gray-800">Admin</p>
-                 <p class="text-xs text-gray-500">Compte Administrateur</p>
                </div>
-              </div>         
-            </div>
-          </div>
+           </div>
         </div>
-
         <!-- Statistics Cards -->
         <div class="grid grid-cols-1 gap-4 mb-8 sm:grid-cols-2 lg:grid-cols-3">
           <div class="p-4 bg-white rounded shadow-sm sm:p-6">
@@ -102,10 +82,10 @@
                 <i class="text-blue-700 fas fa-users"></i>
               </div>
             </div>
-            <p class="text-2xl font-bold text-gray-800 md:text-3xl">386</p>
-            <div class="flex items-center mt-2 text-xs text-green-800 md:text-sm">
-              <i class="mr-1 fas fa-arrow-up"></i>
-              <span>+12% depuis le mois dernier</span>
+            <p class="text-2xl font-bold text-gray-800 md:text-3xl">{{ number_format($totalUsers, 0, ',', ' ') }}</p>
+            <div class="flex items-center mt-2 text-xs md:text-sm {{ $usersEvolution >= 0 ? 'text-blue-600' : 'text-red-700' }}">
+              <i class="mr-1 fas {{ $usersEvolution >= 0 ? 'fa-arrow-up' : 'fa-arrow-down' }}"></i>
+              <span>{{ abs($usersEvolution) }}% depuis le mois dernier</span>
             </div>
           </div>
           
@@ -116,10 +96,12 @@
                 <i class="text-green-600 fas fa-money-bill-wave"></i>
               </div>
             </div>
-            <p class="text-2xl font-bold text-gray-800 md:text-3xl">7,250 DH</p>
-            <div class="flex items-center mt-2 text-xs text-green-600 md:text-sm">
-              <i class="mr-1 fas fa-arrow-up"></i>
-              <span>+3.5% depuis le mois dernier</span>
+            <p class="text-2xl font-bold text-gray-800 md:text-3xl">
+              {{ number_format($salaireMoyenne, 0, ',', ' ') }} DH
+            </p>
+            <div class="flex items-center mt-2 text-xs md:text-sm {{ $salaireEvolution >= 0 ? 'text-green-600' : 'text-red-600' }}">
+              <i class="mr-1 fas {{ $salaireEvolution >= 0 ? 'fa-arrow-up' : 'fa-arrow-down' }}"></i>
+              <span>{{ abs($salaireEvolution) }}% depuis le mois dernier</span>
             </div>
           </div>
           
@@ -130,7 +112,7 @@
                 <i class="text-red-600 fas fa-user-clock"></i>
               </div>
             </div>
-            <p class="text-2xl font-bold text-gray-800 md:text-3xl">24</p>
+            <p class="text-2xl font-bold text-gray-800 md:text-3xl">{{ $usersInactive }}</p>
             <div class="flex items-center mt-2 text-xs text-red-600 md:text-sm">
               <i class="mr-1 fas fa-exclamation-circle"></i>
               <span>Inactifs depuis 2 mois</span>
@@ -138,288 +120,221 @@
           </div>
         </div>
         
-        <!-- Derniers ajouts - Tableaux en deux parties -->
         <div class="grid grid-cols-1 gap-6 mb-8 lg:grid-cols-2">
-          <!-- Derniers utilisateurs -->
           <div class="p-6 bg-white rounded shadow-sm">
             <div class="flex items-center justify-between mb-4">
               <h3 class="text-xl font-bold text-gray-800">Derniers utilisateurs</h3>
               <a href="#" class="text-sm text-blue-600 hover:text-blue-800">Voir plus</a>
             </div>
             <div class="overflow-x-auto">
-              <table class="min-w-full">
+              <table class="min-w-full table-fixed">
                 <thead>
                   <tr class="border-b bg-gray-50">
-                    <th class="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Utilisateur</th>
-                    <th class="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Email</th>
-                    <th class="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Dernière activité</th>
+                    <th class="w-2/5 px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Utilisateur</th>
+                    <th class="w-2/5 px-4 py-3 text-xs font-medium tracking-wider text-center text-gray-500 uppercase">Status</th>
+                    <th class="w-1/5 px-4 py-3 text-xs font-medium tracking-wider text-center text-gray-500 uppercase ">Action</th>
                   </tr>
                 </thead>
                 <tbody>
+                 @foreach($users as $user)
                   <tr class="border-b hover:bg-gray-50">
                     <td class="px-4 py-3 whitespace-nowrap">
                       <div class="flex items-center">
                         <div class="flex items-center justify-center w-8 h-8 text-white bg-blue-600 rounded-full">
-                          <span>MB</span>
+                          <span>{{$user->name[0].$user->name[1]}}</span>
                         </div>
                         <div class="ml-3">
-                          <div class="text-sm font-medium text-gray-900">Mohamed Boukab</div>
+                          <div class="text-sm font-medium text-gray-900">{{$user->name}}</div>
                         </div>
                       </div>
                     </td>
-                    <td class="px-4 py-3 whitespace-nowrap">
-                      <div class="text-sm text-gray-500">m.boukab@example.com</div>
-                    </td>
-                    <td class="px-4 py-3 text-sm text-gray-500 whitespace-nowrap">
-                      06 Mars 2025
+                    <td class="px-4 py-3 text-sm text-center whitespace-nowrap">
+                       <span class="inline-flex px-2 text-xs font-semibold leading-5 text-yellow-700 bg-yellow-100 rounded-full'}}">
+                          {{ ucfirst($user->status) }}
+                     </span>
+                   </td>
+                    <td class="px-4 py-3 text-sm text-center whitespace-nowrap">
+                      <button onclick="openConfirmationModal({{$user->id}})" 
+                              class="px-3 py-1 text-white bg-blue-600 rounded hover:bg-blue-700">
+                          Supprimer
+                      </button>
                     </td>
                   </tr>
+                  @endforeach  
                 </tbody>
               </table>
             </div>
           </div>
           
-          <!-- Dernières catégories -->
           <div class="p-6 bg-white rounded shadow-sm">
             <div class="flex items-center justify-between mb-4">
               <h3 class="text-xl font-bold text-gray-800">Dernières catégories</h3>
               <a href="#" class="text-sm text-blue-600 hover:text-blue-800">Voir plus</a>
             </div>
             <div class="overflow-x-auto">
-              <table class="min-w-full">
+              <table class="min-w-full table-fixed">
                 <thead>
                   <tr class="border-b bg-gray-50">
-                    <th class="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Catégorie</th>
-                    <th class="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Description</th>
-                    <th class="px-4 py-3 text-xs font-medium tracking-wider text-center text-gray-500 uppercase">Actions</th>
+                    <th class="w-2/5 px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Catégorie</th>
+                    <th class="w-2/5 px-4 py-3 text-xs font-medium tracking-wider text-center text-gray-500 uppercase">% Dépenses</th>
+                    <th class="w-1/5 px-4 py-3 text-xs font-medium tracking-wider text-center text-gray-500 uppercase">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
+                 @foreach($categories as $categorie)
                   <tr class="border-b hover:bg-gray-50">
                     <td class="px-4 py-3 whitespace-nowrap">
                       <div class="flex items-center">
-                        <div class="flex items-center justify-center w-8 h-8 mr-3 text-purple-600 bg-purple-100 rounded-full">
-                          <i class="fas fa-gamepad"></i>
+                        <div class="flex items-center justify-center w-8 h-8 mr-3 text-green-600 bg-green-100 rounded-full">
+                          <i class="fas fa-tag"></i>
                         </div>
-                        <span class="text-sm font-medium text-gray-900">Divertissement</span>
+                        <span class="text-sm font-medium text-gray-900">{{$categorie->name}}</span>
                       </div>
                     </td>
-                    <td class="px-4 py-3 whitespace-nowrap">
-                      <div class="text-sm text-gray-500">Dépenses liées aux loisirs et sorties récréatives</div>
+                    <td class="px-4 py-3 text-sm text-center text-gray-500 whitespace-nowrap">
+                      {{$categorie->pourcentage}}%
                     </td>
                     <td class="px-4 py-3 text-sm text-center whitespace-nowrap">
-                      <button class="p-1 text-blue-600 hover:text-blue-800">
-                        <i class="fas fa-edit"></i>
-                      </button>
-                      <button class="p-1 text-red-600 hover:text-red-800">
-                        <i class="fas fa-trash"></i>
-                      </button>
+                      <div class="flex justify-center space-x-2">
+                        <button onclick="openEditModal({{$categorie->id}})" 
+                                class="px-3 py-1 text-white bg-yellow-500 rounded hover:bg-yellow-600">
+                            Modifier
+                        </button>
+                        <button onclick="openConfirmationModal({{$categorie->id}})"
+                                class="px-3 py-1 text-white bg-gray-500 rounded hover:bg-gray-600">
+                            Supprimer
+                        </button>
+                      </div>
                     </td>
                   </tr>
+                  @endforeach      
                 </tbody>
               </table>
-            </div>
-          </div>
-        </div>
-
-        <!-- Tableau complet des utilisateurs -->
-        <div class="p-4 mb-8 bg-white rounded shadow-sm sm:p-6">
-          <div class="flex flex-col mb-4 sm:flex-row sm:items-center sm:justify-between">
-            <h3 class="text-xl font-bold text-gray-800">Gestion des Utilisateurs</h3>
-            <div class="relative mt-3 sm:mt-0">
-              <input type="text" placeholder="Rechercher..." class="block w-full px-4 py-2 pl-10 text-gray-700 bg-gray-100 border-none rounded focus:outline-none focus:ring-2 focus:ring-blue-600">
-              <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                <i class="text-gray-400 fas fa-search"></i>
-              </div>
-            </div>
-          </div>
-          <div class="overflow-x-auto">
-            <table class="min-w-full">
-              <thead>
-                <tr class="border-b bg-gray-50">
-                  <th class="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Utilisateur</th>
-                  <th class="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Email</th>
-                  <th class="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Dernière activité</th>
-                  <th class="px-4 py-3 text-xs font-medium tracking-wider text-right text-gray-500 uppercase">Salaire</th>
-                  <th class="px-4 py-3 text-xs font-medium tracking-wider text-center text-gray-500 uppercase">Statut</th>
-                  <th class="px-4 py-3 text-xs font-medium tracking-wider text-center text-gray-500 uppercase">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="border-b hover:bg-gray-50">
-                  <td class="px-4 py-3 whitespace-nowrap">
-                    <div class="flex items-center">
-                      <div class="flex items-center justify-center w-8 h-8 text-white bg-blue-600 rounded-full">
-                        <span>MB</span>
-                      </div>
-                      <div class="ml-3">
-                        <div class="text-sm font-medium text-gray-900">Mohamed Boukab</div>
-                      </div>
-                    </div>
-                  </td>
-                  <td class="px-4 py-3 whitespace-nowrap">
-                    <div class="text-sm text-gray-500">m.boukab@example.com</div>
-                  </td>
-                  <td class="px-4 py-3 text-sm text-gray-500 whitespace-nowrap">
-                    06 Mars 2025
-                  </td>
-                  <td class="px-4 py-3 text-sm font-medium text-right text-gray-900 whitespace-nowrap">
-                    8,000 DH
-                  </td>
-                  <td class="px-4 py-3 text-sm text-center whitespace-nowrap">
-                    <span class="inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full">
-                      Actif
-                    </span>
-                  </td>
-                  <td class="px-4 py-3 text-sm text-center whitespace-nowrap">
-                    <button class="p-1 text-blue-600 hover:text-blue-800">
-                      <i class="fas fa-edit"></i>
-                    </button>
-                    <button class="p-1 text-red-600 hover:text-red-800">
-                      <i class="fas fa-trash"></i>
-                    </button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <!-- Pagination -->
-          <div class="flex items-center justify-between px-4 py-3 bg-white border-t sm:px-6">
-            <div class="flex justify-between flex-1 sm:hidden">
-              <a href="#" class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded hover:bg-gray-50">
-                Précédent
-              </a>
-              <a href="#" class="relative inline-flex items-center px-4 py-2 ml-3 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded hover:bg-gray-50">
-                Suivant
-              </a>
-            </div>
-            <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
-              <div>
-                <p class="text-sm text-gray-700">
-                  Affichage de <span class="font-medium">1</span> à <span class="font-medium">1</span> sur <span class="font-medium">24</span> utilisateurs
-                </p>
-              </div>
-              <div>
-                <nav class="inline-flex -space-x-px rounded shadow-sm" aria-label="Pagination">
-                  <a href="#" class="relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-l-md hover:bg-gray-50">
-                    <span class="sr-only">Précédent</span>
-                    <i class="fas fa-chevron-left"></i>
-                  </a>
-                  <a href="#" aria-current="page" class="relative z-10 inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-gray-900">
-                    1
-                  </a>
-                  <a href="#" class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 hover:bg-gray-50">
-                    2
-                  </a>
-                  <a href="#" class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 hover:bg-gray-50">
-                    3
-                  </a>
-                  <a href="#" class="relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-r-md hover:bg-gray-50">
-                    <span class="sr-only">Suivant</span>
-                    <i class="fas fa-chevron-right"></i>
-                  </a>
-                </nav>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Tableau complet des catégories -->
-        <div class="p-4 mb-8 bg-white rounded shadow-sm sm:p-6">
-          <div class="flex flex-col mb-6 sm:flex-row sm:items-center sm:justify-between">
-            <h3 class="text-xl font-bold text-gray-800">Gestion des Catégories</h3>
-            <button class="flex items-center px-4 py-2 mt-3 text-white transition bg-blue-600 rounded sm:mt-0 hover:bg-blue-700 focus:outline-none">
-              <i class="mr-2 fas fa-plus"></i>Ajouter une catégorie
-            </button>
-          </div>
-          
-          <div class="overflow-x-auto">
-            <table class="min-w-full">
-              <thead>
-                <tr class="border-b bg-gray-50">
-                  <th class="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Catégorie</th>
-                  <th class="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Description</th>
-                  <th class="px-4 py-3 text-xs font-medium tracking-wider text-center text-gray-500 uppercase">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="border-b hover:bg-gray-50">
-                  <td class="px-4 py-3 whitespace-nowrap">
-                    <div class="flex items-center">
-                      <div class="flex items-center justify-center w-10 h-10 mr-3 text-purple-600 bg-purple-100 rounded-full">
-                        <i class="fas fa-gamepad"></i>
-                      </div>
-                      <h4 class="text-sm font-medium md:text-base">Divertissement</h4>
-                    </div>
-                  </td>
-                  <td class="px-4 py-3">
-                    <p class="text-sm text-gray-600">Dépenses liées aux loisirs, jeux vidéo, et sorties récréatives.</p>
-                  </td>
-                  <td class="px-4 py-3 text-sm text-center whitespace-nowrap">
-                    <button class="p-1 text-blue-600 hover:text-blue-800">
-                      <i class="fas fa-edit"></i>
-                    </button>
-                    <button class="p-1 text-red-600 hover:text-red-800">
-                      <i class="fas fa-trash"></i>
-                    </button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <!-- Pagination -->
-          <div class="flex items-center justify-between px-4 py-3 bg-white border-t sm:px-6">
-            <div class="flex justify-between flex-1 sm:hidden">
-              <a href="#" class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded hover:bg-gray-50">
-                Précédent
-              </a>
-              <a href="#" class="relative inline-flex items-center px-4 py-2 ml-3 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded hover:bg-gray-50">
-                Suivant
-              </a>
-            </div>
-            <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
-              <div>
-                <p class="text-sm text-gray-700">
-                  Affichage de <span class="font-medium">1</span> à <span class="font-medium">1</span> sur <span class="font-medium">6</span> catégories
-                </p>
-              </div>
-              <div>
-                <nav class="inline-flex -space-x-px rounded shadow-sm" aria-label="Pagination">
-                  <a href="#" class="relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-l-md hover:bg-gray-50">
-                    <span class="sr-only">Précédent</span>
-                    <i class="fas fa-chevron-left"></i>
-                  </a>
-                  <a href="#" aria-current="page" class="relative z-10 inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-gray-900">
-                    1
-                  </a>
-                  <a href="#" class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 hover:bg-gray-50">
-                    2
-                  </a>
-                  <a href="#" class="relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-r-md hover:bg-gray-50">
-                    <span class="sr-only">Suivant</span>
-                    <i class="fas fa-chevron-right"></i>
-                  </a>
-                </nav>
-              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+@endsection
 
-  <script>
-    // Mobile sidebar toggle
-    document.getElementById('sidebarToggle').addEventListener('click', function() {
-      const sidebar = document.getElementById('sidebar');
-      if (sidebar.classList.contains('hidden')) {
-        sidebar.classList.remove('hidden');
-        sidebar.classList.add('block');
-      } else {
-        sidebar.classList.remove('block');
-        sidebar.classList.add('hidden');
-      }
-    });
-  </script>
-</body>
-</html>
+@section('modal')
+    @foreach($users as $user)
+    <div id="delete{{$user->id}}" class="fixed inset-0 z-50 hidden overflow-y-auto">
+        <div class="flex items-center justify-center min-h-screen px-4">
+            <div class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75"></div>
+            <div class="relative z-50 w-full max-w-md p-6 mx-auto bg-white rounded-lg shadow-xl">
+                <div class="mb-4">
+                    <h3 class="text-lg font-medium text-gray-900">Confirmer la suppression</h3>
+                    <button onclick="closeConfirmationModal({{$user->id}})" class="absolute text-gray-400 top-4 right-4 hover:text-gray-500">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="mb-4">
+                    <p class="text-sm text-gray-500">
+                        Êtes-vous sûr de vouloir supprimer cet utilisateur ? Cette action est irréversible.
+                    </p>
+                </div>
+                <div class="flex justify-end space-x-3">
+                    <button onclick="closeConfirmationModal({{$user->id}})"
+                            class="px-4 py-2 text-sm text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200">
+                        Annuler
+                    </button>
+                    <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit"
+                                class="px-4 py-2 text-sm text-white bg-red-600 rounded-md hover:bg-red-700">
+                            Supprimer
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endforeach
+
+    @include('dashboard.admin.modals.editCategorieModal')
+    @include('dashboard.admin.modals.deleteConfirmationModal')
+@endsection
+
+@section('toast')
+    @if (session('update'))
+    <div id="toast-edit" class="fixed flex items-center w-full max-w-xs p-4 mb-4 text-white bg-blue-500 rounded shadow-lg bottom-4 right-4 animate-slide-up">
+        <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 bg-blue-600 rounded">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V14h3.828l7.586-7.586a2 2 0 000-2.828l-1-1zM6 16a1 1 0 100 2h8a1 1 0 100-2H6z"></path>
+            </svg>
+        </div>
+        <div class="ml-3 text-sm font-normal">{{ session('update') }}</div>
+        <button type="button" class="ml-auto text-white rounded p-1.5 hover:opacity-75 h-8 w-8" onclick="closeToast('toast-edit')">
+            <span class="sr-only">Fermer</span>
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 011.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+            </svg>
+        </button>
+    </div>
+    @endif
+
+    @if (session('delete'))
+    <div id="toast-delete" class="fixed flex items-center w-full max-w-xs p-4 mb-4 text-white bg-red-500 rounded shadow-lg bottom-4 right-4 animate-slide-up">
+        <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 bg-red-600 rounded">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M6 2a1 1 0 011-1h6a1 1 0 011 1v1h3a1 1 0 010 2H2a1 1 0 010-2h3V2zM4 7h12v10a2 2 0 01-2 2H6a2 2 0 01-2-2V7z"></path>
+            </svg>
+        </div>
+        <div class="ml-3 text-sm font-normal">{{ session('delete') }}</div>
+        <button type="button" class="ml-auto text-white rounded p-1.5 hover:opacity-75 h-8 w-8" onclick="closeToast('toast-delete')">
+            <span class="sr-only">Fermer</span>
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 011.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+            </svg>
+        </button>
+    </div>
+    @endif
+
+    @if (session('error'))
+    <div id="toast-error" class="fixed flex items-center w-full max-w-xs p-4 mb-4 text-white bg-yellow-500 rounded shadow-lg bottom-4 right-4 animate-slide-up">
+        <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 bg-yellow-600 rounded">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+            </svg>
+        </div>
+        <div class="ml-3 text-sm font-normal">{{ session('error') }}</div>
+    </div>
+    @endif
+@endsection
+
+@section('script')
+<script>
+    
+    function openNotifications()
+   {
+      const notificationList = document.getElementById('notificationList');
+            notificationList.classList.toggle('hidden');
+   }
+
+    function openEditModal(id) {
+        document.getElementById(`editCategorieModal${id}`).classList.remove('hidden');
+    }
+    
+    function closeEditModal(id) {
+        document.getElementById(`editCategorieModal${id}`).classList.add('hidden');
+    }
+
+    function openConfirmationModal(id) {
+        document.getElementById(`delete${id}`).classList.remove('hidden');
+    }
+    
+    function closeConfirmationModal(id) {
+        document.getElementById(`delete${id}`).classList.add('hidden');
+    }
+
+    function closeToast(id) {
+        document.getElementById(id).style.display = 'none';
+    }
+    setTimeout(() => {
+        document.querySelectorAll('[id^="toast-"]').forEach(el => el.style.display = 'none');
+    }, 5000);
+</script>
+@endsection
