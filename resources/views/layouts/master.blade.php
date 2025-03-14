@@ -66,33 +66,32 @@
     @yield('main')
     @yield('modal')
     @yield('toast')
-    
-    <script>
-      document.getElementById('sidebarToggle').addEventListener('click', function() {
-          const sidebar = document.querySelector('[id^="sidebar"]'); 
-          if (sidebar.classList.contains('-translate-x-full')) {
-              sidebar.classList.remove('-translate-x-full');
-              sidebar.classList.add('translate-x-0');
-          } else {
-              sidebar.classList.remove('translate-x-0');
-              sidebar.classList.add('-translate-x-full');
-          }
-      });
-      document.addEventListener('click', function(event) {
-          const sidebar = document.querySelector('[id^="sidebar"]');
-          const sidebarToggle = document.getElementById('sidebarToggle');
-          
-          if (window.innerWidth < 1024 && 
-              !sidebar.contains(event.target) && 
-              !sidebarToggle.contains(event.target)) {
-              
-              sidebar.classList.remove('translate-x-0');
-              sidebar.classList.add('-translate-x-full');
-          }
-      });
-    </script>
-
     @yield('script')
+
+    <script>
+     document.getElementById('sidebarToggle').addEventListener('click', function() {
+         const sidebar = document.querySelector('[id^="sidebar"]'); 
+         if (sidebar.classList.contains('-translate-x-full')) {
+             sidebar.classList.remove('-translate-x-full');
+             sidebar.classList.add('translate-x-0');
+         } else {
+             sidebar.classList.remove('translate-x-0');
+             sidebar.classList.add('-translate-x-full');
+         }
+     });
+     document.addEventListener('click', function(event) {
+         const sidebar = document.querySelector('[id^="sidebar"]');
+         const sidebarToggle = document.getElementById('sidebarToggle');
+         
+         if (window.innerWidth < 1024 && 
+             !sidebar.contains(event.target) && 
+             !sidebarToggle.contains(event.target)) {
+             
+             sidebar.classList.remove('translate-x-0');
+             sidebar.classList.add('-translate-x-full');
+         }
+     });
+   </script>
   </div>
 </body>
 </html>

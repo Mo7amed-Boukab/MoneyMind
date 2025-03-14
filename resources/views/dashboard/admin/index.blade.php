@@ -7,7 +7,7 @@
         <div class="flex items-center justify-between mb-8 md:flex-row">
           <div class="mt-4 md:mt-0">
             <h2 class="text-xl font-bold text-gray-800 md:text-2xl lg:text-3xl">Tableau de bord</h2>
-            <p class="text-sm text-gray-600 md:text-base">Bonjour, mohamed! Voici votre situation au 13/03/2025</p>
+            <p class="text-sm text-gray-600 md:text-base">Bonjour, {{ Auth::user()->name }}! Voici votre situation au {{ now()->format('d F Y') }}</p>
           </div>
             <!-- User Profile & Notifications -->
             <div class="flex items-center space-x-4">
@@ -20,10 +20,10 @@
              <div class="relative flex items-center justify-center cursor-pointer group">
               <div class="flex items-center">
                 <div class="flex items-center justify-center w-8 h-8 text-white rounded-full bg-blue-950">
-                  <span>Mo</span>
+                  <span>{{ substr(Auth::user()->name, 0, 2) }}</span>
                 </div>
                 <div class="hidden px-4 py-2 border-b border-gray-100 lg:block">
-                  <p class="font-medium text-gray-800">mohamed</p>
+                  <p class="font-medium text-gray-800">{{ Auth::user()->name }}</p>
                   <p class="text-xs text-gray-500">Compte Administrateur</p>
                 </div>
               </div>
@@ -42,9 +42,9 @@
                             <i class="text-blue-500 fas fa-check-circle"></i>
                           </div>
                           <div class="ml-3">
-                            <p class="text-sm font-medium text-gray-900">Nouvelle inscription</p>
-                            <p class="text-sm text-gray-500">Un nouveau utilisateur s'inscrit</p>
-                            <p class="mt-1 text-xs text-gray-400">Il y a 1 heures</p>
+                            <p class="text-sm font-medium text-gray-900">Objectif d'épargne atteint</p>
+                            <p class="text-sm text-gray-500">Vous avez atteint votre objectif mensuel</p>
+                            <p class="mt-1 text-xs text-gray-400">Il y a 2 heures</p>
                           </div>
                         </div>
                       </a>
@@ -55,8 +55,8 @@
                             <i class="text-red-500 fas fa-exclamation-circle"></i>
                           </div>
                           <div class="ml-3">
-                            <p class="text-sm font-medium text-gray-900">Cas inactive détecté</p>
-                            <p class="text-sm text-gray-500">Un utilisteur inactive plus de 2 mois</p>
+                            <p class="text-sm font-medium text-gray-900">Dépense récurrente à venir</p>
+                            <p class="text-sm text-gray-500">Abonnement Netflix - échéance dans 3 jours</p>
                             <p class="mt-1 text-xs text-gray-400">Il y a 1 jour</p>
                           </div>
                         </div>
@@ -64,7 +64,7 @@
                     </div>
  
                     <div class="py-2 text-center border-t">
-                      <a href="" class="text-sm font-medium text-blue-600 hover:text-blue-800">
+                      <a href="{{route('user.notification')}}" class="text-sm font-medium text-blue-600 hover:text-blue-800">
                         Voir toutes les notifications
                       </a>
                     </div>
@@ -82,10 +82,10 @@
                 <i class="text-blue-700 fas fa-users"></i>
               </div>
             </div>
-            <p class="text-2xl font-bold text-gray-800 md:text-3xl">7</p>
-            <div class="flex items-center mt-2 text-xs md:text-sm text-blue-600">
-              <i class="mr-1 fas fa-arrow-up"></i>
-              <span>5% depuis le mois dernier</span>
+            <p class="text-2xl font-bold text-gray-800 md:text-3xl">{{ number_format($totalUsers, 0, ',', ' ') }}</p>
+            <div class="flex items-center mt-2 text-xs md:text-sm {{ $usersEvolution >= 0 ? 'text-blue-600' : 'text-red-700' }}">
+              <i class="mr-1 fas {{ $usersEvolution >= 0 ? 'fa-arrow-up' : 'fa-arrow-down' }}"></i>
+              <span>{{ abs($usersEvolution) }}% depuis le mois dernier</span>
             </div>
           </div>
           
@@ -97,11 +97,11 @@
               </div>
             </div>
             <p class="text-2xl font-bold text-gray-800 md:text-3xl">
-              6500 DH
+              {{ number_format($salaireMoyenne, 0, ',', ' ') }} DH
             </p>
-            <div class="flex items-center mt-2 text-xs md:text-sm text-green-600">
-              <i class="mr-1 fas fa-arrow-up'"></i>
-              <span>10% depuis le mois dernier</span>
+            <div class="flex items-center mt-2 text-xs md:text-sm {{ $salaireEvolution >= 0 ? 'text-green-600' : 'text-red-600' }}">
+              <i class="mr-1 fas {{ $salaireEvolution >= 0 ? 'fa-arrow-up' : 'fa-arrow-down' }}"></i>
+              <span>{{ abs($salaireEvolution) }}% depuis le mois dernier</span>
             </div>
           </div>
           
@@ -112,7 +112,7 @@
                 <i class="text-red-600 fas fa-user-clock"></i>
               </div>
             </div>
-            <p class="text-2xl font-bold text-gray-800 md:text-3xl">2</p>
+            <p class="text-2xl font-bold text-gray-800 md:text-3xl">{{ $usersInactive }}</p>
             <div class="flex items-center mt-2 text-xs text-red-600 md:text-sm">
               <i class="mr-1 fas fa-exclamation-circle"></i>
               <span>Inactifs depuis 2 mois</span>
@@ -136,28 +136,31 @@
                   </tr>
                 </thead>
                 <tbody>
+                 @foreach($users as $user)
                   <tr class="border-b hover:bg-gray-50">
                     <td class="px-4 py-3 whitespace-nowrap">
                       <div class="flex items-center">
                         <div class="flex items-center justify-center w-8 h-8 text-white bg-blue-600 rounded-full">
-                          <span>me</span>
+                          <span>{{$user->name[0].$user->name[1]}}</span>
                         </div>
                         <div class="ml-3">
-                          <div class="text-sm font-medium text-gray-900">med boukab</div>
+                          <div class="text-sm font-medium text-gray-900">{{$user->name}}</div>
                         </div>
                       </div>
                     </td>
                     <td class="px-4 py-3 text-sm text-center whitespace-nowrap">
                        <span class="inline-flex px-2 text-xs font-semibold leading-5 text-yellow-700 bg-yellow-100 rounded-full'}}">
-                          active
+                          {{ ucfirst($user->status) }}
                      </span>
                    </td>
                     <td class="px-4 py-3 text-sm text-center whitespace-nowrap">
-                      <button class="px-3 py-1 text-white bg-blue-600 rounded hover:bg-blue-700">
+                      <button onclick="openConfirmationModal({{$user->id}})" 
+                              class="px-3 py-1 text-white bg-blue-600 rounded hover:bg-blue-700">
                           Supprimer
                       </button>
                     </td>
                   </tr>
+                  @endforeach  
                 </tbody>
               </table>
             </div>
@@ -178,29 +181,33 @@
                   </tr>
                 </thead>
                 <tbody>
+                 @foreach($categories as $categorie)
                   <tr class="border-b hover:bg-gray-50">
                     <td class="px-4 py-3 whitespace-nowrap">
                       <div class="flex items-center">
                         <div class="flex items-center justify-center w-8 h-8 mr-3 text-green-600 bg-green-100 rounded-full">
                           <i class="fas fa-tag"></i>
                         </div>
-                        <span class="text-sm font-medium text-gray-900">Facture</span>
+                        <span class="text-sm font-medium text-gray-900">{{$categorie->name}}</span>
                       </div>
                     </td>
                     <td class="px-4 py-3 text-sm text-center text-gray-500 whitespace-nowrap">
-                      10%
+                      {{$categorie->pourcentage}}%
                     </td>
                     <td class="px-4 py-3 text-sm text-center whitespace-nowrap">
                       <div class="flex justify-center space-x-2">
-                        <button class="px-3 py-1 text-white bg-yellow-500 rounded hover:bg-yellow-600">
+                        <button onclick="openEditModal({{$categorie->id}})" 
+                                class="px-3 py-1 text-white bg-yellow-500 rounded hover:bg-yellow-600">
                             Modifier
                         </button>
-                        <button class="px-3 py-1 text-white bg-gray-500 rounded hover:bg-gray-600">
+                        <button onclick="openConfirmationModal({{$categorie->id}})"
+                                class="px-3 py-1 text-white bg-gray-500 rounded hover:bg-gray-600">
                             Supprimer
                         </button>
                       </div>
                     </td>
-                  </tr>  
+                  </tr>
+                  @endforeach      
                 </tbody>
               </table>
             </div>
@@ -211,7 +218,92 @@
   </div>
 @endsection
 
+@section('modal')
+    @foreach($users as $user)
+    <div id="delete{{$user->id}}" class="fixed inset-0 z-50 hidden overflow-y-auto">
+        <div class="flex items-center justify-center min-h-screen px-4">
+            <div class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75"></div>
+            <div class="relative z-50 w-full max-w-md p-6 mx-auto bg-white rounded-lg shadow-xl">
+                <div class="mb-4">
+                    <h3 class="text-lg font-medium text-gray-900">Confirmer la suppression</h3>
+                    <button onclick="closeConfirmationModal({{$user->id}})" class="absolute text-gray-400 top-4 right-4 hover:text-gray-500">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="mb-4">
+                    <p class="text-sm text-gray-500">
+                        Êtes-vous sûr de vouloir supprimer cet utilisateur ? Cette action est irréversible.
+                    </p>
+                </div>
+                <div class="flex justify-end space-x-3">
+                    <button onclick="closeConfirmationModal({{$user->id}})"
+                            class="px-4 py-2 text-sm text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200">
+                        Annuler
+                    </button>
+                    <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit"
+                                class="px-4 py-2 text-sm text-white bg-red-600 rounded-md hover:bg-red-700">
+                            Supprimer
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endforeach
 
+    @include('dashboard.admin.modals.editCategorieModal')
+    @include('dashboard.admin.modals.deleteConfirmationModal')
+@endsection
+
+@section('toast')
+    @if (session('update'))
+    <div id="toast-edit" class="fixed flex items-center w-full max-w-xs p-4 mb-4 text-white bg-blue-500 rounded shadow-lg bottom-4 right-4 animate-slide-up">
+        <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 bg-blue-600 rounded">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V14h3.828l7.586-7.586a2 2 0 000-2.828l-1-1zM6 16a1 1 0 100 2h8a1 1 0 100-2H6z"></path>
+            </svg>
+        </div>
+        <div class="ml-3 text-sm font-normal">{{ session('update') }}</div>
+        <button type="button" class="ml-auto text-white rounded p-1.5 hover:opacity-75 h-8 w-8" onclick="closeToast('toast-edit')">
+            <span class="sr-only">Fermer</span>
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 011.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+            </svg>
+        </button>
+    </div>
+    @endif
+
+    @if (session('delete'))
+    <div id="toast-delete" class="fixed flex items-center w-full max-w-xs p-4 mb-4 text-white bg-red-500 rounded shadow-lg bottom-4 right-4 animate-slide-up">
+        <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 bg-red-600 rounded">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M6 2a1 1 0 011-1h6a1 1 0 011 1v1h3a1 1 0 010 2H2a1 1 0 010-2h3V2zM4 7h12v10a2 2 0 01-2 2H6a2 2 0 01-2-2V7z"></path>
+            </svg>
+        </div>
+        <div class="ml-3 text-sm font-normal">{{ session('delete') }}</div>
+        <button type="button" class="ml-auto text-white rounded p-1.5 hover:opacity-75 h-8 w-8" onclick="closeToast('toast-delete')">
+            <span class="sr-only">Fermer</span>
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 011.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+            </svg>
+        </button>
+    </div>
+    @endif
+
+    @if (session('error'))
+    <div id="toast-error" class="fixed flex items-center w-full max-w-xs p-4 mb-4 text-white bg-yellow-500 rounded shadow-lg bottom-4 right-4 animate-slide-up">
+        <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 bg-yellow-600 rounded">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+            </svg>
+        </div>
+        <div class="ml-3 text-sm font-normal">{{ session('error') }}</div>
+    </div>
+    @endif
+@endsection
 
 @section('script')
 <script>
@@ -222,5 +314,27 @@
             notificationList.classList.toggle('hidden');
    }
 
+    function openEditModal(id) {
+        document.getElementById(`editCategorieModal${id}`).classList.remove('hidden');
+    }
+    
+    function closeEditModal(id) {
+        document.getElementById(`editCategorieModal${id}`).classList.add('hidden');
+    }
+
+    function openConfirmationModal(id) {
+        document.getElementById(`delete${id}`).classList.remove('hidden');
+    }
+    
+    function closeConfirmationModal(id) {
+        document.getElementById(`delete${id}`).classList.add('hidden');
+    }
+
+    function closeToast(id) {
+        document.getElementById(id).style.display = 'none';
+    }
+    setTimeout(() => {
+        document.querySelectorAll('[id^="toast-"]').forEach(el => el.style.display = 'none');
+    }, 5000);
 </script>
 @endsection
