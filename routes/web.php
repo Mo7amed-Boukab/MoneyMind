@@ -25,9 +25,10 @@ Route::middleware(['auth'])->group(function () {
    Route::put('/admin/categories/{id}', [CategorieController::class, 'modifierCategorie'])->name('admin.categorie.modifier');
    Route::delete('/admin/categories/{id}', [CategorieController::class, 'supprimerCategorie'])->name('admin.categorie.supprimer');
 
-
    Route::get('/user/accueil',[UserController::class,'index'])->name('user.index');
    Route::get('/user/revenu', [RevenuController::class, 'viewRevenuPage'])->name('user.revenu');
+   Route::post('/user/salaire', [RevenuController::class, 'modifierSalaire'])->name('user.salaire');
+  
    Route::get('/user/depense', [depenseController::class, 'viewDepensePage'])->name('user.depense');
    Route::get('/user/epargne',[epargneController::class,'viewEpargnePage'])->name('user.epargne');
    Route::get('/user/notification',[NotificationController::class,'viewNotificationPage'])->name('user.notification');
