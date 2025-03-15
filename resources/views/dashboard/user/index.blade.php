@@ -8,7 +8,7 @@
         <div class="flex items-center justify-between mb-8 md:flex-row">
             <div class="mt-4 md:mt-0">
                 <h2 class="text-xl font-bold text-gray-800 md:text-2xl lg:text-3xl">Tableau de bord</h2>
-                <p class="text-sm text-gray-600 md:text-base">Bonjour, med! Voici votre situation au 14/03/2025</p>
+                <p class="text-sm text-gray-600 md:text-base">Bonjour, {{ Auth::user()->name }}! Voici votre situation au {{ now()->format('d F Y') }}</p>
             </div>
           <!-- User Profile & Notifications -->
           <div class="flex items-center space-x-4">
@@ -21,10 +21,10 @@
             <div class="relative flex items-center justify-center cursor-pointer group">
              <div class="flex items-center">
                <div class="flex items-center justify-center w-8 h-8 text-white rounded-full bg-blue-950">
-                 <span>me</span>
+                 <span>{{ substr(Auth::user()->name, 0, 2) }}</span>
                </div>
                <div class="hidden px-4 py-2 border-b border-gray-100 lg:block">
-                 <p class="font-medium text-gray-800">med</p>
+                 <p class="font-medium text-gray-800">{{ Auth::user()->name }}</p>
                  <p class="text-xs text-gray-500">Compte Personnel</p>
                </div>
              </div>
@@ -87,10 +87,10 @@
                 <i class="text-green-700 fas fa-money-bill-wave"></i>
               </div>
             </div>
-            <p class="text-3xl font-bold text-gray-800">7000 DH</p>
+            <p class="text-3xl font-bold text-gray-800">{{$soldActuel}} DH</p>
             <div class="flex items-center mt-2 text-sm text-green-700">
               <i class="mr-1 fas fa-arrow-up"></i>
-              <span>80% du salaire restant</span>
+              <span>{{number_format(((($userSalaire - $totalDepenses) * 100) / $userSalaire), 2)}}% du salaire restant</span>
             </div>
           </div>
           
@@ -101,10 +101,10 @@
                 <i class="text-red-600 fas fa-shopping-cart"></i>
               </div>
             </div>
-            <p class="text-3xl font-bold text-gray-800">2000 DH</p>
+            <p class="text-3xl font-bold text-gray-800">{{$totalDepenses}} DH</p>
             <div class="flex items-center mt-2 text-sm text-red-600">
               <i class="mr-1 fas fa-arrow-up"></i>
-              <span>20% du salaire dépensé</span>
+              <span>{{number_format(($totalDepenses * 100) / $userSalaire,2)}}% du salaire dépensé</span>
             </div>
           </div>
           
@@ -115,14 +115,13 @@
                 <i class="text-blue-600 fas fa-calendar"></i>
               </div>
             </div>
-            <p class="text-3xl font-bold text-gray-800">9000 DH</p>
+            <p class="text-3xl font-bold text-gray-800">{{ Auth::user()->salaire}} DH</p>
             <div class="flex items-center mt-2 text-sm text-blue-600">
               <i class="mr-1 fas fa-clock"></i>
-              <span>16 jours restants</span>
+              <span>{{ (\Carbon\Carbon::createFromFormat('d/m/Y', $dateSalaire)->addMonth()->day) - \Carbon\Carbon::now()->day }} jours restants</span>
             </div>
           </div>
         </div>
-
         <!-- IA Conseils -->
         <div class="p-4 mb-8 border-l-4 border-blue-600 rounded-lg shadow-sm bg-gradient-to-r from-blue-100 to-blue-50">
           <div class="flex">
