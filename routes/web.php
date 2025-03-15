@@ -28,8 +28,12 @@ Route::middleware(['auth'])->group(function () {
    Route::get('/user/accueil',[UserController::class,'index'])->name('user.index');
    Route::get('/user/revenu', [RevenuController::class, 'viewRevenuPage'])->name('user.revenu');
    Route::post('/user/salaire', [RevenuController::class, 'modifierSalaire'])->name('user.salaire');
-  
+   
    Route::get('/user/depense', [depenseController::class, 'viewDepensePage'])->name('user.depense');
+   Route::post('/user/depense', [depenseController::class, 'ajouterDepense'])->name('depense.ajouter');
+   Route::put('user/depense/{depense}', [depenseController::class, 'modifierDepense'])->name('depense.modifier');
+   Route::delete('user/depense/{depense}', [depenseController::class, 'supprimerDepense'])->name('depense.supprimer');
+
    Route::get('/user/epargne',[epargneController::class,'viewEpargnePage'])->name('user.epargne');
    Route::get('/user/notification',[NotificationController::class,'viewNotificationPage'])->name('user.notification');
 });
