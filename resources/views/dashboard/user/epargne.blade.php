@@ -192,17 +192,19 @@
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
+                            @foreach($listeSouhaites as $souhaite)
                             <tr class="border-b hover:bg-gray-100">
-                                <td class="px-4 py-3 text-sm text-gray-700 md:text-base">test 1</td>
-                                <td class="px-4 py-3 text-sm text-gray-700 md:text-base">500 DH</td>
-                                <td class="px-4 py-3 text-sm text-gray-700 sm:table-cell md:text-base">100 DH</td>
-                                <td class="px-4 py-3 text-sm text-gray-700 sm:table-cell md:text-base">20%</td>
+                                <td class="px-4 py-3 text-sm text-gray-700 md:text-base">{{$souhaite->description}}</td>
+                                <td class="px-4 py-3 text-sm text-gray-700 md:text-base">{{$souhaite->montant_necessaire}} DH</td>
+                                <td class="px-4 py-3 text-sm text-gray-700 sm:table-cell md:text-base">{{$souhaite->montant_epargne}} DH</td>
+                                <td class="px-4 py-3 text-sm text-gray-700 sm:table-cell md:text-base">{{number_format(($souhaite->montant_epargne/$souhaite->montant_necessaire) * 100, 2)}}%</td>
                                 <td class="px-4 py-3 text-center">
-                                    <button class="px-3 py-1 text-xs text-white rounded sm:px-2 sm:py-1 bg-blue-600/70 hover:bg-blue-700/80">
+                                    <button onclick="openEpargneModal({{$souhaite->id}})" class="px-3 py-1 text-xs text-white rounded sm:px-2 sm:py-1 bg-blue-600/70 hover:bg-blue-700/80">
                                         Ajouter épargne
                                     </button>
                                 </td>
                             </tr>
+                            @endforeach
                         </tbody>
                     </table>
                  </div>
@@ -217,6 +219,8 @@
 @section('modal')
   @include('dashboard.user.modals.objectifMensuelModal')
   @include('dashboard.user.modals.objectifAnnuelModal')
+  @include('dashboard.user.modals.addEpargneModal')
+  @include('dashboard.user.modals.addSouhaiteModal')
 @endsection
 
 @section('toast')
@@ -271,7 +275,9 @@
 @section('script')
 <script>
 
-    const editObjectifModal = document.getElementById("editObjectifModal");
+const editObjectifModal = document.getElementById("editObjectifModal");
+    const addSouhaiteModal = document.getElementById("addSouhaiteModal");
+
     
     function openObjectifModal()
     {
@@ -288,7 +294,41 @@
         editObjectifModal.classList.remove('flex');
         editObjectifModal.classList.add('hidden');
     }
-
+    // -----------------------------------------------
+    function openSouhaiteModal()
+    {
+       addSouhaiteModal.classList.remove('hidden');
+       addSouhaiteModal.classList.add('flex');
+    }
+    function closeSouhaiteModal()
+    {
+       addSouhaiteModal.classList.remove('flex');
+       addSouhaiteModal.classList.add('hidden');
+    }
+    function cancelSouhaiteModal()
+    {
+       addSouhaiteModal.classList.remove('flex');
+       addSouhaiteModal.classList.add('hidden');
+    }
+    // ----------------------------------------------
+    function openEpargneModal(id)
+    {
+       const addEpargneModal = document.getElementById(`addEpargneModal${id}`);
+       addEpargneModal.classList.remove('hidden');
+       addEpargneModal.classList.add('flex');
+    }
+    function closeEpargneModal(id)
+    {
+       const addEpargneModal = document.getElementById(`addEpargneModal${id}`);
+       addEpargneModal.classList.remove('flex');
+       addEpargneModal.classList.add('hidden');
+    }
+    function cancelEpargneModal(id)
+    {
+       const addEpargneModal = document.getElementById(`addEpargneModal${id}`);
+       addEpargneModal.classList.remove('flex');
+       addEpargneModal.classList.add('hidden');
+    }
     // -------------------------------------------
     function openObjectifAnnuelModal()
     {
