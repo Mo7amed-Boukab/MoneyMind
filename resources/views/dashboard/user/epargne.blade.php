@@ -1,8 +1,8 @@
 @extends('layouts.master')
 
 @section('main')
-    <!-- Main Content -->
-    <div id="mainContent" class="flex-1 transition-all duration-300 lg:ml-64">
+<!-- Main Content -->
+<div id="mainContent" class="flex-1 transition-all duration-300 lg:ml-64">
      <div class="p-6 mx-auto lg:p-8 max-w-7xl">
          <div class="flex items-center justify-between mb-8 md:flex-row">
              <div>
@@ -20,9 +20,9 @@
                       <i class="text-green-600 fas fa-wallet"></i>
                   </div>
               </div>
-              <p class="text-3xl font-bold text-gray-800">700 DH</p>
+              <p class="text-3xl font-bold text-gray-800">{{number_format($epargne_total, 2)}} DH</p>
               <div class="flex items-center mt-2 text-sm">
-                  <span class="text-green-600"><i class="mr-1 fas fa-arrow-up"></i> +200 DH</span>
+                  <span class="text-green-600"><i class="mr-1 fas fa-arrow-up"></i> +{{$epargne_mensuel}} DH</span>
                   <span class="ml-2 text-gray-500">ce mois-ci</span>
               </div>
           </div>
@@ -34,185 +34,287 @@
                       <i class="text-blue-600 fas fa-calendar-alt"></i>
                   </div>
               </div>
-              <p class="text-3xl font-bold text-gray-800">500 DH</p>
+              <p class="text-3xl font-bold text-gray-800">{{number_format($epargne_mensuel, 2)}} DH</p>
               <div class="flex items-center mt-2 text-sm">
-                  <span class="text-blue-600"><i class="mr-1 fas fa-chart-line"></i> 5%</span>
+                  <span class="text-blue-600"><i class="mr-1 fas fa-chart-line"></i> {{round(($epargne_mensuel / $objectif_mensuel) * 100)}}%</span>
                   <span class="ml-2 text-gray-500">de l'objectif</span>
               </div>
           </div>
           <!-- Épargne pour Objectif-->
           <div class="p-4 bg-white rounded shadow-sm md:p-6">
               <div class="flex items-center justify-between mb-4">
-                  <h3 class="font-medium text-gray-500">Épargne pour Objectifs</h3>
+                  <h3 class="font-medium text-gray-500">Épargne pour Objectif Annuel</h3>
                   <div class="flex items-center justify-center w-10 h-10 bg-purple-100 rounded-full">
                       <i class="text-purple-600 fas fa-bullseye"></i>
                   </div>
               </div>
-              <p class="text-3xl font-bold text-gray-800">1000 DH</p>
+              <p class="text-3xl font-bold text-gray-800">{{ number_format($epargne_objectif_annuel, 2) }} DH</p>
               <div class="flex items-center mt-2 text-sm">
-                  <span class="text-purple-600"><i class="mr-1 fas fa-percentage"></i>10%</span>
+                  <span class="text-purple-600"><i class="mr-1 fas fa-percentage"></i> {{round(($epargne_objectif_annuel / $userSalaire) * 100)}}%</span>
                   <span class="ml-2 text-gray-500">du salaire</span>
               </div>
           </div>
       </div>
 
 
- <!-- Section Header -->
- <div class="flex justify-between w-full mb-6">
-  <h3 class="text-3xl font-bold text-gray-800 sm:text-2xl">Objectif Epargne</h3>
-   
- </div>
+     <!-- Section Header -->
+     <div class="flex justify-between w-full mb-6">
+      <h3 class="text-3xl font-bold text-gray-800 sm:text-2xl">Objectif Epargne</h3>
+       
+     </div>
 
- <!-- Cards Container -->
- <div class="grid grid-cols-1 gap-4 mb-12 md:grid-cols-2">
-     <!-- Objectif Mensuel -->
-     <div class="relative p-5 bg-white rounded hover:shadow ">
-         <!-- Edit Button -->
-         <div class="flex justify-between align-center">
-             <h3 class="mb-1 text-xl font-medium text-gray-600 ">Objectif Mensuel</h3>
-             <button onclick="openObjectifModal()" class="absolute text-gray-600 top-4 right-4 hover:text-blue-600">
-                 <i class="fas fa-edit"></i>
-             </button>
-         </div>
-         
-         
-         <div class="flex items-center justify-between mt-2">
-             <div>
-               
-                 <div class="mt-3">
-                     <p class="mb-1 text-sm text-gray-500">Montant à atteindre</p>
-                     <p class="text-lg font-medium text-gray-700">1000 DH</p>
-                 </div>
+     <!-- Cards Container -->
+     <div class="grid grid-cols-1 gap-4 mb-12 md:grid-cols-2">
+         <!-- Objectif Mensuel -->
+         <div class="relative p-5 bg-white rounded hover:shadow ">
+             <!-- Edit Button -->
+             <div class="flex justify-between align-center">
+                 <h3 class="mb-1 text-xl font-medium text-gray-600 ">Objectif Mensuel</h3>
+                 <button onclick="openObjectifModal()" class="absolute text-gray-600 top-4 right-4 hover:text-blue-600">
+                     <i class="fas fa-edit"></i>
+                 </button>
              </div>
              
-             <div class="relative w-20 h-20">
-                 @php
-                     $percentMensuel = 40;
-                 @endphp
+             
+             <div class="flex items-center justify-between mt-2">
+                 <div>
+                   
+                     <div class="mt-3">
+                         <p class="mb-1 text-sm text-gray-500">Montant à atteindre</p>
+                         <p class="text-lg font-medium text-gray-700">{{ number_format($objectif_mensuel, 0, '.', ' ') }} DH</p>
+                     </div>
+                 </div>
                  
-                 <svg class="w-full h-full" viewBox="0 0 100 100">
-
-                     <circle 
-                         cx="50" cy="50" r="45" 
-                         fill="none" 
-                         stroke="#e0e7ff" 
-                         stroke-width="6"
-                         stroke-dasharray="5,5"
-                     />
+                 <div class="relative w-20 h-20">
+                     @php
+                         $percentMensuel = $objectif_mensuel > 0 ? min(100, ($epargne_mensuel / $objectif_mensuel) * 100) : 0;
+                     @endphp
                      
-                     <circle 
-                         cx="50" cy="50" r="45" 
-                         fill="none" 
-                         stroke="#367588" 
-                         stroke-width="6"
-                         stroke-linecap="round"
-                         stroke-dasharray="283"
-                         stroke-dashoffset="{{ 283 - (283 * ($percentMensuel / 100)) }}"
-                         transform="rotate(-90 50 50)"
-                     />
+                     <svg class="w-full h-full" viewBox="0 0 100 100">
 
-                     <text x="50" y="55" text-anchor="middle" font-size="18" font-weight="bold" fill="#367588">
-                         40%
-                     </text>
-                 </svg>
+                         <circle 
+                             cx="50" cy="50" r="45" 
+                             fill="none" 
+                             stroke="#e0e7ff" 
+                             stroke-width="6"
+                             stroke-dasharray="5,5"
+                         />
+                         
+                         <circle 
+                             cx="50" cy="50" r="45" 
+                             fill="none" 
+                             stroke="#367588" 
+                             stroke-width="6"
+                             stroke-linecap="round"
+                             stroke-dasharray="283"
+                             stroke-dashoffset="{{ 283 - (283 * ($percentMensuel / 100)) }}"
+                             transform="rotate(-90 50 50)"
+                         />
+
+                         <text x="50" y="55" text-anchor="middle" font-size="18" font-weight="bold" fill="#367588">
+                             {{ round($percentMensuel) }}%
+                         </text>
+                     </svg>
+                 </div>
+             </div>
+         </div>
+
+         <!-- Objectif Annuel -->
+         <div class="relative p-5 bg-white rounded hover:shadow">
+             <!-- Edit Button -->
+             <div class="flex justify-between align-center">
+                 <h3 class="mb-1 text-xl font-medium text-gray-600">Objectif Annuel</h3>
+                 <button onclick="openObjectifAnnuelModal()" class="absolute text-gray-600 top-4 right-4 hover:text-blue-600">
+                     <i class="fas fa-edit"></i>
+                 </button>
+             </div>
+             
+             <div class="flex items-center justify-between mt-2">
+                     <div class="mt-3">
+                         <p class="mb-1 text-sm text-gray-500">Montant à atteindre</p>
+                         <p class="text-lg font-medium text-gray-700">{{ number_format($objectif_annuel, 0, '.', ' ') }} DH</p>
+                     </div> 
+                 <div class="relative w-20 h-20">
+                     @php
+                         $percentAnnuel = $objectif_annuel > 0 ? min(100, ($epargne_annuel / $objectif_annuel) * 100) : 0;
+                     @endphp
+                     
+                     <svg class="w-full h-full" viewBox="0 0 100 100">
+                         <circle 
+                             cx="50" cy="50" r="45" 
+                             fill="none" 
+                             stroke="#e0e7ff" 
+                             stroke-width="6"
+                             stroke-dasharray="5,5"
+                         />
+
+                         <circle 
+                             cx="50" cy="50" r="45" 
+                             fill="none" 
+                             stroke="#0C2340" 
+                             stroke-width="6"
+                             stroke-linecap="round"
+                             stroke-dasharray="283"
+                             stroke-dashoffset="{{ 283 - (283 * ($percentAnnuel / 100)) }}"
+                             transform="rotate(-90 50 50)"
+                         />
+                         
+                         <text x="50" y="55" text-anchor="middle" font-size="18" font-weight="bold" fill="#0C2340">
+                             {{ round($percentAnnuel) }}%
+                         </text>
+                     </svg>
+                 </div>
              </div>
          </div>
      </div>
 
-     <!-- Objectif Annuel -->
-     <div class="relative p-5 bg-white rounded hover:shadow">
-         <!-- Edit Button -->
-         <div class="flex justify-between align-center">
-             <h3 class="mb-1 text-xl font-medium text-gray-600">Objectif Annuel</h3>
-             <button onclick="openObjectifAnnuelModal()" class="absolute text-gray-600 top-4 right-4 hover:text-blue-600">
-                 <i class="fas fa-edit"></i>
-             </button>
-         </div>
-         
-         <div class="flex items-center justify-between mt-2">
-                 <div class="mt-3">
-                     <p class="mb-1 text-sm text-gray-500">Montant à atteindre</p>
-                     <p class="text-lg font-medium text-gray-700">20000 DH</p>
-                 </div> 
-             <div class="relative w-20 h-20">
-                 @php
-                     $percentAnnuel = 20;
-                 @endphp
-                 
-                 <svg class="w-full h-full" viewBox="0 0 100 100">
-                     <circle 
-                         cx="50" cy="50" r="45" 
-                         fill="none" 
-                         stroke="#e0e7ff" 
-                         stroke-width="6"
-                         stroke-dasharray="5,5"
-                     />
-
-                     <circle 
-                         cx="50" cy="50" r="45" 
-                         fill="none" 
-                         stroke="#0C2340" 
-                         stroke-width="6"
-                         stroke-linecap="round"
-                         stroke-dasharray="283"
-                         stroke-dashoffset="{{ 283 - (283 * ($percentAnnuel / 100)) }}"
-                         transform="rotate(-90 50 50)"
-                     />
-                     
-                     <text x="50" y="55" text-anchor="middle" font-size="18" font-weight="bold" fill="#0C2340">
-                         10%
-                     </text>
-                 </svg>
-             </div>
-         </div>
+     <!-- Liste de souhaits -->
+     <div class="flex flex-col gap-4 mb-6 sm:flex-row sm:items-center sm:justify-between">   
+        <div>
+            <h3 class="text-xl font-bold text-gray-800 sm:text-2xl">Liste de souhaits</h3>
+        </div>
+        <button onclick="openSouhaiteModal()" class="flex items-center justify-center px-4 py-2 text-sm text-white bg-gray-800 rounded sm:w-auto hover:bg-gray-900">
+         <i class="mr-2 fas fa-plus"></i> Ajouter un souhait
+       </button>
      </div>
- </div>
-
-   <!-- Liste de souhaits -->
-   <div class="flex flex-col gap-4 mb-6 sm:flex-row sm:items-center sm:justify-between">   
-       <div>
-           <h3 class="text-xl font-bold text-gray-800 sm:text-2xl">Liste de souhaits</h3>
-       </div>
-       <button onclick="openSouhaiteModal()" class="flex items-center justify-center px-4 py-2 text-sm text-white bg-gray-800 rounded sm:w-auto hover:bg-gray-900">
-        <i class="mr-2 fas fa-plus"></i> Ajouter un souhait
-      </button>
-  </div>
-   <div class="relative w-full mb-8">
-       <div class="w-full p-4 bg-white rounded-lg shadow-sm">
-           <div class="overflow-x-auto">
-               <div class="inline-block min-w-full align-middle">
-                   <table class="min-w-full divide-y divide-gray-200">
-                       <thead>
-                           <tr>
-                               <th scope="col" class="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Souhait</th>
-                               <th scope="col" class="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Montant nécessaire</th>
-                               <th scope="col" class="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Montant épargné</th>
-                               <th scope="col" class="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Progression (%)</th>
-                               <th scope="col" class="px-4 py-3 text-xs font-medium tracking-wider text-center text-gray-500 uppercase">Actions</th>
-                           </tr>
-                       </thead>
-                       <tbody class="bg-white divide-y divide-gray-200">
-                           <tr class="border-b hover:bg-gray-100">
-                               <td class="px-4 py-3 text-sm text-gray-700 md:text-base">test 1</td>
-                               <td class="px-4 py-3 text-sm text-gray-700 md:text-base">500 DH</td>
-                               <td class="px-4 py-3 text-sm text-gray-700 sm:table-cell md:text-base">100 DH</td>
-                               <td class="px-4 py-3 text-sm text-gray-700 sm:table-cell md:text-base">20%</td>
-                               <td class="px-4 py-3 text-center">
-                                   <button class="px-3 py-1 text-xs text-white rounded sm:px-2 sm:py-1 bg-blue-600/70 hover:bg-blue-700/80">
-                                       Ajouter épargne
-                                   </button>
-                               </td>
-                           </tr>
-                       </tbody>
-                   </table>
-               </div>
+     <div class="relative w-full mb-8">
+        <div class="w-full p-4 bg-white rounded-lg shadow-sm">
+            <div class="overflow-x-auto">
+                <div class="inline-block min-w-full align-middle">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Souhait</th>
+                                <th scope="col" class="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Montant nécessaire</th>
+                                <th scope="col" class="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Montant épargné</th>
+                                <th scope="col" class="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Progression (%)</th>
+                                <th scope="col" class="px-4 py-3 text-xs font-medium tracking-wider text-center text-gray-500 uppercase">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <tr class="border-b hover:bg-gray-100">
+                                <td class="px-4 py-3 text-sm text-gray-700 md:text-base">test 1</td>
+                                <td class="px-4 py-3 text-sm text-gray-700 md:text-base">500 DH</td>
+                                <td class="px-4 py-3 text-sm text-gray-700 sm:table-cell md:text-base">100 DH</td>
+                                <td class="px-4 py-3 text-sm text-gray-700 sm:table-cell md:text-base">20%</td>
+                                <td class="px-4 py-3 text-center">
+                                    <button class="px-3 py-1 text-xs text-white rounded sm:px-2 sm:py-1 bg-blue-600/70 hover:bg-blue-700/80">
+                                        Ajouter épargne
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                 </div>
+              </div>
            </div>
        </div>
-   </div>
-
-      </div>
     </div>
- </div>
+</div>
 
 @endsection
 
+@section('modal')
+  @include('dashboard.user.modals.objectifMensuelModal')
+  @include('dashboard.user.modals.objectifAnnuelModal')
+@endsection
+
+@section('toast')
+
+    @if (session('add'))
+    <div id="toast-success" class="fixed flex items-center w-full max-w-xs p-4 mb-4 text-white bg-green-500 rounded shadow-lg bottom-4 right-4 animate-slide-up">
+        <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 bg-green-600 rounded">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+            </svg>
+        </div>
+        <div class="ml-3 text-sm font-normal">{{ session('add') }}</div>
+        <button type="button" class="ml-auto text-white rounded p-1.5 hover:opacity-75 h-8 w-8" onclick="closeToast('toast-success')">
+            <span class="sr-only">Fermer</span>
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 011.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+            </svg>
+        </button>
+    </div>
+    @endif
+
+    @if (session('update'))
+    <div id="toast-edit" class="fixed flex items-center w-full max-w-xs p-4 mb-4 text-white bg-blue-500 rounded shadow-lg bottom-4 right-4 animate-slide-up">
+        <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 bg-blue-600 rounded">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V14h3.828l7.586-7.586a2 2 0 000-2.828l-1-1zM6 16a1 1 0 100 2h8a1 1 0 100-2H6z"></path>
+            </svg>
+        </div>
+        <div class="ml-3 text-sm font-normal">{{ session('update') }}</div>
+        <button type="button" class="ml-auto text-white rounded p-1.5 hover:opacity-75 h-8 w-8" onclick="closeToast('toast-edit')">
+            <span class="sr-only">Fermer</span>
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 011.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+            </svg>
+        </button>
+    </div>
+    @endif
+
+    @if (session('error'))
+    <div id="toast-error" class="fixed flex items-center w-full max-w-xs p-4 mb-4 text-white bg-yellow-500 rounded shadow-lg bottom-4 right-4 animate-slide-up">
+        <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 bg-yellow-600 rounded">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+            </svg>
+        </div>
+        <div class="ml-3 text-sm font-normal">{{ session('error') }}</div>
+    </div>
+    @endif
+
+@endsection
+
+@section('script')
+<script>
+
+    const editObjectifModal = document.getElementById("editObjectifModal");
+    
+    function openObjectifModal()
+    {
+        editObjectifModal.classList.remove('hidden');
+        editObjectifModal.classList.add('flex');
+    }
+    function closeObjectifModal()
+    {
+        editObjectifModal.classList.remove('flex');
+        editObjectifModal.classList.add('hidden');
+    }
+    function cancelObjectifModal()
+    {
+        editObjectifModal.classList.remove('flex');
+        editObjectifModal.classList.add('hidden');
+    }
+
+    // -------------------------------------------
+    function openObjectifAnnuelModal()
+    {
+        const editObjectifAnnuelModal = document.getElementById("editObjectifAnnuelModal");
+        editObjectifAnnuelModal.classList.remove('hidden');
+        editObjectifAnnuelModal.classList.add('flex');
+    }
+    function closeObjectifAnnuelModal()
+    {
+        const editObjectifAnnuelModal = document.getElementById("editObjectifAnnuelModal");
+        editObjectifAnnuelModal.classList.remove('flex');
+        editObjectifAnnuelModal.classList.add('hidden');
+    }
+    function cancelObjectifAnnuelModal()
+    {
+        const editObjectifAnnuelModal = document.getElementById("editObjectifAnnuelModal");
+        editObjectifAnnuelModal.classList.remove('flex');
+        editObjectifAnnuelModal.classList.add('hidden');
+    }
+    // -------------------------------------------
+    function closeToast(id) {
+        document.getElementById(id).style.display = 'none';
+    }
+    setTimeout(() => {
+        document.querySelectorAll('[id^="toast-"]').forEach(el => el.style.display = 'none');
+    }, 5000);
+
+</script>
+@endsection

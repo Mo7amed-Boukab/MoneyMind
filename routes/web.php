@@ -5,10 +5,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\RevenuController;
-use App\Http\Controllers\depenseController;
-use App\Http\Controllers\epargneController;
+use App\Http\Controllers\DepenseController;
+use App\Http\Controllers\EpargneController;
 use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\NotificationController;
+
 
 Route::get('/', function () {
    return view('home');
@@ -35,6 +36,9 @@ Route::middleware(['auth'])->group(function () {
    Route::delete('user/depense/{depense}', [depenseController::class, 'supprimerDepense'])->name('depense.supprimer');
 
    Route::get('/user/epargne',[epargneController::class,'viewEpargnePage'])->name('user.epargne');
+   Route::post('/user/epargne/objectif-mensuel', [epargneController::class, 'modifierObjectifMensuel'])->name('epargne.objectif-mensuel');
+   Route::post('/user/epargne/objectif-annuel', [epargneController::class, 'modifierObjectifAnnuel'])->name('epargne.objectif-annuel');
+   
    Route::get('/user/notification',[NotificationController::class,'viewNotificationPage'])->name('user.notification');
 });
 
