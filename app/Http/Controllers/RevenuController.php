@@ -11,7 +11,7 @@ class RevenuController extends Controller
  public function viewRevenuPage()
  {
      $user = auth::user();
-     $revenus = Revenu::where('user_id', $user->id)->paginate(5);
+     $revenus = Revenu::where('user_id', $user->id)->paginate(3);
      $date_salaire = Carbon::createFromFormat('d',$user->date_salaire)->format('d/m/Y');
   
      return view('dashboard/user/revenu', compact('revenus', 'date_salaire'));

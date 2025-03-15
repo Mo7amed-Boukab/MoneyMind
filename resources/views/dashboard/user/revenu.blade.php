@@ -93,7 +93,79 @@
                  </div>
              </div>
          </div>
-     </div>
+       <!-- Pagination -->
+        <div class="flex flex-col items-center justify-between px-3 py-3 mt-2 bg-white border-t sm:flex-row sm:px-4">
+         <div class="flex justify-between flex-1 sm:hidden">
+             @if ($revenus->onFirstPage())
+                 <span class="relative inline-flex items-center px-4 py-2 text-xs font-medium text-gray-500 bg-white border border-gray-300 rounded cursor-default sm:text-sm">
+                     Précédent
+                 </span>
+             @else
+                 <a href="{{ $revenus->previousPageUrl() }}" class="relative inline-flex items-center px-4 py-2 text-xs font-medium text-gray-700 bg-white border border-gray-300 rounded sm:text-sm hover:bg-gray-50">
+                     Précédent
+                 </a>
+             @endif
+             
+             @if ($revenus->hasMorePages())
+                 <a href="{{ $revenus->nextPageUrl() }}" class="relative inline-flex items-center px-4 py-2 ml-3 text-xs font-medium text-gray-700 bg-white border border-gray-300 rounded sm:text-sm hover:bg-gray-50">
+                     Suivant
+                 </a>
+             @else
+                 <span class="relative inline-flex items-center px-4 py-2 ml-3 text-xs font-medium text-gray-500 bg-white border border-gray-300 rounded cursor-default sm:text-sm">
+                     Suivant
+                 </span>
+             @endif
+         </div>
+         
+         <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+             <div>
+                 <p class="text-xs text-gray-700 sm:text-sm">
+                     Affichage de <span class="font-medium">{{ $revenus->firstItem() ?? 0 }}</span> à <span class="font-medium">{{ $revenus->lastItem() ?? 0 }}</span> sur <span class="font-medium">{{ $revenus->total() }}</span> résultats
+                 </p>
+             </div>
+             
+             <div class="mt-3 sm:mt-0">
+                 <nav class="inline-flex -space-x-px rounded shadow-sm" aria-label="Pagination">
+                     @if ($revenus->onFirstPage())
+                         <span class="relative inline-flex items-center px-2 py-2 text-xs font-medium text-gray-500 bg-white border border-gray-300 cursor-default sm:text-sm rounded-l-md">
+                             <span class="sr-only">Précédent</span>
+                             <i class="fas fa-chevron-left"></i>
+                         </span>
+                     @else
+                         <a href="{{ $revenus->previousPageUrl() }}" class="relative inline-flex items-center px-2 py-2 text-xs font-medium text-gray-500 bg-white border border-gray-300 sm:text-sm rounded-l-md hover:bg-gray-50">
+                             <span class="sr-only">Précédent</span>
+                             <i class="fas fa-chevron-left"></i>
+                         </a>
+                     @endif
+                     
+                     @for ($i = 1; $i <= $revenus->lastPage(); $i++)
+                         @if ($i == $revenus->currentPage())
+                             <span aria-current="page" class="relative z-10 inline-flex items-center px-3 py-2 text-xs font-medium text-white bg-gray-900 border border-gray-900 sm:px-4 sm:text-sm">
+                                 {{ $i }}
+                             </span>
+                         @else
+                             <a href="{{ $revenus->url($i) }}" class="relative inline-flex items-center px-3 py-2 text-xs font-medium text-gray-500 bg-white border border-gray-300 sm:px-4 sm:text-sm hover:bg-gray-50">
+                                 {{ $i }}
+                             </a>
+                         @endif
+                     @endfor
+                     
+                     @if ($revenus->hasMorePages())
+                         <a href="{{ $revenus->nextPageUrl() }}" class="relative inline-flex items-center px-2 py-2 text-xs font-medium text-gray-500 bg-white border border-gray-300 sm:text-sm rounded-r-md hover:bg-gray-50">
+                             <span class="sr-only">Suivant</span>
+                             <i class="fas fa-chevron-right"></i>
+                         </a>
+                     @else
+                         <span class="relative inline-flex items-center px-2 py-2 text-xs font-medium text-gray-500 bg-white border border-gray-300 cursor-default sm:text-sm rounded-r-md">
+                             <span class="sr-only">Suivant</span>
+                             <i class="fas fa-chevron-right"></i>
+                         </span>
+                     @endif
+                 </nav>
+             </div>
+          </div>
+       </div>
+    </div>
  </div>
 
  

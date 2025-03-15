@@ -21,7 +21,7 @@ class epargneController extends Controller
         $objectif_annuel = $epargne->objectif_annuel ??  $userSalaire * 0.1 * 12;
         $epargne_objectif_annuel = $epargne->epargne_objectif_annuel ?? $userSalaire * 0.1;
         $epargne_annuel = $epargne->epargne_annuel ?? 0;    
-        $listeSouhaites = ListeSouhaites::where('user_id', $user->id)->paginate(5);
+        $listeSouhaites = ListeSouhaites::where('user_id', $user->id)->paginate(3);
 
         return view("dashboard/user/epargne", compact("epargne","userSalaire","epargne_total","epargne_mensuel","objectif_mensuel","objectif_annuel","epargne_objectif_annuel","epargne_annuel","listeSouhaites"));
     }

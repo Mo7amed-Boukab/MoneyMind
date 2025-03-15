@@ -52,7 +52,7 @@ class DepenseController extends Controller
     public function viewDepensePage()
     {
         $user = Auth::user(); 
-        $depenses = Depense::where('user_id', $user->id)->where('type', 'recurrente')->get();
+        $depenses = Depense::where('user_id', $user->id)->where('type', 'recurrente')->paginate(3);
         $categories = Categorie::all();
         $totalDepensesRecurrente = Depense::where('user_id', $user->id)->where('type', 'recurrente')->sum('montant_depense');
         $totalDepenses = Depense::where('user_id', $user->id)->sum('montant_depense');
