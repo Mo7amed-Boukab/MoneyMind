@@ -2,16 +2,16 @@
 
 @section('main')
    
-   <!-- Main Content -->
-   <div id="mainContent" class="flex-1 transition-all duration-300 lg:ml-64">
-    <div class="p-6 mx-auto lg:p-8 max-w-7xl">
-        <div class="flex items-center justify-between mb-8 md:flex-row">
-            <div class="mt-4 md:mt-0">
-                <h2 class="text-xl font-bold text-gray-800 md:text-2xl lg:text-3xl">Tableau de bord</h2>
-                <p class="text-sm text-gray-600 md:text-base">Bonjour, {{ Auth::user()->name }}! Voici votre situation au {{ now()->format('d F Y') }}</p>
-            </div>
-          <!-- User Profile & Notifications -->
-          <div class="flex items-center space-x-4">
+ <!-- Main Content -->
+<div id="mainContent" class="flex-1 transition-all duration-300 lg:ml-64">
+  <div class="p-6 mx-auto lg:p-8 max-w-7xl">
+     <div class="flex items-center justify-between mb-8 md:flex-row">
+          <div class="mt-4 md:mt-0">
+              <h2 class="text-xl font-bold text-gray-800 md:text-2xl lg:text-3xl">Tableau de bord</h2>
+              <p class="text-sm text-gray-600 md:text-base">Bonjour, {{ Auth::user()->name }}! Voici votre situation au {{ now()->format('d F Y') }}</p>
+          </div>
+         <!-- User Profile & Notifications -->
+         <div class="flex items-center space-x-4">
             <div onclick="openNotifications()" class="relative cursor-pointer">
               <i class="text-xl text-gray-600 fas fa-bell"></i>
               <div class="absolute flex items-center justify-center w-4 h-4 bg-red-500 rounded-full -top-1 -right-1">
@@ -28,15 +28,13 @@
                  <p class="text-xs text-gray-500">Compte Personnel</p>
                </div>
              </div>
-           </div>
+            </div>
 
-              <!-- Notification-->
-              <div id="notificationList" class="relative hidden ml-3">
-              
+             <!-- Notification-->
+             <div id="notificationList" class="relative hidden ml-3">           
                <div class="absolute right-0 z-50 mt-8 bg-white rounded-md shadow-lg w-80">
                  <div class="py-2">
-                   <h3 class="px-4 py-2 text-sm font-medium text-gray-700 border-b">Notifications</h3>
-                   
+                   <h3 class="px-4 py-2 text-sm font-medium text-gray-700 border-b">Notifications</h3>               
                    <div class="overflow-y-auto max-h-64">
                      <a href="#" class="block px-4 py-3 hover:bg-gray-50">
                        <div class="flex items-center">
@@ -50,7 +48,6 @@
                          </div>
                        </div>
                      </a>
-
                      <a href="#" class="block px-4 py-3 hover:bg-gray-50">
                        <div class="flex items-center">
                          <div class="flex-shrink-0">
@@ -64,7 +61,6 @@
                        </div>
                      </a>
                    </div>
-
                    <div class="py-2 text-center border-t">
                      <a href="{{route('user.notification')}}" class="text-sm font-medium text-blue-600 hover:text-blue-800">
                        Voir toutes les notifications
@@ -72,12 +68,9 @@
                    </div>
                  </div>
                </div>
-              </div>
-              
-          </div>
-
-          
-        </div>
+              </div>           
+          </div>       
+       </div>
 
         <div class="grid grid-cols-1 gap-6 mb-8 md:grid-cols-3">
           <div class="p-6 bg-white rounded shadow-sm">
@@ -122,6 +115,7 @@
             </div>
           </div>
         </div>
+
         <!-- IA Conseils -->
         <div class="p-4 mb-8 border-l-4 border-blue-600 rounded-lg shadow-sm bg-gradient-to-r from-blue-100 to-blue-50">
           <div class="flex">
@@ -135,71 +129,142 @@
           </div>
         </div>
 
-
-        <!-- Charts Section -->
-        <div class="grid grid-cols-1 gap-6 mb-8 md:grid-cols-2">
-         <div class="p-6 bg-white rounded shadow-sm">
-           <h3 class="mb-4 text-xl font-bold text-gray-800">Évolution des dépenses</h3>
-           <div style="height: 300px;">
-             <canvas id="expensesEvolutionChart"></canvas>
-           </div>
+      <!-- Charts Section -->
+      <div class="grid grid-cols-1 gap-6 mb-8 md:grid-cols-2">
+       <!-- Évolution des dépenses Chart -->
+       <div class="p-6 bg-white rounded shadow-sm">
+         <h3 class="mb-4 text-xl font-bold text-gray-800">Évolution des dépenses</h3>
+         <div style="height: 300px;">
+           <canvas id="expensesEvolutionChart"></canvas>
          </div>
-         <div class="p-6 bg-white rounded shadow-sm">
-           <h3 class="mb-4 text-xl font-bold text-gray-800">Répartition des dépenses</h3>
-           <div style="height: 300px;">
-             <canvas id="expensesChart"></canvas>
-           </div>
+       </div>
+                 
+       <!-- Répartition des dépenses Chart -->
+       <div class="p-6 bg-white rounded shadow-sm">
+         <h3 class="mb-4 text-xl font-bold text-gray-800">Répartition des dépenses</h3>
+         <div style="height: 300px;">
+           <canvas id="expensesChart"></canvas>
          </div>
-        </div>
-
+       </div>
       </div>
+
     </div>
   </div>
+</div>
 
-  @endsection
+@endsection
 @section('script')
-  <script>
-  function openNotifications() {
-      const notificationList = document.getElementById('notificationList');
-      notificationList.classList.toggle('hidden');
-  }
-  
-  const ctx = document.getElementById('expensesEvolutionChart').getContext('2d');
-  new Chart(ctx, {
-      type: 'bar', 
-      data: {
-          labels: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin'], 
-          datasets: [{
-              label: 'Évolution des dépenses (DH)',
-              data: [500, 700, 1200, 900, 1500, 1800], 
-              borderColor: 'rgba(59, 130, 246, 1)',
-              backgroundColor: 'rgba(59, 130, 246, 0.2)',
-              borderWidth: 2
-          }]
-      },
-      options: {
-          responsive: true,
-          maintainAspectRatio: false,
-      }
-  });
 
+<script>
+
+function openNotifications()
+ {
+    const notificationList = document.getElementById('notificationList');
+          notificationList.classList.toggle('hidden');
+ }
+
+const ctx = document.getElementById('expensesEvolutionChart').getContext('2d');
+
+// Création du graphique avec Chart.js
+new Chart(ctx, {
+  type: 'bar', 
+  data: {
+      labels: @json($months), 
+      datasets: [{
+          label: 'Évolution des dépenses (DH)',
+          data: @json($sum), 
+          borderColor: 'rgba(59, 130, 246, 1)',
+          backgroundColor: 'rgba(59, 130, 246, 0.2)',
+          borderWidth: 2,
+          pointBackgroundColor: 'rgba(239, 68, 68, 1)', 
+          pointRadius: 5,
+          pointHoverRadius: 7,
+          tension: 0.3 
+      }]
+  },
+  options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+          legend: {
+              position: 'top'
+          },
+          tooltip: {
+              callbacks: {
+                  label: function(context) {
+                      return `${context.raw} DH`;
+                  }
+              }
+          }
+      },
+      scales: {
+          x: {
+              title: {
+                  display: true,
+                  text: 'Mois',
+                  font: { weight: 'bold' }
+              }
+          },
+          y: {
+              beginAtZero: true,
+              title: {
+                  display: true,
+                  text: 'Montant dépensé (DH)',
+                  font: { weight: 'bold' }
+              }
+          }
+      }
+  }
+});
+
+
+function generateColors(array){
+let colors = [];
+array.forEach(e => {
+let color = `#2563EB${Math.floor(Math.random() * 256).toString(16).padStart(2, '0')}`;
+
+colors.push(color);
+})
+return colors
+}
   const ctx2 = document.getElementById('expensesChart').getContext('2d');
+
   new Chart(ctx2, {
       type: 'doughnut',
       data: {
-          labels: ['Alimentation', 'Loyer', 'Transport', 'Divertissement'], 
+          labels: @json($categories), // Les catégories
           datasets: [{
-              data: [1200, 2500, 600, 900], 
-              backgroundColor: ['#2563EB', '#F59E0B', '#10B981', '#EF4444'],
+              data: @json($total), // Les montants
+              backgroundColor: generateColors(@json($total)), // Attribution des couleurs
               borderColor: "#fff", 
-              borderWidth: 1
+              borderWidth: 1,
+              hoverOffset: 5
           }]
       },
       options: {
           responsive: true,
           maintainAspectRatio: false,
-          cutout: '70%',
+          cutout: '70%', 
+          plugins: {
+              legend: {
+                  position: 'right',
+                  labels: {
+                      usePointStyle: true
+                  }
+              },
+              tooltip: {
+                  callbacks: {
+                      label: function(context) {
+                          const value = context.raw;
+                          const total = context.dataset.data.reduce((acc, val) => acc + val, 0);
+                          const percentage = Math.round((value / total) * 100);
+                          return `${context.label}: ${value} DH (${percentage}%)`;
+                      }
+                  }
+              }
+          }
       }
-  });
-  </script>
+ });
+  
+</script>
 @endsection
