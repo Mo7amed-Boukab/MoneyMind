@@ -21,6 +21,9 @@ class AddSalaire extends Command
         $users = User::all();
 
         foreach ($users as $user) {
+            $epargne = Epargne::where('user_id', $user->id)->first();
+
+            if ($epargne) {
                 $jourVersement = Carbon::createFromFormat('d',$user->date_salaire)->format('d');
                 if ($today == $jourVersement) {
                     Revenu::create([
@@ -29,9 +32,15 @@ class AddSalaire extends Command
                         'montant_salaire' => $user->salaire,
                         'user_id' => $user->id
                     ]);
-                    $user->balance += $user->salaire; 
+                    $salaireNet = $user->salaire - $epargne->epargne_objectif_annuel;
+                    $epargne->epargne_annuel +=  $epargne->epargne_objectif_annuel;
+                    $user->balance += $salaireNet; 
+                    $epargne->epargne_total += $salaireNet;
+                    $epargne->epargne_mensuel = $salaireNet; 
                     $user->save();
+                    $epargne->save();
                 }
+            }
         }
 
         $this->info("Le commende de l'ajoute du salaire est executé avec succès.");
