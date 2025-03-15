@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Depense;
 use App\Models\Categorie;
+use App\Models\Epargne;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -21,6 +22,7 @@ class DepenseController extends Controller
         ]);
 
         $user = Auth::user(); 
+        $epargne = Epargne::where('user_id', $user->id)->first();
 
         if ($request->montant <= $user->balance) {
             Depense::create([
@@ -34,6 +36,12 @@ class DepenseController extends Controller
 
             $user->balance -= $request->montant;
             $user->save();
+      
+            if ($epargne) {
+                $epargne->epargne_total = max(0, $epargne->epargne_total - $request->montant);
+                $epargne->epargne_mensuel = max(0, $epargne->epargne_mensuel - $request->montant);
+                $epargne->save();
+            }
         } else {
             return redirect()->back()->with('error', 'Le montant de votre budget n\'est pas suffisant pour combler cette dépense');
         }
