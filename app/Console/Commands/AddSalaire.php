@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Revenu;
 use App\Models\Epargne;
+use App\Models\Notification;
 
 class AddSalaire extends Command
 {
@@ -32,6 +33,13 @@ class AddSalaire extends Command
                         'montant_salaire' => $user->salaire,
                         'user_id' => $user->id
                     ]);
+
+                    Notification::create([
+                     'message' => "vous avez reçu votre salaire du mois de $month",
+                     'importance' => 0,
+                     'user_id' =>$user->id,
+                    ]);
+
                     $salaireNet = $user->salaire - $epargne->epargne_objectif_annuel;
                     $epargne->epargne_annuel +=  $epargne->epargne_objectif_annuel;
                     $user->balance += $salaireNet; 

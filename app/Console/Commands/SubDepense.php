@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Models\Depense;
 use App\Models\Epargne;
+use App\Models\Notification;
 use App\Models\User;
 use Carbon\Carbon;
 
@@ -18,6 +19,7 @@ class SubDepense extends Command
     {
         Carbon::setLocale('fr');
         $today = Carbon::now()->day;
+        $month = Carbon::now()->translatedFormat('F'); 
         $users = User::all();
 
         foreach ($users as $user) {
@@ -33,6 +35,12 @@ class SubDepense extends Command
                      $epargne->epargne_total = max(0, $epargne->epargne_total -= $depense->montant_depense);
                      $epargne->epargne_mensuel = max(0, $epargne->epargne_mensuel -= $depense->montant_depense);
                      $epargne->save();
+
+                     Notification::create([
+                      'message' => "la dépense $depense->description du mois $month a été soustrait de votre budget",
+                      'importance' => 0,
+                      'user_id' =>$user->id,
+                     ]);
                   }
                }       
             }  
