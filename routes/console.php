@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Schedule;
 use app\Console\Commands\AddSalaire;
 use app\Console\Commands\SubDepense;
+use app\Console\Commands\AlertBudget;
 
 
 Artisan::command('inspire', function () {
@@ -13,3 +14,4 @@ Artisan::command('inspire', function () {
 
 Schedule::command(AddSalaire::class)->daily();
 Schedule::command(SubDepense::class)->daily();
+Schedule::command(AlertBudget::class)->daily();
