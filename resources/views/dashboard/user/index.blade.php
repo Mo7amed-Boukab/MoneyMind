@@ -132,7 +132,7 @@
             </div>
             <div class="ml-4">
               <h3 class="text-lg font-medium text-blue-600">Suggestion de MoneyMind IA</h3>
-              <p class="text-blue-600">Vous devriez réduire vos dépenses de divertissement de 10%.</p>
+              <p class="text-blue-600">{{$AiConseil}}</p>
             </div>
           </div>
         </div>

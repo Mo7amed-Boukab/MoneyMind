@@ -74,8 +74,8 @@ class UserController extends Controller
         $totalDepenses = Depense::where('user_id', Auth::id())->sum('montant_depense');
         $notifications = Notification::where('user_id', $user->id)->where('est_lu',0)->orderBy('created_at', 'desc')->get();
         $countNotifications = Notification::where('user_id', $user->id)->where('est_lu',0)->count('est_lu');
-
-        return view("dashboard/user/index", compact("totalDepenses","soldActuel", "userSalaire","dateSalaire","months","sum","categories","total","notifications","countNotifications"));
+        $AiConseil = AIController::get(); 
+        return view("dashboard/user/index", compact("totalDepenses","soldActuel", "userSalaire","dateSalaire","months","sum","categories","total","notifications","countNotifications","AiConseil"));
        }
 
 }
