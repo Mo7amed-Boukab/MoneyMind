@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Depense;
+use App\Models\Notification;
 use Carbon\Carbon;
 
 
@@ -71,8 +72,10 @@ class UserController extends Controller
         $soldActuel = $user->balance;
         $dateSalaire =  Carbon::createFromFormat('d',$user->date_salaire)->format('d/m/Y');  
         $totalDepenses = Depense::where('user_id', Auth::id())->sum('montant_depense');
-      
-        return view("dashboard/user/index", compact("totalDepenses","soldActuel", "userSalaire","dateSalaire","months","sum","categories","total"));
+        $notifications = Notification::where('user_id', $user->id)->where('est_lu',0)->orderBy('created_at', 'desc')->get();
+        $countNotifications = Notification::where('user_id', $user->id)->where('est_lu',0)->count('est_lu');
+
+        return view("dashboard/user/index", compact("totalDepenses","soldActuel", "userSalaire","dateSalaire","months","sum","categories","total","notifications","countNotifications"));
        }
 
 }

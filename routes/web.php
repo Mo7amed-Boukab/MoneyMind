@@ -44,6 +44,7 @@ Route::middleware(['auth'])->group(function () {
    Route::post('user/liste-souhaites/ajoute-epargne/{id}', [ListeSouhaitesController::class, 'ajouterEpargne'])->name('liste_souhaites.ajouterEpargne');
    
    Route::get('/user/notification',[NotificationController::class,'viewNotificationPage'])->name('user.notification');
+   Route::post('/notifications/mark-as-read/{id}', [NotificationController::class, 'markAsRead'])->name('notifications.lu');
 });
 
 Route::get('/user/profile', function () {
@@ -59,5 +60,6 @@ Route::get('/user/profile', function () {
 //     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
 //     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 // });
+
 
 require __DIR__.'/auth.php';
