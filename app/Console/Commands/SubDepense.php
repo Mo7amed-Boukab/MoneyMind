@@ -37,6 +37,7 @@ class SubDepense extends Command
                      $epargne->save();
 
                      Notification::create([
+                      'titre' => "Déduction des dépenses récurrentes",
                       'message' => "la dépense $depense->description du mois $month a été soustrait de votre budget",
                       'importance' => 0,
                       'user_id' =>$user->id,

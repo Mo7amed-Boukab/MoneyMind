@@ -35,6 +35,7 @@ class AddSalaire extends Command
                     ]);
 
                     Notification::create([
+                     'titre' => "Salaire du mois $month",
                      'message' => "vous avez reçu votre salaire du mois de $month",
                      'importance' => 0,
                      'user_id' =>$user->id,
