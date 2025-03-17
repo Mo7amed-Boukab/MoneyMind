@@ -27,6 +27,10 @@
      <i class="mr-3 fas fa-piggy-bank"></i>
      <span>Épargne</span>
    </a>
+   <a href="{{ route('user.historique') }}" class="flex items-center px-6 py-3 m-2 text-white transition rounded hover:bg-blue-950 hover:bg-opacity-30">
+    <i class="w-5 h-5 mr-3 fas fa-history"></i>
+    <span>Historique</span>
+  </a>
    <a href="{{route('user.notification')}}" class="flex items-center px-6 py-3 m-2 text-white transition rounded hover:bg-blue-950 hover:bg-opacity-30">
      <i class="mr-3 fas fa-bell"></i>
      <span>Notifications</span>

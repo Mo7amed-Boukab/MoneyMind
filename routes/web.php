@@ -10,6 +10,7 @@ use App\Http\Controllers\EpargneController;
 use App\Http\Controllers\ListeSouhaitesController;
 use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\TransactionController;
 
 
 Route::get('/', function () {
@@ -45,6 +46,8 @@ Route::middleware(['auth'])->group(function () {
    
    Route::get('/user/notification',[NotificationController::class,'viewNotificationPage'])->name('user.notification');
    Route::post('/notifications/mark-as-read/{id}', [NotificationController::class, 'markAsRead'])->name('notifications.lu');
+
+   Route::get('/user/historique', [TransactionController::class, 'viewHistoriquePage'])->name('user.historique');
 });
 
 Route::get('/user/profile', function () {
