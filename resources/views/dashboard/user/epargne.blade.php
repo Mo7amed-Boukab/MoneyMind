@@ -1,18 +1,14 @@
 @extends('layouts.master')
-
 @section('main')
-<!-- Main Content -->
 <div id="mainContent" class="flex-1 transition-all duration-300 lg:ml-64">
-     <div class="p-6 mx-auto lg:p-8 max-w-7xl">
-         <div class="flex items-center justify-between mb-8 md:flex-row">
-             <div>
-               <h2 class="text-3xl font-bold text-gray-800">Gestion d'Épargne</h2>
-               <p class="mt-1 text-gray-600">Planifiez vos objectifs financiers et suivez votre progression</p>
-             </div>
+     <div class="max-w-full p-4 mx-auto lg:p-8">
+      {{-- -------------------------------------- Header ----------------------------------------- --}}
+         <div class="mb-8">
+               <h2 class="text-2xl font-bold text-gray-800 lg:text-3xl">Gestion d'Épargne</h2>
+               <p class="text-gray-600">Planifiez vos objectifs financiers et suivez votre progression</p>
          </div>
-
+      {{-- ------------------------------------- Statistique ------------------------------------- --}}
       <div class="grid grid-cols-1 gap-4 mb-6 md:grid-cols-3 md:gap-6 md:mb-16">
-          <!-- Total Épargne -->
           <div class="p-4 bg-white rounded shadow-sm md:p-6">
               <div class="flex items-center justify-between mb-4">
                   <h3 class="font-medium text-gray-500">Épargne totale</h3>
@@ -26,7 +22,6 @@
                   <span class="ml-2 text-gray-500">ce mois-ci</span>
               </div>
           </div>
-          <!-- Épargne Mensuel -->
           <div class="p-4 bg-white rounded shadow-sm md:p-6">
               <div class="flex items-center justify-between mb-4">
                   <h3 class="font-medium text-gray-500">Épargne mensuel</h3>
@@ -40,7 +35,6 @@
                   <span class="ml-2 text-gray-500">de l'objectif</span>
               </div>
           </div>
-          <!-- Épargne pour Objectif-->
           <div class="p-4 bg-white rounded shadow-sm md:p-6">
               <div class="flex items-center justify-between mb-4">
                   <h3 class="font-medium text-gray-500">Épargne pour Objectif Annuel</h3>
@@ -55,51 +49,38 @@
               </div>
           </div>
       </div>
-
-
-     <!-- Section Header -->
+      {{-- -------------------------------------- Objectifs Epargne --------------------------------------- --}}
      <div class="flex justify-between w-full mb-6">
-      <h3 class="text-3xl font-bold text-gray-800 sm:text-2xl">Objectif Epargne</h3>
-       
+        <h3 class="text-2xl font-bold text-gray-800 lg:text-2xl">Objectif Epargne</h3>     
      </div>
-
-     <!-- Cards Container -->
      <div class="grid grid-cols-1 gap-4 mb-12 md:grid-cols-2">
-         <!-- Objectif Mensuel -->
+        {{-- -------------------------------------- Objectif Mensuel ----------------------------------------- --}}
          <div class="relative p-5 bg-white rounded hover:shadow ">
-             <!-- Edit Button -->
              <div class="flex justify-between align-center">
                  <h3 class="mb-1 text-xl font-medium text-gray-600 ">Objectif Mensuel</h3>
                  <button onclick="openObjectifModal()" class="absolute text-gray-600 top-4 right-4 hover:text-blue-600">
                      <i class="fas fa-edit"></i>
                  </button>
-             </div>
-             
-             
+             </div>      
              <div class="flex items-center justify-between mt-2">
                  <div>
-                   
                      <div class="mt-3">
                          <p class="mb-1 text-sm text-gray-500">Montant à atteindre</p>
                          <p class="text-lg font-medium text-gray-700">{{ number_format($objectif_mensuel, 0, '.', ' ') }} DH</p>
                      </div>
-                 </div>
-                 
+                 </div>                 
                  <div class="relative w-20 h-20">
                      @php
                          $percentMensuel = $objectif_mensuel > 0 ? min(100, ($epargne_mensuel / $objectif_mensuel) * 100) : 0;
-                     @endphp
-                     
+                     @endphp                   
                      <svg class="w-full h-full" viewBox="0 0 100 100">
-
                          <circle 
                              cx="50" cy="50" r="45" 
                              fill="none" 
                              stroke="#e0e7ff" 
                              stroke-width="6"
                              stroke-dasharray="5,5"
-                         />
-                         
+                         />                         
                          <circle 
                              cx="50" cy="50" r="45" 
                              fill="none" 
@@ -110,7 +91,6 @@
                              stroke-dashoffset="{{ 283 - (283 * ($percentMensuel / 100)) }}"
                              transform="rotate(-90 50 50)"
                          />
-
                          <text x="50" y="55" text-anchor="middle" font-size="18" font-weight="bold" fill="#367588">
                              {{ round($percentMensuel) }}%
                          </text>
@@ -118,17 +98,14 @@
                  </div>
              </div>
          </div>
-
-         <!-- Objectif Annuel -->
+         {{-- -------------------------------------- Objectif Annuel ----------------------------------------- --}}
          <div class="relative p-5 bg-white rounded hover:shadow">
-             <!-- Edit Button -->
              <div class="flex justify-between align-center">
                  <h3 class="mb-1 text-xl font-medium text-gray-600">Objectif Annuel</h3>
                  <button onclick="openObjectifAnnuelModal()" class="absolute text-gray-600 top-4 right-4 hover:text-blue-600">
                      <i class="fas fa-edit"></i>
                  </button>
-             </div>
-             
+             </div>         
              <div class="flex items-center justify-between mt-2">
                      <div class="mt-3">
                          <p class="mb-1 text-sm text-gray-500">Montant à atteindre</p>
@@ -137,8 +114,7 @@
                  <div class="relative w-20 h-20">
                      @php
                          $percentAnnuel = $objectif_annuel > 0 ? min(100, ($epargne_annuel / $objectif_annuel) * 100) : 0;
-                     @endphp
-                     
+                     @endphp                   
                      <svg class="w-full h-full" viewBox="0 0 100 100">
                          <circle 
                              cx="50" cy="50" r="45" 
@@ -147,7 +123,6 @@
                              stroke-width="6"
                              stroke-dasharray="5,5"
                          />
-
                          <circle 
                              cx="50" cy="50" r="45" 
                              fill="none" 
@@ -157,8 +132,7 @@
                              stroke-dasharray="283"
                              stroke-dashoffset="{{ 283 - (283 * ($percentAnnuel / 100)) }}"
                              transform="rotate(-90 50 50)"
-                         />
-                         
+                         />                         
                          <text x="50" y="55" text-anchor="middle" font-size="18" font-weight="bold" fill="#0C2340">
                              {{ round($percentAnnuel) }}%
                          </text>
@@ -167,23 +141,23 @@
              </div>
          </div>
      </div>
-
-     <!-- Liste de souhaits -->
+    {{-- -------------------------------------- Liste Souhaites ----------------------------------------- --}}
      <div class="flex flex-col gap-4 mb-6 sm:flex-row sm:items-center sm:justify-between">   
         <div>
-            <h3 class="text-xl font-bold text-gray-800 sm:text-2xl">Liste de souhaits</h3>
+            <h3 class="text-2xl font-bold text-gray-800 lg:text-2xl">Liste de souhaits</h3>
         </div>
         <button onclick="openSouhaiteModal()" class="flex items-center justify-center px-4 py-2 text-sm text-white bg-gray-800 rounded sm:w-auto hover:bg-gray-900">
          <i class="mr-2 fas fa-plus"></i> Ajouter un souhait
        </button>
      </div>
+     {{-- ------------------------------------ Tableau des Souhaites ------------------------------------ --}}
      <div class="relative w-full mb-8">
-        <div class="w-full p-4 bg-white rounded-lg shadow-sm">
+        <div class="w-full p-4 bg-white rounded shadow-sm">
             <div class="overflow-x-auto">
                 <div class="inline-block min-w-full align-middle">
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead>
-                            <tr>
+                            <tr class="bg-gray-50">
                                 <th scope="col" class="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Souhait</th>
                                 <th scope="col" class="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Montant nécessaire</th>
                                 <th scope="col" class="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Montant épargné</th>
@@ -211,7 +185,7 @@
               </div>
            </div>
        </div>
-        <!-- Pagination -->
+      {{-- ---------------------------------------------------------------------------------------------------------- --}}
         <div class="flex flex-col items-center justify-between px-3 py-3 mt-2 bg-white border-t sm:flex-row sm:px-4">
             <div class="flex justify-between flex-1 sm:hidden">
                 @if ($listeSouhaites->onFirstPage())
@@ -233,15 +207,13 @@
                         Suivant
                     </span>
                 @endif
-            </div>
-            
+            </div>          
             <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
                 <div>
                     <p class="text-xs text-gray-700 sm:text-sm">
                         Affichage de <span class="font-medium">{{ $listeSouhaites->firstItem() ?? 0 }}</span> à <span class="font-medium">{{ $listeSouhaites->lastItem() ?? 0 }}</span> sur <span class="font-medium">{{ $listeSouhaites->total() }}</span> résultats
                     </p>
-                </div>
-                
+                </div>              
                 <div class="mt-3 sm:mt-0">
                     <nav class="inline-flex -space-x-px rounded shadow-sm" aria-label="Pagination">
                         @if ($listeSouhaites->onFirstPage())
@@ -285,7 +257,6 @@
         </div>
     </div>
 </div>
-
 @endsection
 
 @section('modal')
@@ -296,7 +267,6 @@
 @endsection
 
 @section('toast')
-
     @if (session('add'))
     <div id="toast-success" class="fixed flex items-center w-full max-w-xs p-4 mb-4 text-white bg-green-500 rounded shadow-lg bottom-4 right-4 animate-slide-up">
         <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 bg-green-600 rounded">
@@ -341,16 +311,12 @@
         <div class="ml-3 text-sm font-normal">{{ session('error') }}</div>
     </div>
     @endif
-
 @endsection
 
 @section('script')
 <script>
-
-const editObjectifModal = document.getElementById("editObjectifModal");
+    const editObjectifModal = document.getElementById("editObjectifModal");
     const addSouhaiteModal = document.getElementById("addSouhaiteModal");
-
-    
     function openObjectifModal()
     {
         editObjectifModal.classList.remove('hidden');
@@ -427,6 +393,5 @@ const editObjectifModal = document.getElementById("editObjectifModal");
     setTimeout(() => {
         document.querySelectorAll('[id^="toast-"]').forEach(el => el.style.display = 'none');
     }, 5000);
-
 </script>
 @endsection

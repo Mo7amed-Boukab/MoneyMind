@@ -1,18 +1,15 @@
 @extends('layouts.master')
-
 @section('main')
-   
-    <!-- Main Content -->
     <div id="mainContent" class="flex-1 transition-all duration-300 lg:ml-64">
      <div class="max-w-full p-4 mx-auto lg:p-8">
+      {{-- --------------------------------------- Header ------------------------------------- --}}
          <div class="flex flex-col items-start justify-between mb-6 md:flex-row md:items-center">
              <div>
              <h2 class="text-2xl font-bold text-gray-800 lg:text-3xl">Centre de Notifications</h2>
              <p class="text-gray-600 ">Restez informé des événements importants concernant vos finances</p>
            </div>
         </div>
-
-        <!-- Tabs for Notifications -->
+      {{-- ------------------------------------- Navigation ----------------------------------- --}}
         <div class="mb-6 border-b border-gray-200">
           <ul class="flex flex-wrap -mb-px text-sm font-medium text-center">
             <li class="mr-2">
@@ -27,9 +24,7 @@
             </li> 
           </ul>
         </div>
-        
-       
-        <!-- Notifications List -->
+         {{-- ------------------------------ Listes des Notifications --------------------------------- --}}
         <div class="mb-8 space-y-4">
           @if(count($notifications) > 0)
             @foreach($notifications as $notification)
@@ -65,7 +60,7 @@
             @endforeach
           @else
             <div class="p-4 text-center text-gray-500">
-              Aucune notification non lue à afficher.
+              Aucune notification disponible pour le moment.
             </div>
           @endif
         </div>
@@ -96,13 +91,11 @@
 
 @section('script')
 <script>
-
    function closeToast(id) {
     document.getElementById(id).style.display = 'none';
    }
    setTimeout(() => {
     document.querySelectorAll('[id^="toast-"]').forEach(el => el.style.display = 'none');
    }, 5000);
-
 </script>
 @endsection

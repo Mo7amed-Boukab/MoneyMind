@@ -1,17 +1,15 @@
 @extends('layouts.master')
-
 @section('main')
-   
-    <!-- Main Content -->
-    <div id="mainContent" class="flex-1 transition-all duration-300 lg:ml-64">
-     <div class="max-w-full p-4 mx-auto lg:p-8">
+ <div id="mainContent" class="flex-1 transition-all duration-300 lg:ml-64">
+    <div class="max-w-full p-4 mx-auto lg:p-8">
+      {{-- ------------------------------------ Header ------------------------------------ --}}
          <div class="flex flex-col items-start justify-between mb-8 md:flex-row md:items-center">
              <div>
-                 <h2 class="text-3xl font-bold text-gray-800">Gestion des Revenus</h2>
+                 <h2 class="text-2xl font-bold text-gray-800 lg:text-2xl">Gestion des Revenus</h2>
                  <p class="text-gray-600">Suivez et gérez votre salaire mensuel</p>
              </div>
          </div>
-
+      {{-- ---------------------------------- Statistique ----------------------------------- --}}
          <div class="grid grid-cols-1 gap-6 mb-12 md:grid-cols-3">
              <div class="p-6 bg-white rounded shadow-sm">
                  <div class="flex items-center justify-between mb-4">
@@ -25,8 +23,7 @@
                      <i class="mr-1 fas fa-calendar-check"></i>
                      <span>Crédité le {{ $date_salaire}}</span>
                  </div>
-             </div>
-             
+             </div>            
              <div class="p-6 bg-white rounded shadow-sm">
                  <div class="flex items-center justify-between mb-4">
                      <h3 class="font-medium text-gray-500">Prochain versement</h3>
@@ -35,7 +32,7 @@
                      </div>
                  </div>
                  <p class="text-3xl font-bold text-gray-800">
-                  {{ \Carbon\Carbon::createFromFormat('d/m/Y', $date_salaire)->addMonth()->format('d F Y') }}
+                    {{ \Carbon\Carbon::createFromFormat('d/m/Y', $date_salaire)->addMonth()->format('d F Y') }}
                  </p>
                  <div class="flex items-center mt-2 text-sm text-blue-600">
                      <i class="mr-1 fas fa-hourglass-half"></i>
@@ -43,8 +40,7 @@
                        {{ (\Carbon\Carbon::createFromFormat('d/m/Y', $date_salaire)->addMonth()->day) - \Carbon\Carbon::now()->day }} jours restants
                      </span>
                  </div>
-             </div>
-             
+             </div>         
              <div class="p-6 bg-white rounded shadow-sm">
                  <div class="flex items-center justify-between mb-4">
                      <h3 class="font-medium text-gray-500">Total annuel estimé</h3>
@@ -59,21 +55,22 @@
                  </div>
              </div>
          </div>
-
-         <div class="flex items-center justify-between mb-6">
-           <h3 class="text-3xl font-bold text-gray-800 sm:text-2xl">Historique des versements</h3>
-           <button onclick="openSalaireModal()" class="flex items-center px-4 py-2 ml-4 text-sm font-medium text-white transition bg-gray-800 rounded hover:bg-gray-900">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
-              Configurer
-          </button>
-      </div>
+        {{-- ------------------------------------------------------------------------------------------------------ --}}
+         <div class="flex flex-col gap-4 mb-6 sm:flex-row sm:items-center sm:justify-between">
+             <h3 class="text-2xl font-bold text-gray-800 lg:text-2xl">Historique des versements</h3>
+             <button onclick="openSalaireModal()" class="flex items-center justify-center px-4 py-2 text-sm font-medium text-white transition bg-gray-800 rounded hover:bg-gray-900 sm:w-auto">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                Configurer
+            </button>
+         </div>
+        {{-- ---------------------------------- Table Historique des Salaires ------------------------------------- --}}
          <div class="relative w-full mb-8">
-             <div class="w-full p-4 bg-white rounded-lg shadow-sm">
+             <div class="w-full p-4 bg-white rounded shadow-sm">
                  <div class="overflow-x-auto">
                      <div class="inline-block min-w-full align-middle">
                          <table class="min-w-full divide-y divide-gray-200">
                              <thead>
-                                 <tr>
+                                 <tr class="bg-gray-50">
                                      <th scope="col" class="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Date</th>
                                      <th scope="col" class="px-4 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Description</th>
                                      <th scope="col" class="px-4 py-3 text-xs font-medium tracking-wider text-right text-gray-500 uppercase">Montant</th>
@@ -93,7 +90,7 @@
                  </div>
              </div>
          </div>
-       <!-- Pagination -->
+       {{-- --------------------------------------------------------------------------------------------------------- --}}
         <div class="flex flex-col items-center justify-between px-3 py-3 mt-2 bg-white border-t sm:flex-row sm:px-4">
          <div class="flex justify-between flex-1 sm:hidden">
              @if ($revenus->onFirstPage())
@@ -115,15 +112,13 @@
                      Suivant
                  </span>
              @endif
-         </div>
-         
+         </div>         
          <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
              <div>
                  <p class="text-xs text-gray-700 sm:text-sm">
                      Affichage de <span class="font-medium">{{ $revenus->firstItem() ?? 0 }}</span> à <span class="font-medium">{{ $revenus->lastItem() ?? 0 }}</span> sur <span class="font-medium">{{ $revenus->total() }}</span> résultats
                  </p>
-             </div>
-             
+             </div>            
              <div class="mt-3 sm:mt-0">
                  <nav class="inline-flex -space-x-px rounded shadow-sm" aria-label="Pagination">
                      @if ($revenus->onFirstPage())
@@ -167,8 +162,6 @@
        </div>
     </div>
  </div>
-
- 
 @endsection
 
 @section('modal')
@@ -196,29 +189,27 @@
 
 @section('script')
 <script>
-
-   const salaireModal = document.getElementById("salaireModal");
-    
-   function openSalaireModal()
-   {
-      salaireModal.classList.remove('hidden');
-      salaireModal.classList.add('flex');
-   }
-  function closeSalaireModal()
-  {
-     salaireModal.classList.remove('flex');
-     salaireModal.classList.add('hidden');
-  }
-  function cancelSalaireModal(){
-     salaireModal.classList.remove('flex');
-     salaireModal.classList.add('hidden');
-  }
-// --------------------------------------------
-  function closeToast(id) {
-        document.getElementById(id).style.display = 'none';
+    const salaireModal = document.getElementById("salaireModal");  
+    function openSalaireModal()
+    {
+       salaireModal.classList.remove('hidden');
+       salaireModal.classList.add('flex');
     }
-    setTimeout(() => {
-        document.querySelectorAll('[id^="toast-"]').forEach(el => el.style.display = 'none');
-    }, 5000);
+   function closeSalaireModal()
+   {
+      salaireModal.classList.remove('flex');
+      salaireModal.classList.add('hidden');
+   }
+   function cancelSalaireModal(){
+      salaireModal.classList.remove('flex');
+      salaireModal.classList.add('hidden');
+   }
+ // --------------------------------------------
+   function closeToast(id) {
+         document.getElementById(id).style.display = 'none';
+     }
+     setTimeout(() => {
+         document.querySelectorAll('[id^="toast-"]').forEach(el => el.style.display = 'none');
+     }, 5000);
 </script>
 @endsection
