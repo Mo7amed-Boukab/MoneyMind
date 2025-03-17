@@ -50,19 +50,17 @@ Route::middleware(['auth'])->group(function () {
    Route::get('/user/historique', [TransactionController::class, 'viewHistoriquePage'])->name('user.historique');
 });
 
-Route::get('/user/profile', function () {
-     return view('/dashboard/user/profile');
-})->name('user.profile');
 
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', function () {
+ return view('dashboard/user/profile');
+})->middleware(['auth', 'verified'])->name('user.profile');
 
-// Route::middleware('auth')->group(function () {
-//     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-//     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-// });
+Route::middleware('auth')->group(function () {
+ Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+ Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+ Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
 
 
 require __DIR__.'/auth.php';
