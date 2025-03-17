@@ -23,8 +23,8 @@ class AlertBudget extends Command
 
         foreach ($users as $user) {
            $userSalaireDuMois = Revenu::where('user_id', $user->id)
-            ->whereMonth('created_at', Carbon::now()->month)
-            ->whereYear('created_at', Carbon::now()->year) 
+            ->whereMonth('created_at', Carbon::now()->subMonth()->month)
+            ->whereYear('created_at', Carbon::now()->subMonth()->year) 
             ->sum('montant_salaire');
 
            $totalDepensesDuMois = Depense::where('user_id', $user->id)
@@ -47,5 +47,4 @@ class AlertBudget extends Command
             }
         }
     }
-
 }
