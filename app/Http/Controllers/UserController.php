@@ -26,45 +26,33 @@ class UserController extends Controller
         $total = $depensesParCategorie->values();
 
       // les dépenses par mois
-       $depense = Depense::where('user_id', $user->id)->get();
-       $depense = $depense->groupBy(function ($item) {
-        return $item->created_at ? Carbon::parse($item->created_at)->format('Y') : null;
-       })->first();
-
-       $depenses = $depense->groupBy(function ($item) {
-        return $item->created_at ? Carbon::parse($item->created_at)->format('Y-m') : null;
-       })->mapWithKeys(function($group, $key){
-        $monthName = Carbon::parse($key)->format('F');
-        return [$monthName => $group->sum('montant_depense')];
-       });
-       // -- result 
-        $months = array_keys($depenses->toArray());
-        $sum = array_values($depenses->toArray());
-       
-        if ($depense->isNotEmpty()) {
-            $depense = $depense->groupBy(function ($item) {
+        $depensesCollection = Depense::where('user_id', $user->id)->get();
+        if ($depensesCollection->isNotEmpty()) {
+            $depensesParAnnee = $depensesCollection->groupBy(function ($item) {
                 return $item->created_at ? Carbon::parse($item->created_at)->format('Y') : null;
             })->first();
 
-            if ($depense) {
-                $depenses = $depense->groupBy(function ($item) {
+            if ($depensesParAnnee) {
+                $depenses = $depensesParAnnee->groupBy(function ($item) {
                     return $item->created_at ? Carbon::parse($item->created_at)->format('Y-m') : null;
                 })->mapWithKeys(function ($group, $key) {
                     $monthName = Carbon::parse($key)->format('F');
                     return [$monthName => $group->sum('montant_depense')];
                 });
+
+                $months = array_keys($depenses->toArray());
+                $sum = array_values($depenses->toArray());
             } else {
-                $depenses = collect(); 
+                $depenses = collect();
+                $months = ['Aucune dépense'];
+                $sum = [0];
             }
         } else {
-         $depenses = collect();
+            $depenses = collect();
+            $months = ['Aucune dépense'];
+            $sum = [0];
         }
 
-        // -- Résultat 
-        if (empty($months)) {
-           $months = ['Aucune dépense'];
-           $sum = [0];
-        }
         $months = array_keys($depenses->toArray());
         $sum = array_values($depenses->toArray());      
 

@@ -38,8 +38,16 @@
                 </div>
                 
                 <div class="flex space-x-4">
-                    <a href="{{route('login')}}" class="px-6 py-2 text-white border border-white rounded hover:bg-white hover:bg-opacity-10">Connexion</a>
-                    <a href="{{route('register')}}" class="px-6 py-2 text-white bg-blue-500 rounded hover:bg-blue-700">S'inscrire</a>
+                 @guest
+                 <a href="{{route('login')}}" class="px-6 py-2 text-white border border-white rounded hover:bg-white hover:bg-opacity-10">Connexion</a>
+                 <a href="{{route('register')}}" class="px-6 py-2 text-white bg-blue-500 rounded hover:bg-blue-700">S'inscrire</a>
+                 @endguest
+                  @auth
+                  <form action="{{ route('logout') }}" method="POST" class="flex items-center">
+                   @csrf
+                      <button type="submit" class="px-6 py-2 text-white bg-blue-500 rounded hover:bg-blue-700">Déconnexion</button>
+                  </form>
+                  @endauth
                 </div>
             </nav>
 
@@ -65,12 +73,20 @@
                 </button>
             </div>
             <div class="flex flex-col items-center space-y-4 p-4">
+             @guest
                 <a href="{{route('login')}}" class="w-full px-6 py-2 text-center text-white border border-white rounded hover:bg-white hover:bg-opacity-10">
                     Connexion
                 </a>
                 <a href="{{route('register')}}" class="w-full px-6 py-2 text-center text-white bg-blue-500 rounded hover:bg-blue-700">
                     S'inscrire
                 </a>
+            @endguest
+            @auth
+            <form action="{{ route('logout') }}" method="POST" class="flex items-center">
+             @csrf
+                <button type="submit" class="w-full px-6 py-2 text-center text-white bg-blue-500 rounded hover:bg-blue-700">Déconnexion</button>
+            </form>
+            @endauth
             </div>
         </div>
     </header>

@@ -127,18 +127,29 @@
                 </div>
                 
                 <div class="relative">
-                    <div class="absolute -translate-y-1/2 left-3 md:left-4 top-1/2 text-slate-500">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                            <circle cx="12" cy="7" r="4"></circle>
-                        </svg>
-                    </div>
-                    <select name="role" class="w-full py-2.5 md:py-3 pl-9 md:pl-10 pr-3 border border-slate-200 rounded-md text-sm focus:outline-none focus:border-primary-blue focus:ring-3 focus:ring-primary-blue/10 transition appearance-none bg-no-repeat bg-right" style="background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"%2364748b\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"6 9 12 15 18 9\"></polyline></svg>'); background-position: right 0.75rem center;" required>
-                        <option value="" disabled selected>Sélectionnez un rôle</option>
-                        <option value="user">Utilisateur</option>
-                        <option value="admin">Administrateur</option>
-                    </select>
-                </div>
+                 <!-- Icône à gauche -->
+                 <div class="absolute -translate-y-1/2 left-3 md:left-4 top-1/2 text-slate-500">
+                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                         <circle cx="12" cy="7" r="4"></circle>
+                     </svg>
+                 </div>
+             
+                 <!-- Select dropdown -->
+                 <select name="role" class="w-full py-2.5 md:py-3 pl-9 md:pl-10 pr-10 border border-slate-200 rounded-md text-sm focus:outline-none focus:border-primary-blue focus:ring-3 focus:ring-primary-blue/10 transition appearance-none bg-white" required>
+                     <option value="" disabled selected>Sélectionnez un rôle</option>
+                     <option value="user">Utilisateur</option>
+                     <option value="admin">Administrateur</option>
+                 </select>
+             
+                 <!-- Flèche de sélection à droite -->
+                 <div class="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                         <polyline points="6 9 12 15 18 9"></polyline>
+                     </svg>
+                 </div>
+             </div>
+             
                 
                 <div class="flex items-center justify-between mt-4">
                     <div class="flex items-center">
