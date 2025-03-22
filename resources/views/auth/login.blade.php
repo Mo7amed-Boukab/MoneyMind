@@ -11,10 +11,10 @@
             theme: {
                 extend: {
                     colors: {
-                        'primary-blue': '#2563eb',
-                        'dark-blue': '#1e3a8a',
-                        'sidebar-blue': '#0f172a',
-                        'light-blue': '#dbeafe',
+                        'primary': '#2563eb',
+                        'dark-blue': '#0f172a',
+                        'darker-blue': '#050A1A',
+                        'light-blue': '#E6F0FF',
                         'extra-light-blue': '#eff6ff',
                         'success-green': '#34d399',
                         'danger-red': '#f87171',
@@ -32,7 +32,7 @@
     </style>
 </head>
 <body class="flex flex-col min-h-screen bg-gray-100 md:flex-row">
-    <div class="relative flex flex-col items-center justify-center w-full p-6 text-white md:w-1/2 bg-sidebar-blue md:p-8">
+    <div class="relative flex flex-col items-center justify-center w-full p-6 text-white md:w-1/2 bg-dark-blue md:p-8">
         <div class="absolute top-4 right-4 bg-white/10 text-white py-1.5 px-3 rounded-md text-xs cursor-pointer flex items-center gap-1.5">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
                 <circle cx="12" cy="12" r="10"></circle>
@@ -45,7 +45,7 @@
         <div class="relative max-w-md text-center z-2">
          <div class="flex items-center gap-3 mb-6 md:mb-10">
              <div class="flex items-center gap-3 mb-6 md:mb-10">
-                 <i class="mr-2 text-4xl text-blue-500 fas fa-wallet"></i>
+                 <i class="mr-2 text-4xl text-primary fas fa-wallet"></i>
                 <span class="text-3xl font-bold text-white">MoneyMind</span>
              </div>
         </div>
@@ -101,7 +101,7 @@
     <!-- Login Form -->
     <div class="flex flex-col items-center justify-center w-full p-6 bg-white md:w-1/2 md:p-8">
         <div class="w-full max-w-md">
-            <h2 class="mb-2 text-3xl font-black text-center text-gray-800 md:text-2xl md:mb-4">Connexion à votre compte</h2>
+            <h2 class="mb-2 text-3xl font-black text-center text-dark-blue md:text-2xl md:mb-4">Connexion à votre compte</h2>
             <p class="mb-6 text-sm leading-relaxed text-center text-gray-800 md:mb-8 md:text-base">Reprenez le contrôle de vos finances</p>
  
              <form action="{{ route('login') }}" method="POST" class="space-y-4 md:space-y-5">
@@ -113,7 +113,7 @@
                             <polyline points="22,6 12,13 2,6"></polyline>
                         </svg>
                     </div>
-                    <input type="email" name="email" placeholder="Adresse email" class="w-full py-2.5 md:py-3 pl-9 md:pl-10 pr-3 border border-slate-200 rounded-md text-sm focus:outline-none focus:border-primary-blue focus:ring-3 focus:ring-primary-blue/10 transition" required>
+                    <input type="email" name="email" placeholder="Adresse email" class="w-full py-2.5 md:py-3 pl-9 md:pl-10 pr-3 border border-slate-200 rounded-md text-sm focus:outline-none focus:border-primary focus:ring-3 focus:ring-primary/10 transition" required>
                 </div>
                 
                 <div class="relative">
@@ -123,7 +123,7 @@
                             <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
                         </svg>
                     </div>
-                    <input type="password" name="password" placeholder="Mot de passe" class="w-full py-2.5 md:py-3 pl-9 md:pl-10 pr-3 border border-slate-200 rounded-md text-sm focus:outline-none focus:border-primary-blue focus:ring-3 focus:ring-primary-blue/10 transition" required>
+                    <input type="password" name="password" placeholder="Mot de passe" class="w-full py-2.5 md:py-3 pl-9 md:pl-10 pr-3 border border-slate-200 rounded-md text-sm focus:outline-none focus:border-primary focus:ring-3 focus:ring-primary/10 transition" required>
                 </div>
                 
                 <div class="relative">
@@ -136,7 +136,7 @@
                  </div>
              
                  <!-- Select dropdown -->
-                 <select name="role" class="w-full py-2.5 md:py-3 pl-9 md:pl-10 pr-10 border border-slate-200 rounded-md text-sm focus:outline-none focus:border-primary-blue focus:ring-3 focus:ring-primary-blue/10 transition appearance-none bg-white" required>
+                 <select name="role" class="w-full py-2.5 md:py-3 pl-9 md:pl-10 pr-10 border border-slate-200 rounded-md text-sm focus:outline-none focus:border-primary focus:ring-3 focus:ring-primary/10 transition appearance-none bg-white" required>
                      <option value="" disabled selected>Sélectionnez un rôle</option>
                      <option value="user">Utilisateur</option>
                      <option value="admin">Administrateur</option>
@@ -153,13 +153,13 @@
                 
                 <div class="flex items-center justify-between mt-4">
                     <div class="flex items-center">
-                        <input type="checkbox" id="remember" class="w-4 h-4 rounded text-primary-blue focus:ring-primary-blue/10 border-slate-200">
+                        <input type="checkbox" id="remember" class="w-4 h-4 rounded text-primary focus:ring-primary/10 border-slate-200">
                         <label for="remember" class="ml-2 text-sm text-slate-600">Se souvenir de moi</label>
                     </div>
-                    <a href="#" class="text-sm text-primary-blue hover:underline">Mot de passe oublié?</a>
+                    <a href="#" class="text-sm text-primary hover:underline">Mot de passe oublié?</a>
                 </div>
                 
-                <button type="submit" class="w-full py-2.5 md:py-3 bg-primary-blue text-white border-none rounded-md text-sm font-semibold cursor-pointer hover:bg-dark-blue transition mt-4 md:mt-6">Se connecter</button>
+                <button type="submit" class="w-full py-2.5 md:py-3 bg-primary text-white border-none rounded-md text-sm font-semibold cursor-pointer hover:bg-blue-700 transition mt-4 md:mt-6">Se connecter</button>
                 
                 <div class="relative flex items-center gap-3 my-5">
                     <div class="flex-grow h-px bg-slate-200"></div>
@@ -187,7 +187,7 @@
                 </div>
                 
                 <div class="mt-4 text-xs text-center md:text-sm text-slate-500 md:mt-6">
-                    Pas encore de compte? <a href="{{ route('register') }}" class="font-medium text-primary-blue hover:underline">S'inscrire</>
+                    Pas encore de compte? <a href="{{ route('register') }}" class="font-medium text-primary hover:underline">S'inscrire</>
                 </div>
             </form>
         </div>

@@ -3,12 +3,10 @@
  <div id="mainContent" class="flex-1 transition-all duration-300 lg:ml-64">
     <div class="max-w-full p-4 mx-auto lg:p-8">
       {{-- ------------------------------------ Header ------------------------------------ --}}
-         <div class="flex flex-col items-start justify-between mb-8 md:flex-row md:items-center">
-             <div>
-                 <h2 class="text-2xl font-bold text-gray-800 lg:text-2xl">Gestion des Revenus</h2>
-                 <p class="text-gray-600">Suivez et gérez votre salaire mensuel</p>
-             </div>
-         </div>
+       <div class="mb-8">
+           <h2 class="text-2xl font-bold text-gray-800 lg:text-3xl">Gestion des Revenus</h2>
+           <p class="text-gray-600">Suivez et gérez votre salaire mensuel</p>
+       </div>
       {{-- ---------------------------------- Statistique ----------------------------------- --}}
          <div class="grid grid-cols-1 gap-6 mb-12 md:grid-cols-3">
              <div class="p-6 bg-white rounded shadow-sm">
@@ -170,7 +168,7 @@
 
 @section('toast')
     @if (session('update'))
-    <div id="toast-edit" class="fixed flex items-center w-full max-w-xs p-4 mb-4 text-white bg-blue-500 rounded shadow-lg bottom-4 right-4 animate-slide-up">
+    <div id="toast-edit" class="fixed flex items-center w-full max-w-xs p-4 mb-4 text-white bg-blue-500 rounded shadow-lg bottom-4 right-4 animate-slide-up z-50">
         <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 bg-blue-600 rounded">
             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V14h3.828l7.586-7.586a2 2 0 000-2.828l-1-1zM6 16a1 1 0 100 2h8a1 1 0 100-2H6z"></path>

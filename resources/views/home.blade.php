@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" class="overflow-x-hidden">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>MoneyMind - Gestion Budgétaire Intelligente</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -13,7 +13,7 @@
          theme: {
              extend: {
                  colors: {
-                        'primary': '#0066FF',
+                        'primary': '#2563eb',
                         'dark-blue': '#0f172a',
                         'darker-blue': '#050A1A',
                         'light-blue': '#E6F0FF',
@@ -23,9 +23,49 @@
          }
      }
  </script>
+ <style>
+    /* Correction pour le problème de marge sur mobile */
+    body, html {
+        overflow-x: hidden;
+        width: 100%;
+        position: relative;
+        margin: 0;
+        padding: 0;
+    }
+    
+    .container {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+    
+    @media (min-width: 640px) {
+        .container {
+            max-width: 640px;
+        }
+    }
+    
+    @media (min-width: 768px) {
+        .container {
+            max-width: 768px;
+        }
+    }
+    
+    @media (min-width: 1024px) {
+        .container {
+            max-width: 1024px;
+        }
+    }
+    
+    @media (min-width: 1280px) {
+        .container {
+            max-width: 1280px;
+        }
+    }
+ </style>
 </head>
-<body class="bg-white">
-    <header class="fixed top-0 right-0 left-0 z-50 bg-white">
+<body class="overflow-x-hidden w-full">
+    <header class="fixed top-0 right-0 left-0 z-50 w-full bg-white">
         <div class="container mx-auto lg:px-4 xl:px-16">
             <nav class="hidden justify-between items-center h-20 lg:flex">
                 <div class="flex items-center space-x-2">
@@ -70,7 +110,7 @@
         </div>
 
         <!-- ---------------------------------- Mobile SidBar ------------------------------------ -->
-        <div id="mobileSidebar" class="fixed inset-y-0 right-0 z-50 w-64 transition-  duration-300   translate-x-full bg-darker-blue">
+        <div id="mobileSidebar" class="fixed inset-y-0 right-0 z-50 w-64 transition-transform duration-300 translate-x-full bg-darker-blue">
             <div class="flex justify-end p-4">
                 <button id="closeMobileMenu" class="text-white">
                     <i class="text-2xl fas fa-times"></i>
@@ -119,10 +159,10 @@
                 MoneyMind vous aide à suivre vos revenus, dépenses et objectifs d'épargne, tout en vous proposant des suggestions personnalisées pour améliorer votre santé financière.
             </p>
             <div class="flex flex-col justify-center items-center space-y-4 md:flex-row md:space-y-0 md:space-x-4" data-aos="fade-up" data-aos-duration="800" data-aos-delay="300">
-                <a href="{{route('register')}}" class="px-8 py-2 w-full text-lg font-medium text-white rounded-md transition-colors md:w-auto bg-primary hover:bg-blue-600">
+                <a href="{{route('register')}}" class="px-8 py-2 w-full text-lg text-white rounded-md transition-colors md:w-auto bg-primary hover:bg-blue-600">
                     Commencer gratuitement
                 </a>
-                <a href="#about" class="px-8 py-2 w-full text-lg font-medium text-white bg-transparent rounded-md border border-white transition-colors md:w-auto hover:bg-white/10">
+                <a href="#about" class="px-8 py-2 w-full text-lg text-white bg-transparent rounded-md border border-white transition-colors md:w-auto hover:bg-white/10">
                     Voir détails
                 </a>
             </div>
@@ -157,42 +197,42 @@
                 <p class="text-gray-600" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">Des outils puissants pour prendre le contrôle de vos finances</p>
             </div>
             <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                <div class="p-6 bg-white rounded transition-all duration-300  hover:scale-105 hover:-translate-y-2 hover:shadow-lg" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="100">
+                <div class="p-6 bg-white rounded transition-all duration-300 hover:scale-105 hover:-translate-y-2 hover:shadow-lg" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="100">
                     <div class="flex justify-center items-center mb-4 w-12 h-12 text-white rounded-full bg-primary">
                         <i class="text-xl fas fa-chart-line"></i>
                     </div>
                  <h3 class="mb-3 text-xl font-semibold text-dark-blue">Suivi automatique</h3>
                  <p class="text-gray-600">Gestion automatique des salaires et dépenses récurrentes pour ne jamais manquer un paiement important.</p>
                 </div>
-                <div class="p-6 bg-white rounded-md transition-all duration-300  hover:scale-105 hover:shadow-lg" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="200">
+                <div class="p-6 bg-white rounded-md transition-all duration-300 hover:scale-105 hover:shadow-lg" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="200">
                     <div class="flex justify-center items-center mb-4 w-12 h-12 text-white rounded-full bg-primary">
                         <i class="text-xl fas fa-bullseye"></i>
                     </div>
                     <h3 class="mb-3 text-xl font-semibold text-dark-blue">Objectifs d'épargne</h3>
                     <p class="text-gray-600">Définissez des objectifs d'épargne mensuels et suivez votre progression vers vos ambitions financières.</p>
                 </div>
-                <div class="p-6 bg-white rounded-md transition-all duration-300  hover:scale-105 hover:-translate-y-2 hover:shadow-lg" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="300">
+                <div class="p-6 bg-white rounded-md transition-all duration-300 hover:scale-105 hover:-translate-y-2 hover:shadow-lg" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="300">
                     <div class="flex justify-center items-center mb-4 w-12 h-12 text-white rounded-full bg-primary">
                         <i class="text-xl fas fa-bell"></i>
                     </div>
                     <h3 class="mb-3 text-xl font-semibold text-dark-blue">Alertes budgétaires</h3>
                     <p class="text-gray-600">Recevez des notifications lorsque vous approchez ou dépassez vos seuils budgétaires personnalisés.</p>
                 </div>
-                <div class="p-6 bg-white rounded-md transition-all duration-300  hover:scale-105 hover:-translate-y-2 hover:shadow-lg" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="400">
+                <div class="p-6 bg-white rounded-md transition-all duration-300 hover:scale-105 hover:-translate-y-2 hover:shadow-lg" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="400">
                     <div class="flex justify-center items-center mb-4 w-12 h-12 text-white rounded-full bg-primary">
                         <i class="text-xl fas fa-brain"></i>
                     </div>
                     <h3 class="mb-3 text-xl font-semibold text-dark-blue">IA Conseillère</h3>
                     <p class="text-gray-600">Obtenez des suggestions intelligentes basées sur vos habitudes de dépenses grâce à notre technologie d'intelligence artificielle avancée.</p>
                 </div>
-                <div class="p-6 bg-white rounded-md transition-all duration-300  hover:scale-105 hover:-translate-y-2 hover:shadow-lg" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="500">
+                <div class="p-6 bg-white rounded-md transition-all duration-300 hover:scale-105 hover:-translate-y-2 hover:shadow-lg" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="500">
                     <div class="flex justify-center items-center mb-4 w-12 h-12 text-white rounded-full bg-primary">
                         <i class="text-xl fas fa-list-check"></i>
                     </div>
                     <h3 class="mb-3 text-xl font-semibold text-dark-blue">Liste de souhaits</h3>
                     <p class="text-gray-600">Ajoutez vos envies et suivez votre progression d'épargne vers chaque objectif d'achat.</p>
                 </div>
-                <div class="p-6 bg-white rounded-md transition-all duration-300  hover:scale-105 hover:-translate-y-2 hover:shadow-lg" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="600">
+                <div class="p-6 bg-white rounded-md transition-all duration-300 hover:scale-105 hover:-translate-y-2 hover:shadow-lg" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="600">
                     <div class="flex justify-center items-center mb-4 w-12 h-12 text-white rounded-full bg-primary">
                         <i class="text-xl fas fa-mobile-alt"></i>
                     </div>
@@ -212,7 +252,7 @@
                 <p class="text-gray-600" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">Trois étapes simples pour  er votre gestion financière</p>
             </div>          
                 <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-                    <div class="relative z-10 p-8 text-center bg-white rounded-md shadow-md transition-all duration-300   hover:scale-105 hover:-translate-y-2 hover:shadow-lg" data-aos="fade-right" data-aos-duration="800" data-aos-delay="100">
+                    <div class="relative z-10 p-8 text-center bg-white rounded-md shadow-md transition-all duration-300 hover:scale-105 hover:-translate-y-2 hover:shadow-lg" data-aos="fade-right" data-aos-duration="800" data-aos-delay="100">
                         <div class="flex justify-center items-center mx-auto mb-6 w-16 h-16 text-2xl font-bold text-white rounded-full bg-primary">1</div>
                         <h3 class="mb-4 text-xl font-bold text-dark-blue">Inscrivez-vous</h3>
                         <p class="mb-6 text-gray-600">Créez votre compte en quelques clics et configurez votre profil financier</p>
@@ -223,7 +263,7 @@
                             <li>Automatisation du Salaire</li>
                         </ul>
                 </div>
-                    <div class="relative z-10 p-8 text-center bg-white rounded-md shadow-md transition-all duration-300   hover:scale-105 hover:-translate-y-2 hover:shadow-lg" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
+                    <div class="relative z-10 p-8 text-center bg-white rounded-md shadow-md transition-all duration-300 hover:scale-105 hover:-translate-y-2 hover:shadow-lg" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
                         <div class="flex justify-center items-center mx-auto mb-6 w-16 h-16 text-2xl font-bold text-white rounded-full bg-primary">2</div>
                         <h3 class="mb-4 text-xl font-bold text-dark-blue">Personnalisez votre budget</h3>
                         <p class="mb-6 text-gray-600">Ajoutez vos dépenses récurrentes et définissez vos objectifs financiers</p>
@@ -234,7 +274,7 @@
                             <li>Ajoute des listes des souhaites</li>
                         </ul>
                 </div>
-                    <div class="relative z-10 p-8 text-center bg-white rounded-md shadow-md transition-all duration-300   hover:scale-105 hover:-translate-y-2 hover:shadow-lg" data-aos="fade-left" data-aos-duration="800" data-aos-delay="300">
+                    <div class="relative z-10 p-8 text-center bg-white rounded-md shadow-md transition-all duration-300 hover:scale-105 hover:-translate-y-2 hover:shadow-lg" data-aos="fade-left" data-aos-duration="800" data-aos-delay="300">
                         <div class="flex justify-center items-center mx-auto mb-6 w-16 h-16 text-2xl font-bold text-white rounded-full bg-primary">3</div>
                         <h3 class="mb-4 text-xl font-bold text-dark-blue">Optimisez vos finances</h3>
                         <p class="mb-6 text-gray-600">Suivez vos progrès et recevez des conseils personnalisés de notre IA</p>
@@ -258,10 +298,10 @@
                 Rejoignez des milliers d'utilisateurs qui ont amélioré leur santé financière grâce à MoneyMind
             </p>
             <div class="flex flex-col justify-center items-center space-y-4 md:flex-row md:space-y-0 md:space-x-4" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
-                <a href="{{route('register')}}" class="px-8 py-2 w-full text-lg font-medium text-white rounded-md transition-colors md:w-auto bg-primary hover:bg-blue-600">
+                <a href="{{route('register')}}" class="px-8 py-2 w-full text-lg text-white rounded-md transition-colors md:w-auto bg-primary hover:bg-blue-600">
                     S'inscrire gratuitement
                 </a>
-                <a href="#contact" class="px-8 py-2 w-full text-lg font-medium bg-transparent rounded-md border transition-colors text-primary border-primary md:w-auto hover:bg-primary/10">
+                <a href="#contact" class="px-8 py-2 w-full text-lg bg-transparent rounded-md border transition-colors md:w-auto text-primary border-primary hover:bg-primary/10">
                     Nous contacter
                 </a>
             </div>
@@ -406,11 +446,27 @@
         </div>
     </footer>
     <script>
-        AOS.init({
-            once: false,
-            offset: 120,
-            duration: 800,
-            easing: 'ease-out-cubic'
+        // Correction pour le problème de défilement horizontal
+        document.addEventListener('DOMContentLoaded', function() {
+            // Vérifier la largeur de tous les éléments par rapport à la fenêtre
+            const windowWidth = window.innerWidth;
+            const elements = document.querySelectorAll('*');
+            
+            elements.forEach(element => {
+                if (element.offsetWidth > windowWidth) {
+                    console.log('Élément trop large:', element);
+                    element.style.maxWidth = '100%';
+                    element.style.overflowX = 'hidden';
+                }
+            });
+            
+            // Initialisation AOS avec animations activées sur mobile
+            AOS.init({
+                once: false,
+                offset: 120,
+                duration: 800,
+                easing: 'ease-out-cubic'
+            });
         });
 
         const mobileMenuButton = document.getElementById('mobileMenuButton');
