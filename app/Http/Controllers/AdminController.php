@@ -7,6 +7,9 @@ use App\Models\Depense;
 use App\Models\User;
 use App\Models\Categorie;
 use Carbon\Carbon;
+use App\Models\Notification;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
@@ -53,8 +56,26 @@ class AdminController extends Controller
                 return $categorie;
             });
 
-        return view("dashboard/admin/index", compact(  "users",  "categories",   "totalUsers",  "usersEvolution", "salaireMoyenne",  "salaireEvolution",  "usersInactive" ));
+        $notifications = Notification::where('user_id', Auth::id())
+            ->where('est_lu', 0)
+            ->orderBy('created_at', 'desc')
+            ->get();
+        
+        $countNotifications = $notifications->count();
+
+        return view("dashboard/admin/index", compact(
+            "users", 
+            "categories", 
+            "totalUsers", 
+            "usersEvolution", 
+            "salaireMoyenne", 
+            "salaireEvolution", 
+            "usersInactive",
+            "notifications",
+            "countNotifications"
+        ));
     }
+    
     public function viewUsersPage(){
        $users = User::where('role', 'user')->paginate(10);
        return view('dashboard/admin/users', compact('users'));
@@ -73,5 +94,39 @@ class AdminController extends Controller
 
         $user->delete();
         return redirect()->back()->with('delete', 'Utilisateur supprimé avec succès');
+    }
+
+    public function viewNotificationPage(Request $request)
+    {
+        $user = Auth::user();
+        $tab = $request->query('tab', 'all');
+        
+        $allNotifications = Notification::where('user_id', $user->id)
+                                    ->where('est_lu', 0)
+                                    ->orderBy('created_at', 'desc')
+                                    ->get();
+                                    
+        $notificationsImportant = Notification::where('user_id', $user->id)
+                                         ->where('importance', 1)
+                                         ->where('est_lu', 0)
+                                         ->get();
+        
+        $notifications = ($tab == 'important') ? $notificationsImportant : $allNotifications;
+        
+        return view('dashboard/admin/notification', compact('allNotifications', 'notificationsImportant', 'notifications'));
+    }
+
+    public function markAsRead($id)
+    {
+        $notification = Notification::findOrFail($id);
+        
+        if ($notification->user_id != Auth::id()) {
+            return redirect()->back()->with('error', 'Vous n\'êtes pas autorisé à modifier cette notification.');
+        }
+        
+        $notification->est_lu = 1;
+        $notification->save();
+        
+        return redirect()->back()->with('update', 'Notification marquée comme lue');
     }
 }

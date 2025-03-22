@@ -22,7 +22,7 @@
        <i class="mr-3 fas fa-tags"></i>
        <span>Catégories</span>
      </a>
-     <a href="#" class="flex items-center px-6 py-3 m-2 text-white transition rounded hover:bg-blue-950 hover:bg-opacity-30">
+     <a href="{{route('admin.notification')}}" class="flex items-center px-6 py-3 m-2 text-white transition rounded hover:bg-blue-950 hover:bg-opacity-30">
        <i class="mr-3 fas fa-bell"></i>
        <span>Notifications</span>
      </a>

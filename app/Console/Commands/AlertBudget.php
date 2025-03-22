@@ -40,7 +40,7 @@ class AlertBudget extends Command
                Mail::to($user->email)->send(new envoyerEmail($user, $totalDepensesDuMois,$pourcentageDepense, $seuil));
                Notification::create([
                 'titre' => "Dépassement de budget",
-                'message' => "vous avez dépasser seuil de $seuilAlerte % de votre budget",
+                'message' => "vous avez dépasser seuil de $seuil % de votre budget",
                 'importance' => 1,
                 'user_id' =>$user->id,
             ]);

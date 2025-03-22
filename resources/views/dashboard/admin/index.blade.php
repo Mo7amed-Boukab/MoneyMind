@@ -11,11 +11,13 @@
           </div>
             <!-- User Profile & Notifications -->
             <div class="flex items-center space-x-4">
-             <div onclick="openNotifications()" class="relative cursor-pointer">
+             <div onclick="toggleNotifications()" class="relative cursor-pointer">
                <i class="text-xl text-gray-600 fas fa-bell"></i>
-               <div class="absolute flex items-center justify-center w-4 h-4 bg-red-500 rounded-full -top-1 -right-1">
-                 <span class="text-xs text-white">2</span>
-               </div>
+               @if ($countNotifications > 0)
+                   <div class="absolute flex items-center justify-center w-4 h-4 bg-red-500 rounded-full -top-1 -right-1">
+                     <span class="text-xs text-white">{{ $countNotifications }}</span>
+                   </div>
+               @endif
              </div>
              <div class="relative flex items-center justify-center cursor-pointer group">
               <div class="flex items-center">
@@ -28,53 +30,61 @@
                 </div>
               </div>
             </div>
-               <!-- Notification-->
-               <div id="notificationList" class="relative hidden ml-3">
-               
-                <div class="absolute right-0 z-50 mt-8 bg-white rounded-md shadow-lg w-80">
-                  <div class="py-2">
-                    <h3 class="px-4 py-2 text-sm font-medium text-gray-700 border-b">Notifications</h3>
-                    
-                    <div class="overflow-y-auto max-h-64">
-                      <a href="#" class="block px-4 py-3 hover:bg-gray-50">
-                        <div class="flex items-center">
-                          <div class="flex-shrink-0">
-                            <i class="text-blue-500 fas fa-check-circle"></i>
-                          </div>
-                          <div class="ml-3">
-                            <p class="text-sm font-medium text-gray-900">Objectif d'épargne atteint</p>
-                            <p class="text-sm text-gray-500">Vous avez atteint votre objectif mensuel</p>
-                            <p class="mt-1 text-xs text-gray-400">Il y a 2 heures</p>
-                          </div>
+            <div id="notificationList" class="fixed inset-0 z-50 hidden">
+                <div class="absolute inset-0" onclick="closeNotifications()"></div>
+                <div class="absolute right-4 top-20 w-80 bg-white rounded shadow-lg max-h-[80vh] flex flex-col">
+                    <div class="flex flex-col flex-1 py-2">
+                        <h3 class="px-4 py-2 text-sm font-medium text-gray-700 border-b">Notifications</h3>
+                        <div class="flex-1 overflow-y-auto">
+                            @if (count($notifications) > 0)
+                                @foreach ($notifications as $notification)
+                                    <div class="block px-4 py-3 border-b border-gray-100 hover:bg-gray-50">
+                                        <div class="flex items-center">
+                                            <div class="flex-shrink-0">
+                                                @if ($notification->importance == 1)
+                                                    <i class="text-red-500 fas fa-exclamation-circle"></i>
+                                                @else
+                                                    <i class="text-blue-500 fas fa-info-circle"></i>
+                                                @endif
+                                            </div>
+                                            <div class="flex-1 ml-3">
+                                                <p class="text-sm font-medium text-gray-900">
+                                                    {{ $notification->titre }}</p>
+                                                <p class="text-sm text-gray-500">{{ $notification->message }}</p>
+                                                <p class="mt-1 text-xs text-gray-400">
+                                                    {{ $notification->created_at->diffForHumans() }}</p>
+                                            </div>
+                                            <form action="{{ route('admin.notification.lu', $notification->id) }}"
+                                                method="POST">
+                                                @csrf
+                                                <button type="submit"
+                                                    class="ml-2 text-gray-400 hover:text-gray-600">
+                                                    <i class="fas fa-check-circle"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            @else
+                                <div class="px-4 py-3 text-center text-gray-500">
+                                    Aucune notification pour le moment.
+                                </div>
+                            @endif
                         </div>
-                      </a>
- 
-                      <a href="#" class="block px-4 py-3 hover:bg-gray-50">
-                        <div class="flex items-center">
-                          <div class="flex-shrink-0">
-                            <i class="text-red-500 fas fa-exclamation-circle"></i>
-                          </div>
-                          <div class="ml-3">
-                            <p class="text-sm font-medium text-gray-900">Dépense récurrente à venir</p>
-                            <p class="text-sm text-gray-500">Abonnement Netflix - échéance dans 3 jours</p>
-                            <p class="mt-1 text-xs text-gray-400">Il y a 1 jour</p>
-                          </div>
+                        <div class="py-2 mt-auto text-center border-t">
+                            <a href="{{ route('admin.notification') }}"
+                                class="text-sm font-medium text-blue-600 hover:text-blue-800">
+                                Voir toutes les notifications
+                            </a>
                         </div>
-                      </a>
                     </div>
- 
-                    <div class="py-2 text-center border-t">
-                      <a href="{{route('user.notification')}}" class="text-sm font-medium text-blue-600 hover:text-blue-800">
-                        Voir toutes les notifications
-                      </a>
-                    </div>
-                  </div>
                 </div>
-               </div>
+            </div>
            </div>
         </div>
+      </div>
         <!-- Statistics Cards -->
-        <div class="grid grid-cols-1 gap-4 mb-8 sm:grid-cols-2 lg:grid-cols-3">
+       <div class="grid grid-cols-1 gap-4 mb-8 sm:grid-cols-2 lg:grid-cols-3">
           <div class="p-4 bg-white rounded shadow-sm sm:p-6">
             <div class="flex items-center justify-between mb-4">
               <h3 class="font-medium text-gray-500">Utilisateurs totaux</h3>
@@ -124,7 +134,7 @@
           <div class="p-6 bg-white rounded shadow-sm">
             <div class="flex items-center justify-between mb-4">
               <h3 class="text-xl font-bold text-gray-800">Derniers utilisateurs</h3>
-              <a href="#" class="text-sm text-blue-600 hover:text-blue-800">Voir plus</a>
+              <a href="{{route("admin.users")}}" class="text-sm text-blue-600 hover:text-blue-800">Voir plus</a>
             </div>
             <div class="overflow-x-auto">
               <table class="min-w-full table-fixed">
@@ -169,7 +179,7 @@
           <div class="p-6 bg-white rounded shadow-sm">
             <div class="flex items-center justify-between mb-4">
               <h3 class="text-xl font-bold text-gray-800">Dernières catégories</h3>
-              <a href="#" class="text-sm text-blue-600 hover:text-blue-800">Voir plus</a>
+              <a href="{{route("admin.categorie")}}" class="text-sm text-blue-600 hover:text-blue-800">Voir plus</a>
             </div>
             <div class="overflow-x-auto">
               <table class="min-w-full table-fixed">
@@ -304,15 +314,28 @@
     </div>
     @endif
 @endsection
-
 @section('script')
 <script>
-    
-    function openNotifications()
-   {
-      const notificationList = document.getElementById('notificationList');
-            notificationList.classList.toggle('hidden');
-   }
+
+      function toggleNotifications() {
+          const notificationList = document.getElementById('notificationList');
+          if (notificationList.classList.contains('hidden')) {
+              notificationList.classList.remove('hidden');
+          } else {
+              closeNotifications();
+          }
+      }
+      function closeNotifications() {
+          const notificationList = document.getElementById('notificationList');
+          notificationList.classList.add('hidden');
+      }
+      // -----------------------------------------------------------------------
+      function closeToast(id) {
+          document.getElementById(id).style.display = 'none';
+      }
+      setTimeout(() => {
+          document.querySelectorAll('[id^="toast-"]').forEach(el => el.style.display = 'none');
+      }, 5000);
 
     function openEditModal(id) {
         document.getElementById(`editCategorieModal${id}`).classList.remove('hidden');

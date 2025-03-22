@@ -27,6 +27,9 @@ Route::prefix('admin/')->middleware(['auth','admin'])->group(function () {
    Route::post('categories', [CategorieController::class, 'ajouterCategorie'])->name('admin.categorie.ajouter');
    Route::put('categories/{id}', [CategorieController::class, 'modifierCategorie'])->name('admin.categorie.modifier');
    Route::delete('categories/{id}', [CategorieController::class, 'supprimerCategorie'])->name('admin.categorie.supprimer');
+
+   Route::get('notification',[AdminController::class,'viewNotificationPage'])->name('admin.notification');
+   Route::post('notification/mark-as-read/{id}', [AdminController::class, 'markAsRead'])->name('admin.notification.lu');
 });
 
 Route::prefix('user/')->middleware(['auth','user'])->group(function () {
@@ -66,3 +69,4 @@ Route::middleware('auth','user')->group(function () {
 
 
 require __DIR__.'/auth.php';
+
