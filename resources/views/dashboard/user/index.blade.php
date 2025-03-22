@@ -35,7 +35,7 @@
                         <div class="absolute right-4 top-20 w-80 bg-white rounded shadow-lg max-h-[80vh] flex flex-col">
                             <div class="flex flex-col flex-1 py-2">
                                 <h3 class="px-4 py-2 text-sm font-medium text-gray-700 border-b">Notifications</h3>
-                                <div class="flex-1 overflow-y-auto">
+                                <div class="flex-1 overflow-y-auto max-h-60">
                                     @if (count($notifications) > 0)
                                         @foreach ($notifications as $notification)
                                             <div class="block px-4 py-3 border-b border-gray-100 hover:bg-gray-50">

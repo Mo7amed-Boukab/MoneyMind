@@ -1,66 +1,189 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# MoneyMind - Application de Gestion Financière Personnelle 💰
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+![MoneyMind Logo](screenshots/logo.png)
 
-## About Laravel
+[![Laravel](https://img.shields.io/badge/Laravel-11.0-red.svg)](https://laravel.com)
+[![PHP](https://img.shields.io/badge/PHP-8.2.12-blue.svg)](https://php.net)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🚀 À propos de MoneyMind
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+MoneyMind est une application web moderne de gestion financière personnelle développée avec Laravel. Elle permet aux utilisateurs de prendre le contrôle de leurs finances en suivant leurs revenus, dépenses, objectifs d'épargne mensuel et annuel, liste des souhaits d'achat futur. L'application automatise également toutes
+les transactions récurrentes que ce soit la déduction des dépenses ou la réception du revenu mensuel, ainsi qu'elle propose des conseils personnalisés grâce à l'intégration de l'IA Gemini pour une meilleure gestion budgétaire, avec aussi un système d'alertes (par envoi d'un rapport par email) et de notifications en temps réel et une liste d'historique de toutes les transactions.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## ✨ Fonctionnalités principales
 
-## Learning Laravel
+### Pour les utilisateurs
+- **Tableau de bord personnalisé** : Vue d'ensemble de votre situation financière avec statistiques détaillées
+- **Gestion des revenus** : Configuration du salaire mensuel avec date de crédit automatique
+- **Suivi des dépenses** : Catégorisation et analyse des dépenses quotidiennes
+- **Dépenses récurrentes** : Automatisation des paiements réguliers (loyer, abonnements, etc.)
+- **Objectifs d'épargne** : Définition et suivi des objectifs financiers mensuels et annuels
+- **Liste de souhaits** : Planification des achats futurs avec suivi de progression 
+- **Alertes budgétaires** : Envoi d'un rapport sur sa situation par mail lorsque les dépenses dépassent un seuil défini
+- **Notification en temps réel** : Envoi des notifications pour les alertes budgétaires, les réceptions des salaires et les déductions des dépenses mensuelles
+- **Historique des transactions** : Journal complet avec filtrage avancé (par mois, année, type de transaction)
+- **Conseils IA** : Recommandations personnalisées basées sur vos habitudes financières
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Pour les administrateurs
+- **Tableau de bord administratif** : Statistiques globales sur les utilisateurs et leurs finances
+- **Gestion des utilisateurs** : Suivi et suppression des comptes inactifs depuis plus de 2 mois
+- **Gestion des catégories** : Création et modification des catégories de dépenses
+- **Notifications système** : Alertes sur les nouveaux utilisateurs et les comptes inactifs
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## 🛠️ Technologies utilisées
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- **Backend** : Laravel 11 (PHP 8.2.12)
+- **Frontend** : Blade, TailwindCSS, JavaScript
+- **Base de données** : MySQL
+- **Authentification** : Laravel Breeze
+- **Visualisation de données** : Chart.js
+- **Animations** : AOS (Animate On Scroll)
 
-## Laravel Sponsors
+## 📋 Prérequis
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+- PHP 8.1 ou supérieur
+- Composer
+- Node.js et NPM
+- MySQL ou MariaDB
+- Serveur web (Apache, Nginx)
 
-### Premium Partners
+## 🔧 Installation
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+1. **Clonez le dépôt**
+   ```bash
+   git clone https://github.com/Mo7amed-Boukab/MoneyMind.git
+   cd MoneyMind
+   ```
 
-## Contributing
+2. **Installez les dépendances**
+   ```bash
+   composer install
+   npm install
+   ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+3. **Configurez l'environnement**
+   ```bash
+   cp .env.example .env
+   ```
 
-## Code of Conduct
+4. **Configurez la base de données dans le fichier `.env`**
+   ```
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=moneymind
+   DB_USERNAME=root
+   DB_PASSWORD=
+   ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+5. **Exécutez les migrations et les seeders**
+   ```bash
+   php artisan migrate --seed
+   ```
 
-## Security Vulnerabilities
+6. **Compilez les assets**
+   ```bash
+   npm run dev
+   ```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+7. **Lancez le serveur**
+   ```bash
+   php artisan serve
+   ```
 
-## License
+## ⚙️ Configuration des tâches planifiées
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+L'application utilise plusieurs tâches planifiées pour automatiser certaines fonctionnalités :
+
+- `AddSalaire` : Ajoute automatiquement le salaire mensuel aux dates définies par l'utilisateur
+- `SubDepense` : Déduit automatiquement les dépenses récurrentes
+- `AlertBudget` : Envoie des alertes lorsque les dépenses dépassent un certain seuil
+- `CheckInactiveUsers` : Vérifie les utilisateurs inactifs depuis plus de 2 mois
+
+Pour configurer ces tâches, exécutez la commande suivante :
+
+```bash
+php artisan schedule:work
+```
+
+## 👥 Comptes de démonstration
+
+- **Administrateur** :
+  - Email : admin@example.com
+  - Mot de passe : password
+
+- **Utilisateur** :
+  - Email : user@example.com
+  - Mot de passe : password
+
+## 📸 Captures d'écran
+
+### Page d'accueil
+![Page d'accueil](storage/app/public/screenshots/home-page.png)
+
+### Tableau de bord utilisateur
+![Dashboard utilisateur](storage/app/public/screenshots/user-dashboard.png)
+
+### Gestion des dépenses
+![Gestion des dépenses](storage/app/public/screenshots/depense.png)
+
+### Gestion des revenus
+![Gestion des revenus](storage/app/public/screenshots/revenu.png)
+
+### Gestion des épargnes
+![Gestion des épargnes](storage/app/public/screenshots/epargne-1.png)
+![Gestion des épargnes](storage/app/public/screenshots/epargne-2.png)
+
+### Historique des transactions
+![Historique des transactions](storage/app/public/screenshots/historique.png)
+
+### Notifications
+![Notifications](storage/app/public/screenshots/notification.png)
+
+### Profile
+![Profile](storage/app/public/screenshots/profile.png)
+
+### Tableau de bord administrateur
+![Dashboard administrateur](storage/app/public/screenshots/admin-dashboard.png)
+
+### Gestion des utilisateurs
+![Gestion des utilisateurs](storage/app/public/screenshots/admin-users.png)
+
+### Gestion des catégories
+![Gestion des catégories](storage/app/public/screenshots/admin-categorie.png)
+
+## 🔄 Flux d'utilisation typique
+
+1. **Inscription** : L'utilisateur s'inscrit et configure son salaire (ex: 5000 DH) et sa date de crédit (ex: le 15 du mois)
+2. **Configuration initiale** : L'administrateur a déjà configuré des catégories comme "Divertissement", "Nourriture", "Factures"
+3. **Dépenses récurrentes** : L'utilisateur ajoute ses dépenses récurrentes comme "Abonnement Internet - 200 DH" à payer chaque mois
+4. **Dépenses quotidiennes** : L'utilisateur ajoute ses dépenses quotidiennes dans différentes catégories
+5. **Épargne et objectifs** : L'utilisateur définit des objectifs d'épargne mensuels et annuels
+6. **Liste de souhaits** : L'utilisateur ajoute des éléments à sa liste de souhaits et alloue des montants d'épargne
+7. **Suivi et analyse** : L'utilisateur consulte son tableau de bord et son historique pour analyser ses habitudes financières
+8. **Conseils IA** : L'utilisateur reçoit des recommandations personnalisées pour améliorer sa gestion financière
+
+## 📝 Contribution
+
+Les contributions sont les bienvenues ! N'hésitez pas à soumettre une Pull Request. Pour des changements majeurs, veuillez d'abord ouvrir une issue pour discuter de ce que vous aimeriez modifier.
+
+1. Forkez le projet
+2. Créez votre branche de fonctionnalité (`git checkout -b feature/AmazingFeature`)
+3. Committez vos changements (`git commit -m 'Add some AmazingFeature'`)
+4. Poussez vers la branche (`git push origin feature/AmazingFeature`)
+5. Ouvrez une Pull Request
+
+## 📄 Licence
+
+Ce projet est sous licence MIT - voir le fichier [LICENSE](LICENSE) pour plus de détails.
+
+## 📞 Contact
+
+Mohamed Boukab - [GitHub](https://github.com/Mo7amed-Boukab) - mohamedboukab202@gmail.com
+
+Lien du projet : [https://github.com/Mo7amed-Boukab/MoneyMind](https://github.com/Mo7amed-Boukab/MoneyMind)
+
+---
+
+Fait avec ❤️ par [Mohamed Boukab](https://github.com/Mo7amed-Boukab)
