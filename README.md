@@ -1,17 +1,13 @@
-# MoneyMind - Application de Gestion Financière Personnelle 💰
-
-![MoneyMind Logo](screenshots/logo.png)
+# MoneyMind - Application de Gestion Financière Personnelle 
 
 [![Laravel](https://img.shields.io/badge/Laravel-11.0-red.svg)](https://laravel.com)
 [![PHP](https://img.shields.io/badge/PHP-8.2.12-blue.svg)](https://php.net)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-## 🚀 À propos de MoneyMind
+## À propos de MoneyMind
 
-MoneyMind est une application web moderne de gestion financière personnelle développée avec Laravel. Elle permet aux utilisateurs de prendre le contrôle de leurs finances en suivant leurs revenus, dépenses, objectifs d'épargne mensuel et annuel, liste des souhaits d'achat futur. L'application automatise également toutes
-les transactions récurrentes que ce soit la déduction des dépenses ou la réception du revenu mensuel, ainsi qu'elle propose des conseils personnalisés grâce à l'intégration de l'IA Gemini pour une meilleure gestion budgétaire, avec aussi un système d'alertes (par envoi d'un rapport par email) et de notifications en temps réel et une liste d'historique de toutes les transactions.
+MoneyMind est une application web moderne de gestion financière personnelle développée avec Laravel. Elle permet aux utilisateurs de prendre le contrôle de leurs finances en suivant leurs revenus, dépenses, objectifs d'épargne mensuel et annuel, liste des souhaits d'achat futur. L'application automatise également toutes les transactions récurrentes que ce soit la déduction des dépenses ou la réception du revenu mensuel, ainsi qu'elle propose des conseils personnalisés grâce à l'intégration de l'IA Gemini pour une meilleure gestion budgétaire, avec aussi un système d'alertes (par envoi d'un rapport par email) et de notifications en temps réel et une liste d'historique de toutes les transactions.
 
-## ✨ Fonctionnalités principales
+## Fonctionnalités principales
 
 ### Pour les utilisateurs
 - **Tableau de bord personnalisé** : Vue d'ensemble de votre situation financière avec statistiques détaillées
@@ -31,7 +27,7 @@ les transactions récurrentes que ce soit la déduction des dépenses ou la réc
 - **Gestion des catégories** : Création et modification des catégories de dépenses
 - **Notifications système** : Alertes sur les nouveaux utilisateurs et les comptes inactifs
 
-## 🛠️ Technologies utilisées
+## Technologies utilisées
 
 - **Backend** : Laravel 11 (PHP 8.2.12)
 - **Frontend** : Blade, TailwindCSS, JavaScript
@@ -40,7 +36,7 @@ les transactions récurrentes que ce soit la déduction des dépenses ou la réc
 - **Visualisation de données** : Chart.js
 - **Animations** : AOS (Animate On Scroll)
 
-## 📋 Prérequis
+## Prérequis
 
 - PHP 8.1 ou supérieur
 - Composer
@@ -48,7 +44,7 @@ les transactions récurrentes que ce soit la déduction des dépenses ou la réc
 - MySQL ou MariaDB
 - Serveur web (Apache, Nginx)
 
-## 🔧 Installation
+## Installation
 
 1. **Clonez le dépôt**
    ```bash
@@ -92,7 +88,7 @@ les transactions récurrentes que ce soit la déduction des dépenses ou la réc
    php artisan serve
    ```
 
-## ⚙️ Configuration des tâches planifiées
+## Configuration des tâches planifiées
 
 L'application utilise plusieurs tâches planifiées pour automatiser certaines fonctionnalités :
 
@@ -107,17 +103,7 @@ Pour configurer ces tâches, exécutez la commande suivante :
 php artisan schedule:work
 ```
 
-## 👥 Comptes de démonstration
-
-- **Administrateur** :
-  - Email : admin@example.com
-  - Mot de passe : password
-
-- **Utilisateur** :
-  - Email : user@example.com
-  - Mot de passe : password
-
-## 📸 Captures d'écran
+## Captures d'écran
 
 ### Page d'accueil
 ![Page d'accueil](storage/app/public/screenshots/home-page.png)
@@ -153,7 +139,7 @@ php artisan schedule:work
 ### Gestion des catégories
 ![Gestion des catégories](storage/app/public/screenshots/admin-categorie.png)
 
-## 🔄 Flux d'utilisation typique
+## Flux d'utilisation typique
 
 1. **Inscription** : L'utilisateur s'inscrit et configure son salaire (ex: 5000 DH) et sa date de crédit (ex: le 15 du mois)
 2. **Configuration initiale** : L'administrateur a déjà configuré des catégories comme "Divertissement", "Nourriture", "Factures"
@@ -164,7 +150,7 @@ php artisan schedule:work
 7. **Suivi et analyse** : L'utilisateur consulte son tableau de bord et son historique pour analyser ses habitudes financières
 8. **Conseils IA** : L'utilisateur reçoit des recommandations personnalisées pour améliorer sa gestion financière
 
-## 📝 Contribution
+## Contribution
 
 Les contributions sont les bienvenues ! N'hésitez pas à soumettre une Pull Request. Pour des changements majeurs, veuillez d'abord ouvrir une issue pour discuter de ce que vous aimeriez modifier.
 
@@ -174,16 +160,6 @@ Les contributions sont les bienvenues ! N'hésitez pas à soumettre une Pull Req
 4. Poussez vers la branche (`git push origin feature/AmazingFeature`)
 5. Ouvrez une Pull Request
 
-## 📄 Licence
-
-Ce projet est sous licence MIT - voir le fichier [LICENSE](LICENSE) pour plus de détails.
-
-## 📞 Contact
+## Contact
 
 Mohamed Boukab - [GitHub](https://github.com/Mo7amed-Boukab) - mohamedboukab202@gmail.com
-
-Lien du projet : [https://github.com/Mo7amed-Boukab/MoneyMind](https://github.com/Mo7amed-Boukab/MoneyMind)
-
----
-
-Fait avec ❤️ par [Mohamed Boukab](https://github.com/Mo7amed-Boukab)
