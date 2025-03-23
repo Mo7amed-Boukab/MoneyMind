@@ -106,38 +106,38 @@ php artisan schedule:work
 ## Captures d'écran
 
 ### Page d'accueil
-![Page d'accueil](storage/app/public/screenshots/home-page.png)
+![Page d'accueil](public/screenshots/home-page.png)
 
 ### Tableau de bord utilisateur
-![Dashboard utilisateur](storage/app/public/screenshots/user-dashboard.png)
+![Dashboard utilisateur](public/screenshots/user-dashboard.png)
 
 ### Gestion des dépenses
-![Gestion des dépenses](storage/app/public/screenshots/depense.png)
+![Gestion des dépenses](public/screenshots/depense.png)
 
 ### Gestion des revenus
-![Gestion des revenus](storage/app/public/screenshots/revenu.png)
+![Gestion des revenus](public/screenshots/revenu.png)
 
 ### Gestion des épargnes
-![Gestion des épargnes](storage/app/public/screenshots/epargne-1.png)
-![Gestion des épargnes](storage/app/public/screenshots/epargne-2.png)
+![Gestion des épargnes](public/screenshots/epargne-1.png)
+![Gestion des épargnes](public/screenshots/epargne-2.png)
 
 ### Historique des transactions
-![Historique des transactions](storage/app/public/screenshots/historique.png)
+![Historique des transactions](public/screenshots/historique.png)
 
 ### Notifications
-![Notifications](storage/app/public/screenshots/notification.png)
+![Notifications](public/screenshots/notification.png)
 
 ### Profile
-![Profile](storage/app/public/screenshots/profile.png)
+![Profile](public/screenshots/profile.png)
 
 ### Tableau de bord administrateur
-![Dashboard administrateur](storage/app/public/screenshots/admin-dashboard.png)
+![Dashboard administrateur](public/screenshots/admin-dashboard.png)
 
 ### Gestion des utilisateurs
-![Gestion des utilisateurs](storage/app/public/screenshots/admin-users.png)
+![Gestion des utilisateurs](public/screenshots/admin-users.png)
 
 ### Gestion des catégories
-![Gestion des catégories](storage/app/public/screenshots/admin-categorie.png)
+![Gestion des catégories](public/screenshots/admin-categorie.png)
 
 ## Flux d'utilisation typique
 
