@@ -108,6 +108,12 @@ php artisan schedule:work
 ### Page d'accueil
 ![Page d'accueil](public/screenshots/home-page.png)
 
+### Register
+![Page d'accueil](public/screenshots/register.png)
+
+### Login
+![Page d'accueil](public/screenshots/login.png)
+
 ### Tableau de bord utilisateur
 ![Dashboard utilisateur](public/screenshots/user-dashboard.png)
 
